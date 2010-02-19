@@ -36,7 +36,7 @@ This is the best way to get to the bleeding edge of what we are doing.
  
 # REQUIREMENTS
 * .NET Framework 3.5 
-* source control on the command line and in PATH environment variable - svn for Subversion / tf for TFS
+* source control on the command line and in PATH environment variable - svn for Subversion / tf for TFS / git for Git
 
 # DONATE
 Donations Accepted - If you enjoy using this product or it has saved you time and money in some way, please consider making a donation.  
