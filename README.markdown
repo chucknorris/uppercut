@@ -4,7 +4,7 @@ Project UppercuT - Builds in Seconds, Not Days
 ![UppercuT](http://github.com/ferventcoder/uppercut/raw/master/docs/logo/UppercuT_Logo_Small.jpg "UppercuT - insanely easy. Insanely.")
 
 # LICENSE
-Apache 2.0 - see docs\legal (just LEGAL in the zip folder)
+Apache 2.0 - see docs/legal (just LEGAL in the zip folder)
 
 # IMPORTANT
 NOTE: If you are looking at the source - please run build.bat before opening the solution. It creates the SolutionVersion.cs file that is necessary for a successful build.
@@ -55,4 +55,4 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
   * BREAKING CHANGE: For your custom tasks, you may need to make changes.
 
 # CREDITS
-see legal\CREDITS
+see docs/legal/CREDITS (just LEGAL/Credits in the zip folder)
