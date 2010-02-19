@@ -21,11 +21,12 @@
   <property name="version.uppercut" value="0" />
   <property name="version.revision" value="0" />
   <property name="version.build" value="0" />
+  <property name="file.uppercut.assembly" value="uppercut.exe" />
   <property name="file.custom.step.before" value="${dirs.build_scripts_custom}\${file.current.no_extension}.pre.build" />
   <property name="file.custom.step.after" value="${dirs.build_scripts_custom}\${file.current.no_extension}.post.build" />
   <property name="file.custom.step.replace" value="${dirs.build_scripts_custom}\${file.current.no_extension}.replace.build" />
 
-  <target name="go" depends="report_uppercut_version, run_tasks, report_finish_time" />
+  <target name="go" depends="load_uppercut_assemblies, report_uppercut_version, run_tasks, report_finish_time" />
 
   <target name="run_tasks">
     <echo message="Running ${project::get-name()} tasks." />
@@ -112,4 +113,8 @@
     <echo message="Using UppercuT version: ${version.uppercut}." />
   </target>
 
+  <target name="load_uppercut_assemblies">
+    <loadtasks assembly="${file.uppercut.assembly}" if="${file::exists(file.uppercut.assembly)}" />
+  </target>
+  
 </project>
