@@ -1,14 +1,12 @@
 .svn
-build_output/*
-code_drop/*
- 
-**/*.suo
-**/*.user
-**/*.sln*
+build_output
+code_drop
 bin
 obj
 _ReSharper*
- 
+
+*.suo
+*.user 
 *.csproj.user
 *.resharper.user
 *.resharper
@@ -17,6 +15,7 @@ _ReSharper*
 *.swp
 *.bak
 *.orig
+*.log
  
 TestResult.xml
 submit.xml
@@ -24,3 +23,4 @@ src/tests/*
 tests/*
 doc/*
 SolutionVersion.cs
+SolutionVersion.vb
