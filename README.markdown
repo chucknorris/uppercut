@@ -1,7 +1,7 @@
 Project UppercuT - Builds in Seconds, Not Days
 =======
 
-![UppercuT](docs/logo/UppercuT_logo_small.png "UppercuT - insanely easy. Insanely.")
+![UppercuT](raw/master/docs/logo/UppercuT_Logo_Small.jpg "UppercuT - insanely easy. Insanely.")
 
 # LICENSE
 Apache 2.0 - see docs\legal (just LEGAL in the zip folder)
