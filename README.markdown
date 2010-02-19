@@ -24,7 +24,7 @@ UppercuT is not a build server, but it integrates nicely with CruiseControl.NET,
 ### Downloads
  You can download UppercuT from [http://code.google.com/p/uppercut/downloads/list](http://code.google.com/p/uppercut/downloads/list)
 
- You can also obtain a copy from the build server at (http://teamcity.codebetter.com).
+ You can also obtain a copy from the build server at [http://teamcity.codebetter.com](http://teamcity.codebetter.com).
 
 ### Source
 This is the best way to get to the bleeding edge of what we are doing.
