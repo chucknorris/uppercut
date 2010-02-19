@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project name="CUSTOM REPLACE COMPILE" default="go">
+  <!-- Project UppercuT - http://projectuppercut.org -->
+  <property name="build.config.settings" value="__NONE__" overwrite="false" />
+  <include buildfile="${build.config.settings}" if="${file::exists(build.config.settings)}" />
+  <property name="dirs.current" value="${directory::get-parent-directory(project::get-buildfile-path())}" />
+  <property name="path.to.toplevel" value=".." />
+  <property name="folder.build_scripts" value="build" overwrite="false" />
+  <property name="dirs.build_scripts" value="${dirs.current}\${path.to.toplevel}\${folder.build_scripts}" />
+  <property name="folder.build_scripts_custom" value="build.custom" overwrite="false" />
+  <property name="dirs.build_scripts_custom" value="${dirs.current}\${path.to.toplevel}\${folder.build_scripts_custom}" />
+  <property name="folder.code_build" value="build_output" overwrite="false" />
+  <property name="dirs.build" value="${dirs.current}\${path.to.toplevel}\${folder.code_build}" />
+  <property name="folder.code_drop" value="code_drop" overwrite="false" />
+  <property name="dirs.drop" value="${dirs.current}\${path.to.toplevel}\${folder.code_drop}" overwrite="false" />
+  <property name="folder.app.drop" value="${project.name}" overwrite="false" />
+  <property name="folder.database" value="__DATABASE_FOLDER_NAME__" overwrite="false" />
+  <property name="folder.reports" value="${project.name}.Reports" overwrite="false" />
+  <property name="folder.file_server" value="file.server" overwrite="false" />
+  <property name="folder.environment_files" value="environment.files" overwrite="false" />
+  <property name="folder.deployment" value="deployment" overwrite="false" />
+  <property name="folder.settings" value="settings" overwrite="false" />
+  <property name="folder.documentation" value="docs" overwrite="false" />
+  <property name="language.short" value="cs" overwrite="false" />
+  <property name="path_to_solution" value="." overwrite="false" />
+  <property name="file.version" value="SolutionVersion.${language.short}" overwrite="false" />
+  <property name="path.file.version" value="${dirs.current}\${path.to.toplevel}\${path_to_solution}\${file.version}" overwrite="false" />
+  <property name="folder.source" value="product" overwrite="false" />
+  <property name="folder.app.drop" value="${project.name}" overwrite="false" />
+  <property name="project.name" value="__SOLUTION_NAME_WITHOUT_SLN_EXTENSION__" overwrite="false" />
+  <property name="path.project_lib" value="${dirs.build}\${folder.app.drop}\${project.name}" overwrite="false" />
+  
+  <property name="dirs.lib" value="${dirs.current}\${path.to.toplevel}\lib" overwrite="false" />
+  <!-- exe, winexe, library or module -->
+  <property name="target.type" value="library" overwrite="false" />
+  <property name="output.type" value="exe" />
+  <property name="output.type" value="dll" if="${target.type=='library' or target.type=='module'}" />
+  <property name="debug" value="false" overwrite="false" /> 
+  
+  <fileset id="sources.fileset.product" basedir="${path.to.toplevel}\${folder.source}\" >
+    <exclude name="**\*Specs.${language.short}"/>
+    <exclude name="**\*Spec.${language.short}"/>
+    <exclude name="**\*Test*.${language.short}"/>
+    <exclude name="**\bdd\*.*"/>
+    <exclude name="**\bdd*\*.*"/>
+    <exclude name="**\*test*\*.*"/>
+    <include name="**\*.${language.short}"/>
+    <include name="${path.file.version}"/>
+  </fileset>
+
+  <assemblyfileset id="references.assemblyfileset.product" basedir="${dirs.lib}\" >
+    <include name="references\**\*.dll"/>
+  </assemblyfileset>
+  
+  <fileset id="sources.fileset.testing" basedir="${path.to.toplevel}\${folder.source}\" >
+    <include name="**\*Specs.${language.short}"/>
+    <include name="**\*Spec.${language.short}"/>
+    <include name="**\*Test*.${language.short}"/>
+    <include name="**\bdd\*.*"/>
+    <include name="**\bdd*\*.*"/>
+    <include name="**\*test*\*.*"/>
+  </fileset>
+  
+  <assemblyfileset id="references.assemblyfileset.testing" basedir="${dirs.lib}\" >
+    <include name="tools\**\*.dll"/>
+    <include name="references\**\*.dll"/>
+    <include name="testing\**\*.dll"/>
+    <include name="${path.project_lib}.${output.type}"/>
+  </assemblyfileset>
+  
+  <target name="go" depends="run_tasks" />
+  
+  <target name="run_tasks" depends="compile_product, compile_test_library">
+    <!-- INSERT YOUR TASKS HERE OR CALL OUT TO OTHER TASKS -->
+    <!-- Sample provided below that you can customize -->
+  </target>
+  
+  <target name="compile_product">
+    <call target="compile_product_cs" if="${language.short=='cs'}" />
+    <call target="compile_product_vb" if="${language.short=='vb'}" />
+  </target>
+  
+  <target name="compile_test_library">
+    <call target="compile_test_library_cs" if="${language.short=='cs'}" />
+    <call target="compile_test_library_vb" if="${language.short=='vb'}" />
+  </target>
+  
+  <target name="compile_product_cs">
+    <echo message="Compiling all C# files that are not tests to ${path.project_lib}.${output.type}." />
+    <csc output="${path.project_lib}.${output.type}" 
+         target="${target.type}" 
+         debug="${debug}"
+         optimize="true"
+         warnaserror="true"
+         >
+      <sources refid="sources.fileset.product" />
+      <references refid="references.assemblyfileset.product" />
+    </csc>
+  </target>
+
+  <target name="compile_test_library_cs"> 
+    <echo message="Compiling all C# files that are tests to ${path.project_lib}.tests.dll." />
+    <csc output="${path.project_lib}.tests.dll" target="library" debug="${debug}">
+      <sources refid="sources.fileset.testing" />
+      <references refid="references.assemblyfileset.testing" />
+    </csc>
+  </target>
+  
+  <target name="compile_product_vb">
+    <echo message="Compiling all VB files that are not tests to ${path.project_lib}.${output.type}." />
+    <vbc output="${path.project_lib}.${output.type}" 
+         target="${target.type}" 
+         debug="${debug}"
+         optionoptimize="true"
+         optionexplicit="true"
+         optionstrict="true"
+         rootnamespace="true"
+         warnaserror="true"
+         >
+      <sources refid="sources.fileset.product" />
+      <references refid="references.assemblyfileset.product" />
+    </vbc>
+  </target>
+
+  <target name="compile_test_library_vb"> 
+    <echo message="Compiling all VB files that are tests to ${path.project_lib}.tests.dll." />
+    <vbc output="${path.project_lib}.tests.dll" target="library" debug="${debug}">
+      <sources refid="sources.fileset.testing" />
+      <references refid="references.assemblyfileset.testing" />
+    </vbc>
+  </target>
+  
+  
+</project>

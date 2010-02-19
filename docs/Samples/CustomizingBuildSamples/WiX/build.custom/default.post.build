@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="CustomMasterBuildFile" default="go">
+  <property name="build.config.settings" value="__NONE__" overwrite="false" />
+  <include buildfile="${build.config.settings}" if="${file::exists(build.config.settings)}" />
+  <property name="dirs.current" value="${directory::get-parent-directory(project::get-buildfile-path())}" />
+
+  <target name="go" depends="build_custom" description="Building" />
+
+  <target name="build_custom">
+    <nant buildfile="${dirs.current}\wix.build" inheritall="true" failonerror="false" />
+  </target>
+
+</project>
