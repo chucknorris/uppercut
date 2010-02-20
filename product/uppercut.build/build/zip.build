@@ -18,6 +18,7 @@
   <property name="version.build" value="0" overwrite="false" />
   <property name="version.revision" value="0" overwrite="false" />
   <property name="version" value="0" />
+  <property name="file.uppercut.assembly" value="uppercut.exe" />
   <property name="zip.file" value="${dirs.drop}\${project.name}.zip" />
   <property name="zip.file.rename" value="${dirs.drop}\${project.name}.v${version}.zip" />
   <property name="file.custom.step.before" value="${dirs.build_scripts_custom}\${file.current.no_extension}.pre.build" />
