@@ -17,6 +17,7 @@
   <property name="app.ilmerge" value="${dirs.ilmerge.folder}\ILMerge.exe" overwrite="false"  />
   <property name="dirs.merge.log" value="${dirs.drop}\build_artifacts\ilmerge" />
   <property name="log.merge" value="ilmerge.log" />
+  <property name="file.uppercut.assembly" value="uppercut.exe" />
   
   <property name="dirs.merge.from" value="${dirs.drop}\${folder.app.drop}" overwrite="false" />
   <property name="dirs.merge.to" value="${dirs.drop}\merge" overwrite="false" />
