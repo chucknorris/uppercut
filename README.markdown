@@ -43,16 +43,23 @@ Donations Accepted - If you enjoy using this product or it has saved you time an
 It helps keep to the product updated, pays for site hosting, etc. https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4410250
 
 # RELEASE NOTES
-=0.9.0.246=
-* Fixed - Git versioning had an issue with creating the initial tag for versioning - see http://code.google.com/p/uppercut/issues/detail?id=9 for details (r243)
-* Zip nows versions the zip file name by default. Check your zip.post.build. You may need to remove or change zip.post.build. (r240)
-* Support for .NET 4.0 beta2 has been added. (r238)
-
-=0.9.0.235=
-* UppercuT supports Git for versioning - The numbering system is branch specific.
-* Added ILMERGE tasks to the samples
-* Code is now built to a folder under build_output. This is the same folder it goes to under code_drop, so in the case of uppercut, build_output\UppercuT\ instead of just build_output.
-  * BREAKING CHANGE: For your custom tasks, you may need to make changes.
+=0.9.0.266=  
+* Adding the ability to use PowerShell to write custom tasks. To run powershell - you need to set unrestricted if you are not going to sign the scripts. Because this possibly exposes a possible security hole, it is turned off by default. There is a property (allow.powershell.unrestricted) you can set to true in the Uppercut.config file. Look in the external tools section for the setting. (r266)  
+* Adding the ability to use Ruby to write custom tasks. (r265)  
+* Enhanced support of Git versioning on TeamCity. (r263)  
+* Fixed a small bug in NAnt related to running .NET 4.0. (r262)  
+* DocBuilder will do both .template and .xml now. (r247)  
+  
+=0.9.0.246=  
+* Fixed - Git versioning had an issue with creating the initial tag for versioning - see http://code.google.com/p/uppercut/issues/detail?id=9 for details (r243)  
+* Zip nows versions the zip file name by default. Check your zip.post.build. You may need to remove or change zip.post.build. (r240)  
+* Support for .NET 4.0 beta2 has been added. (r238)  
+  
+=0.9.0.235=  
+* UppercuT supports Git for versioning - The numbering system is branch specific.  
+* Added ILMERGE tasks to the samples  
+* Code is now built to a folder under build_output. This is the same folder it goes to under code_drop, so in the case of uppercut, build_output\UppercuT\ instead of just build_output.  
+  * BREAKING CHANGE: For your custom tasks, you may need to make changes.  
 
 # CREDITS
 see docs/legal/CREDITS (just LEGAL/Credits in the zip folder)
