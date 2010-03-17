@@ -23,6 +23,7 @@ namespace uppercut.tasks
 
         private const string git_version_arguments = "describe --abbrev=64";
         private const string git_create_tag_arguments = "tag -a -m\"for uppercut versioning\" versioning.for.uc";
+        private const string git_sha1_hash_arguments = "log -1 --pretty=oneline";
 
         #region NAnt
 
@@ -69,31 +70,10 @@ namespace uppercut.tasks
 
             try
             {
-                bool had_to_create_tags = false;
-                StreamReader version_output = null;
-                string version_info_full = string.Empty;
+                string describe_output = get_version_from_describe();
+                string sha1_hash = get_sha1_hash();
 
-                infrastructure.logging.Log.bound_to(this).log_an_info_event_containing(Project.BaseDirectory);
-                //run_external_application("cmd", git_path + " " + git_version_arguments + " > " + output_file, repo_directory, true);
-                infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_version_arguments, repo_path);
-                version_output = run_external_application("cmd", "/c " + git_path + " " + git_version_arguments, repo_directory, true);
-                version_info_full = version_output.ReadToEnd();
-
-                if (version_info_full.to_lower().Contains("fatal") || string.IsNullOrEmpty(version_info_full))
-                {
-                    infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_create_tag_arguments, repo_path);
-                    had_to_create_tags = true;
-                    run_external_application("cmd", "/c " + git_path + " " + git_create_tag_arguments, repo_directory, true);
-                }
-
-                if (had_to_create_tags)
-                {
-                    infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_version_arguments, repo_path);
-                    version_output = run_external_application("cmd", "/c " + git_path + " " + git_version_arguments, repo_directory, true);
-                    version_info_full = version_output.ReadToEnd();
-                }
-
-                save_xml_file(version_info_full, output_file, file_system);
+                save_xml_file(get_revision_number_from(describe_output), sha1_hash, output_file, file_system);
             }
             catch (Exception exception)
             {
@@ -106,10 +86,61 @@ namespace uppercut.tasks
             }
         }
 
-        private void save_xml_file(string version_info_full, string output_file, IFileSystemAccess file_system)
+        public string get_version_from_describe()
+        {
+            bool had_to_create_tags = false;
+            StreamReader version_output = null;
+            string git_describe_output = string.Empty;
+
+            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing(Project.BaseDirectory);
+            //run_external_application("cmd", git_path + " " + git_version_arguments + " > " + output_file, repo_directory, true);
+            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_version_arguments, repo_path);
+            version_output = run_external_application("cmd", "/c " + git_path + " " + git_version_arguments, repo_directory, true);
+            git_describe_output = version_output.ReadToEnd();
+
+            if (git_describe_output.to_lower().Contains("fatal") || string.IsNullOrEmpty(git_describe_output))
+            {
+                infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_create_tag_arguments, repo_path);
+                had_to_create_tags = true;
+                run_external_application("cmd", "/c " + git_path + " " + git_create_tag_arguments, repo_directory, true);
+            }
+
+            if (had_to_create_tags)
+            {
+                infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_version_arguments, repo_path);
+                version_output = run_external_application("cmd", "/c " + git_path + " " + git_version_arguments, repo_directory, true);
+                git_describe_output = version_output.ReadToEnd();
+            }
+
+            return git_describe_output;
+        }
+        
+        public string get_sha1_hash()
+        {
+            StreamReader hash_output = null;
+            string git_sha1_hash_output = string.Empty;
+
+            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing(Project.BaseDirectory);
+            //run_external_application("cmd", git_path + " " + git_version_arguments + " > " + output_file, repo_directory, true);
+            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_sha1_hash_arguments, repo_path);
+            hash_output = run_external_application("cmd", "/c " + git_path + " " + git_sha1_hash_arguments, repo_directory, true);
+            git_sha1_hash_output = hash_output.ReadToEnd();
+
+            try
+            {
+                git_sha1_hash_output = git_sha1_hash_output.Split(' ')[0];
+            }
+            catch (Exception)
+            {
+                git_sha1_hash_output = "NoHashAvailable";
+            }
+
+            return git_sha1_hash_output;
+        }
+
+        private int get_revision_number_from(string version_info_full)
         {
             string revision = "0";
-            string revision_hash = "0";
 
             if (!string.IsNullOrEmpty(version_info_full))
             {
@@ -119,15 +150,23 @@ namespace uppercut.tasks
                 if (version_parts.Length == 3)
                 {
                     revision = version_parts[1];
-                    revision_hash = version_parts[2];
                 }
             }
 
+            int revision_number = 0;
+            int.TryParse(revision,out revision_number);
+            
+            return revision_number;
+        }
+
+        private void save_xml_file(int revision_number,string sha1_hash, string output_file, IFileSystemAccess file_system)
+        {
+           
             string xml_file = string.Format(@"<?xml version=""1.0"" ?>
 <version>
     <revision>{0}</revision>
     <hash>{1}</hash>
-</version>", revision, revision_hash.to_lower().Replace("\n", ""));
+</version>", revision_number, sha1_hash.to_lower().Replace("\n", ""));
 
             File.WriteAllText(output_file, xml_file);
             //file_system.create_file(output_file).
@@ -135,12 +174,14 @@ namespace uppercut.tasks
 
         private StreamReader run_external_application(string app_path, string args, string working_directory, bool wait_for_exit)
         {
-            ProcessStartInfo process_info = new ProcessStartInfo(app_path, string.Format(" {0}", args));
-            process_info.UseShellExecute = false;
-            process_info.WorkingDirectory = working_directory;
-            process_info.RedirectStandardOutput = true;
-            process_info.RedirectStandardError = true;
-            process_info.CreateNoWindow = true;
+            ProcessStartInfo process_info = new ProcessStartInfo(app_path, string.Format(" {0}", args))
+                                                {
+                                                    UseShellExecute = false,
+                                                    WorkingDirectory = working_directory,
+                                                    RedirectStandardOutput = true,
+                                                    RedirectStandardError = true,
+                                                    CreateNoWindow = true
+                                                };
             StreamReader standard_output;
             StreamReader error_output;
 
@@ -155,7 +196,7 @@ namespace uppercut.tasks
                     process.WaitForExit();
                 }
             }
-            //infrastructure.logging.Log.bound_to(this).log_an_info_event_containing(standard_output.ReadToEnd());
+            
             infrastructure.logging.Log.bound_to(this).log_an_info_event_containing(error_output.ReadToEnd());
 
             return standard_output;

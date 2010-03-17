@@ -43,6 +43,9 @@ Donations Accepted - If you enjoy using this product or it has saved you time an
 It helps keep to the product updated, pays for site hosting, etc. https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4410250
 
 # RELEASE NOTES
+=0.9.0.273=  
+* Enhanced Git Versioning to better work with Hudson (r272)  
+  
 =0.9.0.266=  
 * Adding the ability to use PowerShell to write custom tasks. To run powershell - you need to set unrestricted if you are not going to sign the scripts. Because this possibly exposes a possible security hole, it is turned off by default. There is a property (allow.powershell.unrestricted) you can set to true in the Uppercut.config file. Look in the external tools section for the setting. (r266)  
 * Adding the ability to use Ruby to write custom tasks. (r265)  
