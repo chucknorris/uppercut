@@ -1,4 +1,5 @@
 .svn
+.hg
 build_output
 code_drop
 bin
