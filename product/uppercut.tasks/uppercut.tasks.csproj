@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="BuildTemplateFiles.cs" />
     <Compile Include="getVersionFromGit.cs" />
+    <Compile Include="GetVersionFromMercurial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
