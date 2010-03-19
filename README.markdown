@@ -44,7 +44,7 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 
 # RELEASE NOTES
 =0.9.0.286=  
-* NUnit tester now runs console version. This fixes a TestFixtureSetup issue - see http://code.google.com/p/uppercut/issues/detail?id=10 for details . (r285)  
+* NUnit tester now runs console version. This fixes a TestFixtureSetup issue - see http://code.google.com/p/uppercut/issues/detail?id=10 for details (r285)  
   
 =0.9.0.282=  
 * Mercurial (HG) support for versioning (r282)  
