@@ -41,6 +41,24 @@
       </fileset>
     </copy>
     
+    <copy todir="${dirs.drop}\${folder.app.drop}\build">
+      <fileset basedir="${dirs.build}\${folder.app.drop}">
+        <exclude name="uppercut*test*.dll" />
+        <exclude name="uppercut.build.dll" />
+        <include name="uppercut*.dll" />
+        <include name="Castle*.dll" />
+      </fileset>
+    </copy>
+    
+    <copy todir="${dirs.drop}\${folder.app.drop}\..\SettingsFileEditor">
+      <fileset basedir="${dirs.build}\${folder.app.drop}">
+        <exclude name="uppercut*test*.dll" />
+        <exclude name="uppercut.build.dll" />
+        <include name="uppercut.settings.editor*" />
+        <include name="Castle*.dll" />
+      </fileset>
+    </copy>
+    
     <delete>
       <fileset>
         <include name="${dirs.drop}\${folder.app.drop}\log4net.*" />
@@ -49,6 +67,7 @@
         <include name="${dirs.drop}\${folder.app.drop}\*.dll" />
         <include name="${dirs.drop}\${folder.app.drop}\*.pdb" />
         <include name="${dirs.drop}\${folder.app.drop}\_BuildInfo.xml" />
+        <include name="${dirs.drop}\${folder.app.drop}\uppercut.settings.editor*" />
       </fileset>
     </delete>
   </target>

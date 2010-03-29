@@ -18,7 +18,8 @@
   <property name="version.build" value="0" overwrite="false" />
   <property name="version.revision" value="0" overwrite="false" />
   <property name="version" value="0" />
-  <property name="file.uppercut.assembly" value="uppercut.exe" />
+  <property name="file.uppercut.assembly" value="uppercut.tasks.dll" />
+  <property name="path.uppercut.assembly" value="${dirs.current}\${file.uppercut.assembly}" />
   <property name="zip.file" value="${dirs.drop}\${project.name}.zip" />
   <property name="zip.file.rename" value="${dirs.drop}\${project.name}.v${version}.zip" />
   <property name="allow.powershell.unrestricted" value="false" overwrite="false" />
@@ -132,7 +133,7 @@
   </target>
 
   <target name="load_uppercut_assemblies">
-    <loadtasks assembly="${file.uppercut.assembly}" if="${file::exists(file.uppercut.assembly)}" />
+    <loadtasks assembly="${path.uppercut.assembly}" if="${file::exists(path.uppercut.assembly)}" />
   </target>
 
   <target name="allow_powershell_unrestricted">
