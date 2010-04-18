@@ -46,6 +46,11 @@ Donations Accepted - If you enjoy using this product or it has saved you time an
 It helps keep to the product updated, pays for site hosting, etc. https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4410250
 
 # RELEASE NOTES
+=0.9.0.297=  
+* .NET 4.0 Support (r296)  
+* Fixed a bug with property setting in tfs.step (r293)  
+* Uppercut now houses it's assemblies in the build folder. Please ensure you compare your NAnt folder and remove the assemblies that are no longer there if upgrading (r292)  
+  
 =0.9.0.286=  
 * NUnit tester now runs console version. This fixes a TestFixtureSetup issue - see http://code.google.com/p/uppercut/issues/detail?id=10 for details (r285)  
   
