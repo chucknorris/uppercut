@@ -116,7 +116,7 @@
       </imports>
       <attributes>
         <attribute type="ComVisibleAttribute" value="false" />
-        <attribute type="CLSCompliantAttribute" value="true" />
+        <attribute type="CLSCompliantAttribute" value="${assembly.clscompliant}" />
         <attribute type="AssemblyCompanyAttribute" value="${company.name}" />
         <attribute type="AssemblyVersionAttribute" value="${version.major}.${version.minor}.${version.build}.${version.revision}" />
         <attribute type="AssemblyFileVersionAttribute" value="${version.major}.${version.minor}.${version.build}.${version.revision}" />
