@@ -1,0 +1,544 @@
+<?xml version="1.0"?>
+<RuleSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <RuleCategories>
+    <RuleCategory Name="Nitriq">
+      <RuleCategories>
+        <RuleCategory Name="Design Problems">
+          <RuleCategories />
+          <Rules>
+            <Rule Name="Methods to Refactor" Active="true">
+              <Code>var results = 
+from method in Methods
+where (method.Cyclomatic &gt; 25 || method.PhysicalLineCount &gt; 200 || 
+method.TypesUsed.Count &gt; 30 || method.ParameterCount &gt; 7) &amp;&amp; method.Type.IsInCoreAssembly
+select new { method.MethodId, method.Name, method.Cyclomatic,
+method.PhysicalLineCount, OutTypes = method.TypesUsed.Count, method.ParameterCount };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Types To Refactor" Active="true">
+              <Code>var results = 
+from type in Types
+where (type.Methods.Count &gt; 30 || (type.Fields.Count &gt; 15 &amp;&amp; !type.IsEnum)) &amp;&amp;
+type.IsInCoreAssembly
+select new { type.TypeId, type.Name, type.Methods.Count };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Fields that are never set" Active="true">
+              <Code>var results = 
+from field in Fields
+where field.SetByMethods.Count == 0 &amp;&amp; field.IsPrivate &amp;&amp; field.Type.IsInCoreAssembly
+select new { field.FieldId, field.Name, field.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Methods that could be static" Active="true">
+              <Code>var results =
+from m in Methods
+where m.Type.IsInCoreAssembly == true &amp;&amp;
+m.IsConstructor == false &amp;&amp; 
+m.IsEventAdder == false &amp;&amp; 
+m.IsEventRemover == false &amp;&amp; 
+m.IsVirtual == false &amp;&amp;
+m.IsStatic == false &amp;&amp;
+m.Calls.Where(methodCall =&gt; methodCall.IsStatic == false).Count() == 0 &amp;&amp;
+m.FieldGets.Where(fieldGet =&gt; fieldGet.IsStatic == false).Count() == 0 &amp;&amp;
+m.FieldSets.Where(fieldSet =&gt; fieldSet.IsStatic == false).Count() == 0
+select new { m.MethodId, m.Name, m.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Methods that may violate SRP" Active="true">
+              <Code>//if a method name contains a conjunction like "And", "Or", or "Then", 
+//then it may be doing too many things and is violating the 
+//Single Responsibility Principle (SRP)
+
+var results = 
+from m in Methods
+where !m.IsPropertyGetter &amp;&amp; !m.IsPropertySetter &amp;&amp; m.IsInCoreAssembly &amp;&amp;
+m.Name.Like(".*And[A-Z].*|.*Then[A-Z].*|.*Or[A-Z].*", false) //false =&gt; case sensitive
+select new { m.MethodId, m.Name, m.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Henderson Sellers Lack of Cohesion" Active="true">
+              <Code>//LOC-HS as defined at:
+//http://eclipse-metrics.sourceforge.net/descriptions/LackOfCohesionInMethods.html
+var results = 
+from type in Types
+let methodCount = type.Methods.Count
+let instanceFields = type.Fields.Where(f =&gt; !f.IsStatic)
+let fieldAccesses = instanceFields.Select(f =&gt; f.GotByMethods.Union(f.SetByMethods).Distinct()
+.Where(m =&gt; m.Type == type).Count())
+let accessAverage = fieldAccesses.Count() == 0 ? 0 : fieldAccesses.Average().Round(2)
+let lcomHS = ((accessAverage - methodCount) / (1 - methodCount)).Round(2)
+where lcomHS &gt; .9 &amp;&amp;  instanceFields.Count() &gt; 0 &amp;&amp; type.IsInCoreAssembly
+orderby lcomHS descending
+select new { type.TypeId, type.Name, lcomHS, methodCount, fieldCount = instanceFields.Count(), accessAverage, type.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+          </Rules>
+        </RuleCategory>
+        <RuleCategory Name="Informational">
+          <RuleCategories />
+          <Rules>
+            <Rule Name="Recursive Methods" Active="true">
+              <Code>var results = 
+from m in Methods
+where m.Calls.Contains(m)
+select new { m.MethodId, m.Name, m.FullName };
+
+//Recursive methods aren't necessarily a bad thing, so there is no warning
+//its just a nice thing to be aware of how many and where these methods are</Code>
+            </Rule>
+            <Rule Name="Methods that take or return System.Object" Active="true">
+              <Code>var objectType = Types.Where(t =&gt; t.FullName == "System.Object").Single();
+
+var results = 
+from m in Methods
+let TakeObjectParam = m.ParameterTypes.Contains(objectType)
+let ReturnsObject = m.ReturnType == objectType
+where m.IsInCoreAssembly &amp;&amp; (TakeObjectParam || ReturnsObject)
+select new { m.MethodId, m.Name, m.FullName, TakeObjectParam, ReturnsObject };
+
+//There are a lot of methods that force you to accept a parameter of type object
+//particularly event handlers, so no warning. But if you see a lot of these
+//in your non-ui layers, you may want to check it out</Code>
+            </Rule>
+            <Rule Name="Static methods that instantiate objects" Active="true">
+              <Code>var results = 
+from m in Methods
+let ConstructorCalls = m.Calls.Where(callMethod =&gt; callMethod.IsConstructor).Count()
+where m.IsStatic &amp;&amp; !m.IsConstructor &amp;&amp; ConstructorCalls &gt; 0
+select new { m.MethodId, m.Name, m.FullName, ConstructorCalls };
+
+//Your design could be more loosely coupled if classes being instantiated were
+//instead passed in as a parameter</Code>
+            </Rule>
+            <Rule Name="Assembly Breakout Info" Active="true">
+              <Code>var results = 
+from a in Assemblies
+orderby a.IsCoreAssembly descending, a.Name, a.Version
+select new { a.AssemblyId, IsCore = a.IsCoreAssembly, a.Name, a.Version, 
+Types = Types.Where(t =&gt; t.Assembly == a).Count(),
+Methods = Methods.Where(m =&gt; m.Type.Assembly == a).Count(),
+};
+
+//the code tree won't display assembly results unless the "Top Level" is
+//set to "Assembly", for best results, view the results in the "grid" tab.</Code>
+            </Rule>
+            <Rule Name="All Properties" Active="true">
+              <Code>var results = 
+from m in Methods
+where m.IsPropertyGetter || m.IsPropertySetter
+select new { m.MethodId, m.Name, m.FullName };</Code>
+            </Rule>
+          </Rules>
+        </RuleCategory>
+      </RuleCategories>
+      <Rules />
+    </RuleCategory>
+    <RuleCategory Name="NX Cop">
+      <RuleCategories>
+        <RuleCategory Name="Design">
+          <RuleCategories />
+          <Rules>
+            <Rule Name="Abstract types should not have constructors" Active="true">
+              <Code>var results = 
+from type in Types
+let ConstructorCount = type.Methods.Where(m =&gt; m.IsConstructor &amp;&amp; (m.IsPublic || m.IsInternal)).Count()
+where type.IsAbstract &amp;&amp; ConstructorCount &gt; 0 &amp;&amp; type.IsInCoreAssembly
+select new { type.TypeId, type.Name, ConstructorCount } ;
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Avoid empty interfaces" Active="true">
+              <Code>var results = 
+from t in Types
+let MethodCount = t.Methods.Count()
+let EventCount = t.Events.Count()
+let FieldCount = t.Fields.Count()
+let InterfacesCount = t.Interfaces.Count()
+where t.IsInCoreAssembly &amp;&amp; t.IsInterface 
+&amp;&amp; MethodCount == 0 &amp;&amp; EventCount == 0 &amp;&amp; FieldCount == 0 &amp;&amp; InterfacesCount &lt; 2
+select new { t.TypeId, t.Name, t.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Avoid namespaces with few types" Active="true">
+              <Description>Namespaces should have at least 5 types</Description>
+              <Code>var results = 
+	from n in Namespaces
+	where n.Types.Count &lt; 5 &amp;&amp; n.Types.Count != 0 
+	select new { n.NamespaceId, n.FullName, n.Types.Count };
+
+Warn(results, 0);
+
+//namespaces with 0 Types are created by Nitriq, they're used to create a 
+//full hierarchy for certain views, they aren't explictly used in code 
+//and can be safely ignored.</Code>
+            </Rule>
+            <Rule Name="Collections should implement generic interface" Active="true">
+              <Code>var iEnumOfT = Types.FullNameIs("System.Collections.Generic.IEnumerable`1").FirstOrDefault();
+var ienumerable = Types.FullNameIs("System.Collections.IEnumerable").FirstOrDefault();
+IEnumerable results = null;
+
+if (ienumerable != null)
+{
+    results = 
+    from type in Types.FullNameIs("System.Collections.IEnumerable").First().DerivedTypes
+    where !type.Interfaces.Contains(iEnumOfT) &amp;&amp; type.IsInCoreAssembly
+    select new { type.TypeId, type.Name, type.FullName };
+}
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Do not declare protected members in sealed types" Active="true">
+              <Code>var results = 
+from type in Types
+let protectedMethodCount = type.Methods.Where(m =&gt; m.IsProtected).Count()
+let protectedFieldCount = type.Fields.Where(f =&gt; f.IsProtected).Count()   
+let protectedEventCount = type.Events.Where(e =&gt; e.IsProtected).Count()
+where type.IsSealed &amp;&amp; (protectedMethodCount &gt; 0 || protectedFieldCount &gt; 0 
+|| protectedEventCount &gt; 0) &amp;&amp; type.IsInCoreAssembly
+select new { type.TypeId, type.Name, type.FullName, protectedMethodCount, protectedFieldCount, protectedEventCount };
+
+Warn(results, 0);
+
+</Code>
+            </Rule>
+            <Rule Name="Do not declare static members on generic types" Active="true">
+              <Code>var results = 
+	from type in Types
+	from method in type.Methods
+	from field in type.Fields
+	from ev in type.Events
+	where type.GenericParameterCount &gt; 0 &amp;&amp; (method.IsStatic || field.IsStatic || ev.IsStatic)
+		&amp;&amp; type.IsInCoreAssembly
+	select new { 
+		type.TypeId, 
+		type.Name, 
+		type.FullName, 
+		MethodName = method.Name,
+		FieldName = field.Name, 
+		EventName = ev.Name 
+	};
+
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Do not declare virtual members in sealed types" Active="true">
+              <Code>var results = 
+	from type in Types
+	from method in type.Methods
+	where type.IsSealed &amp;&amp; method.IsVirtual &amp;&amp; type.IsInCoreAssembly
+	select new { method.MethodId, MethodName = method.Name, TypeName = type.Name, 
+		TypeFullName = type.FullName  };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Do not declare visible instance fields" Active="true">
+              <Code>var results = 
+from field in Fields
+where !field.IsStatic &amp;&amp; (field.IsPublic || field.IsProtectedOrInternal || field.IsProtected)
+	&amp;&amp; field.Type.IsInCoreAssembly
+select new { field.FieldId, field.Name, Type = field.Type.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Do not expose generic lists" Active="true">
+              <Code>var listOfT = Types.FullNameIs("System.Collections.Generic.List`1").FirstOrDefault();
+var results = 
+from type in Types
+from method in type.Methods
+where (method.ReturnType == listOfT || method.ParameterTypes.Any(t =&gt; t == listOfT)) &amp;&amp;
+!method.IsPrivate &amp;&amp; !method.IsProtected &amp;&amp; method.Type.IsInCoreAssembly
+select new { method.MethodId, method.Name, Type = method.Type.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Enum storage should be Int32" Active="true">
+              <Code>var int32Type = Types.FullNameIs("System.Int32").First();
+
+var results = 
+from type in Types
+let valueType = type.Fields.NameIs("value__").FirstOrDefault()
+where type.IsEnum &amp;&amp; valueType != null &amp;&amp; valueType.FieldType != int32Type &amp;&amp; type.IsInCoreAssembly
+select new { type.TypeId, type.Name, type.FullName, BaseType = valueType.FieldType.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Exceptions should be public" Active="true">
+              <Code>var results = 
+from exceptableBaseException in Types
+from type in exceptableBaseException.DerivedTypes
+where (exceptableBaseException.FullName == "System.Exception" ||
+	exceptableBaseException.FullName == "System.SystemException" ||
+	exceptableBaseException.FullName == "System.ApplicationException")
+	&amp;&amp; !type.IsPublic &amp;&amp; type.IsInCoreAssembly
+select new { type.TypeId, type.Name, type.FullName, 
+	type.IsInternal, type.IsProtected,
+	type.IsProtectedAndInternal, type.IsPrivate };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Indexers should not be multidimensional" Active="true">
+              <Code>var results = 
+from method in Methods
+where ((method.IsIndexGetter &amp;&amp; method.ParameterCount &gt; 1) ||
+    (method.IsIndexSetter &amp;&amp; method.ParameterCount &gt; 2)) &amp;&amp; method.Type.IsInCoreAssembly
+select new { method.MethodId, method.Name, Type = method.Type.FullName, method.ParameterCount};
+
+Warn(results, 0);
+
+//the last parameter on an index setter is the value, we don't want to count
+//that for whether or not it is multi dimensional
+
+</Code>
+            </Rule>
+            <Rule Name="Nested types should not be visible" Active="true">
+              <Code>var iEnumerator = Types.FullNameIs("System.Collections.IEnumerator").FirstOrDefault();
+
+var results = 
+from type in Types
+where type.IsNested &amp;&amp; type.IsInCoreAssembly &amp;&amp; 
+type.IsPublic &amp;&amp; type.Interfaces.Contains(iEnumerator)
+select new { type.TypeId, type.Name, type.FullName };
+
+Warn(results, 0);
+
+//enumerators are exempt from this rule</Code>
+            </Rule>
+            <Rule Name="Properties should not be write only" Active="true">
+              <Code>var results = 
+from type in Types
+from method in type.Methods
+where method.IsPropertySetter &amp;&amp; 
+	type.Methods.NameIs("get_" + method.Name.Substring(4)).FirstOrDefault() == null &amp;&amp;
+	method.Type.IsInCoreAssembly
+select new { method.MethodId, method.Name, method.Type.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Static holder types should not have constructors" Active="true">
+              <Code>var results = 
+from type in Types
+where !type.IsSealed &amp;&amp; 
+	type.Methods.Where(method =&gt; method.IsConstructor &amp;&amp; method.ParameterCount != 0).Count() &gt; 0 &amp;&amp;
+	type.Methods.Where(method =&gt; !method.IsStatic).Count() == 0 &amp;&amp;
+	type.Fields.Where(field =&gt; !field.IsStatic).Count() == 0 &amp;&amp;
+	type.Events.Where(ev =&gt; !ev.IsStatic).Count() == 0 &amp;&amp;
+	type.IsInCoreAssembly
+select new { type.TypeId, type.Name, type.FullName } ;
+
+Warn(results, 0);
+</Code>
+            </Rule>
+            <Rule Name="Types that own disposable fields should be disposable" Active="true">
+              <Code>var iDisposable = Types.FullNameIs("System.IDisposable").FirstOrDefault();
+
+var results = 
+from type in Types
+from field in type.Fields
+where !type.Interfaces.Contains(iDisposable) &amp;&amp; type.IsInCoreAssembly &amp;&amp;
+	field.FieldType != null &amp;&amp; field.FieldType.Interfaces.Contains(iDisposable)
+select new { field.FieldId, field.Name, Type = type.FullName } ;
+
+Warn(results.Count() &gt; 0, "Types that own disposable fields should be disposable");</Code>
+            </Rule>
+            <Rule Name="URI properties should not be strings" Active="true">
+              <Code>var stringType = Types.FullNameIs("System.String").FirstOrDefault();
+
+var results = 
+from method in Methods
+where (method.IsPropertyGetter || method.IsPropertySetter) &amp;&amp;
+(method.Name.Like("uri") || method.Name.Like("urn") || method.Name.Like("url")) &amp;&amp;
+method.ReturnType == stringType &amp;&amp; method.Type.IsInCoreAssembly
+select new { method.MethodId, method.Name };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="URI return values should not be string" Active="true">
+              <Code>var stringType = Types.FullNameIs("System.String").FirstOrDefault();
+
+var results = 
+from method in Methods
+where (!method.IsPropertyGetter &amp;&amp; !method.IsPropertySetter) &amp;&amp;
+(method.Name.Like("uri") || method.Name.Like("urn") || method.Name.Like("url")) &amp;&amp;
+method.ReturnType == stringType &amp;&amp; method.Type.IsInCoreAssembly
+select new { method.MethodId, method.Name };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Use events where appropriate" Active="true">
+              <Code>var results = 
+from method in Methods
+where (method.IsPublic || method.IsProtected || method.IsPrivate) &amp;&amp;
+(method.Name.StartsWith("AddOn") || method.Name.StartsWith("RemoveOn") ||
+method.Name.StartsWith("Fire") || method.Name.StartsWith("Raise")) &amp;&amp; method.Type.IsInCoreAssembly
+select new { method.MethodId, method.Name };
+
+Warn(results, 0);</Code>
+            </Rule>
+          </Rules>
+        </RuleCategory>
+        <RuleCategory Name="Maintainability">
+          <RuleCategories />
+          <Rules>
+            <Rule Name="Avoid excessive class coupling" Active="true">
+              <Code>//We're not exactly sure at what point the actual FxCop engine cries foul
+//about this rule, so we guessed 75.
+var results = 
+from type in Types
+where type.TypesUsed.Count &gt; 75 &amp;&amp; type.IsInCoreAssembly
+select new { type.TypeId, type.Name, In = type.TypesUsing.Count, Out = type.TypesUsed.Count };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Avoid excessive complexity" Active="true">
+              <Code>var results = 
+from method in Methods
+where method.Cyclomatic &gt; 25 &amp;&amp; method.Type.IsInCoreAssembly
+select new { method.MethodId, method.Name, Type = method.Type.Name, method.Cyclomatic };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Avoid excessive inheritance" Active="true">
+              <Code>var results = 
+from type in Types
+where type.InheritanceDepth &gt; 5
+select new { type.TypeId, type.Name, type.InheritanceDepth };</Code>
+            </Rule>
+            <Rule Name="Review misleading field names" Active="true">
+              <Code>var results = 
+from field in Fields
+where ((field.Name.StartsWith("s_") &amp;&amp; !field.IsStatic) ||
+(field.Name.StartsWith("m_") &amp;&amp; field.IsStatic)) &amp;&amp; field.Type.IsInCoreAssembly
+select new { field.FieldId, field.Name, Type = field.Type.FullName };
+
+Warn(results, 0);
+</Code>
+            </Rule>
+          </Rules>
+        </RuleCategory>
+        <RuleCategory Name="Naming">
+          <RuleCategories />
+          <Rules>
+            <Rule Name="Do not name enum values 'Reserved'" Active="true">
+              <Code>var results = 
+from field in Fields
+where field.Type.IsEnum &amp;&amp; (field.Name == "Reserved" || field.Name == "reserved") 
+	&amp;&amp; field.Type.IsInCoreAssembly
+select new { field.FieldId, field.Name, Type = field.Type.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Do not prefix enum values with type name" Active="true">
+              <Code>var results = 
+from field in Fields
+where field.Type.IsEnum &amp;&amp; (field.Name.StartsWith(field.Type.Name)) &amp;&amp; field.Type.IsInCoreAssembly
+select new { field.FieldId, field.Name, Type = field.Type.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Events should not have before or after prefix" Active="true">
+              <Code>var results = 
+from myEvent in Events
+where (myEvent.Name.StartsWith("Before") || myEvent.Name.StartsWith("After")) &amp;&amp; myEvent.Type.IsInCoreAssembly
+select new { myEvent.EventId, myEvent.Name, Type = myEvent.Type.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Identifiers should have correct prefix" Active="true">
+              <Code>//The full version of this FxCop rule requires Type Parameters
+//on Generic classes to begin with "T", but Nitriq doesn't currently
+//support querying Type Parameters
+
+var results = 
+from type in Types
+where type.IsInterface &amp;&amp; !type.Name.StartsWith("I") &amp;&amp; type.IsInCoreAssembly
+select new { type.TypeId, type.Name, type.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Identifiers should have correct suffix" Active="true">
+              <Code>// use FirstOrDefault because if these types are never references, the Types collection
+// won't have a record for them. 
+var attribute = Types.FullNameIs("System.Attribute").FirstOrDefault();
+var eventArgs = Types.FullNameIs("System.EventArgs").FirstOrDefault();
+var exception = Types.FullNameIs("System.Exception").FirstOrDefault();
+var iCollection = Types.FullNameIs("System.Collections.ICollection").FirstOrDefault();
+var iDictionary = Types.FullNameIs("System.Collections.IDictionary").FirstOrDefault();
+var iEnumerable = Types.FullNameIs("System.Collections.IEnumerable").FirstOrDefault();
+var queue = Types.FullNameIs("System.Collections.Queue").FirstOrDefault();
+var stack = Types.FullNameIs("System.Collections.Stack").FirstOrDefault();
+var iCollectionT = Types.FullNameIs("System.Collections.ICollection`1").FirstOrDefault();
+var iDictionaryKV = Types.FullNameIs("System.Collections.IDictionary`2").FirstOrDefault();
+var dataSet = Types.FullNameIs("System.Data.DataSet").FirstOrDefault();
+var dataTable = Types.FullNameIs("System.Data.DataTable").FirstOrDefault();
+var stream = Types.FullNameIs("System.IO.Stream").FirstOrDefault();
+var permission = Types.FullNameIs("System.Security.Permission").FirstOrDefault();
+var membershipCondition = Types.FullNameIs("System.Security.Policy.IMembershipCondition").FirstOrDefault();
+
+
+var results = 
+from type in Types
+let typeName = System.Text.RegularExpressions.Regex.Replace(type.Name, @"`\d+", "")
+where 
+type.IsInCoreAssembly &amp;&amp;
+type.BaseType != null &amp;&amp; (
+(type.BaseType == attribute &amp;&amp; !typeName.EndsWith("Attribute")) ||
+(type.BaseType == eventArgs &amp;&amp; !typeName.EndsWith("EventArgs")) ||
+(type.BaseType == exception &amp;&amp; !typeName.EndsWith("Exception")) ||
+(type.BaseType == iCollection &amp;&amp; !typeName.EndsWith("Collection")) ||
+(type.BaseType == iDictionary &amp;&amp; !typeName.EndsWith("Dictionary")) ||
+(type.BaseType == iEnumerable &amp;&amp; !typeName.EndsWith("Collection")) ||
+(type.BaseType == queue &amp;&amp; !typeName.EndsWith("Collection") &amp;&amp; !typeName.EndsWith("Queue")) ||
+(type.BaseType == stack &amp;&amp; !typeName.EndsWith("Collection") &amp;&amp; !typeName.EndsWith("Stack")) ||
+(type.BaseType == iCollectionT &amp;&amp; !typeName.EndsWith("Collection")) ||
+(type.BaseType == iDictionaryKV &amp;&amp; !typeName.EndsWith("Dictionary")) ||
+(type.BaseType == dataSet &amp;&amp; !typeName.EndsWith("DataSet")) ||
+(type.BaseType == dataTable &amp;&amp; !typeName.EndsWith("Collection") &amp;&amp; !typeName.EndsWith("DataTable")) ||
+(type.BaseType == stream &amp;&amp; !typeName.EndsWith("Stream")) ||
+(type.BaseType == permission &amp;&amp; !typeName.EndsWith("Permission")) ||
+(type.BaseType == membershipCondition &amp;&amp; !typeName.EndsWith("Condition"))
+)
+select new { type.TypeId, type.Name, typeName, type.FullName };
+
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Identifiers should not contain underscores (Namespaces)" Active="true">
+              <Code>var results = 
+from myNamespace in Namespaces
+where myNamespace.FullName.Contains("_")
+select new { myNamespace.NamespaceId, myNamespace.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Identifiers should not contain underscores (Types)" Active="false">
+              <Code>var results = 
+from type in Types
+where type.Name.Contains("_") &amp;&amp; type.IsInCoreAssembly
+select new { type.TypeId, type.Name, type.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+            <Rule Name="Identifiers should not contain underscores (Methods)" Active="false">
+              <Code>var results = 
+from method in Methods
+where method.Name.Contains("_") &amp;&amp; !method.IsPropertyGetter &amp;&amp; !method.IsPropertySetter &amp;&amp;
+!method.IsEventAdder &amp;&amp; !method.IsEventRemover &amp;&amp; !method.IsOperator &amp;&amp; method.Type.IsInCoreAssembly
+select new { method.MethodId, method.Name, Type = method.Type.FullName };
+
+Warn(results, 0);</Code>
+            </Rule>
+          </Rules>
+        </RuleCategory>
+      </RuleCategories>
+      <Rules />
+    </RuleCategory>
+  </RuleCategories>
+</RuleSet>
