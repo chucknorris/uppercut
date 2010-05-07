@@ -167,34 +167,6 @@ select new { t.TypeId, t.Name, t.FullName };
 
 Warn(results, 0);</Code>
             </Rule>
-            <Rule Name="Avoid namespaces with few types" Active="true">
-              <Description>Namespaces should have at least 5 types</Description>
-              <Code>var results = 
-	from n in Namespaces
-	where n.Types.Count &lt; 5 &amp;&amp; n.Types.Count != 0 
-	select new { n.NamespaceId, n.FullName, n.Types.Count };
-
-Warn(results, 0);
-
-//namespaces with 0 Types are created by Nitriq, they're used to create a 
-//full hierarchy for certain views, they aren't explictly used in code 
-//and can be safely ignored.</Code>
-            </Rule>
-            <Rule Name="Collections should implement generic interface" Active="true">
-              <Code>var iEnumOfT = Types.FullNameIs("System.Collections.Generic.IEnumerable`1").FirstOrDefault();
-var ienumerable = Types.FullNameIs("System.Collections.IEnumerable").FirstOrDefault();
-IEnumerable results = null;
-
-if (ienumerable != null)
-{
-    results = 
-    from type in Types.FullNameIs("System.Collections.IEnumerable").First().DerivedTypes
-    where !type.Interfaces.Contains(iEnumOfT) &amp;&amp; type.IsInCoreAssembly
-    select new { type.TypeId, type.Name, type.FullName };
-}
-
-Warn(results, 0);</Code>
-            </Rule>
             <Rule Name="Do not declare protected members in sealed types" Active="true">
               <Code>var results = 
 from type in Types
@@ -237,7 +209,8 @@ Warn(results, 0);</Code>
 	select new { method.MethodId, MethodName = method.Name, TypeName = type.Name, 
 		TypeFullName = type.FullName  };
 
-Warn(results, 0);</Code>
+Warn(results, 0);
+</Code>
             </Rule>
             <Rule Name="Do not declare visible instance fields" Active="true">
               <Code>var results = 
@@ -515,23 +488,6 @@ Warn(results, 0);</Code>
 from myNamespace in Namespaces
 where myNamespace.FullName.Contains("_")
 select new { myNamespace.NamespaceId, myNamespace.FullName };
-
-Warn(results, 0);</Code>
-            </Rule>
-            <Rule Name="Identifiers should not contain underscores (Types)" Active="false">
-              <Code>var results = 
-from type in Types
-where type.Name.Contains("_") &amp;&amp; type.IsInCoreAssembly
-select new { type.TypeId, type.Name, type.FullName };
-
-Warn(results, 0);</Code>
-            </Rule>
-            <Rule Name="Identifiers should not contain underscores (Methods)" Active="false">
-              <Code>var results = 
-from method in Methods
-where method.Name.Contains("_") &amp;&amp; !method.IsPropertyGetter &amp;&amp; !method.IsPropertySetter &amp;&amp;
-!method.IsEventAdder &amp;&amp; !method.IsEventRemover &amp;&amp; !method.IsOperator &amp;&amp; method.Type.IsInCoreAssembly
-select new { method.MethodId, method.Name, Type = method.Type.FullName };
 
 Warn(results, 0);</Code>
             </Rule>

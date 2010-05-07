@@ -35,7 +35,7 @@
     <echo message="Attempting to locate console edition of Nitriq." />
     <property name="app.nitriq" value="C:\Program Files (x86)\NimblePros\Nitriq Console + Pro\Nitriq.Console.exe" if="${not file::exists(app.nitriq)}" />
     <property name="app.nitriq" value="C:\Program Files\NimblePros\Nitriq Console + Pro\Nitriq.Console.exe" if="${not file::exists(app.nitriq)}" />
-    <call target="run_tasks" if="${file::exists(app.nitriq)}" />
+    <call target="run_tasks" if="${file::exists(app.nitriq) and file::exists(files.nitriq_project)}" />
   </target>
   
   <target name="run_tasks">
@@ -86,7 +86,7 @@
   <target name="nitriq" depends="prepare" if="${file::exists(app.nitriq)}">
     <echo message="Attempting to run Nitriq at ${app.nitriq} for file ${files.nitriq_project}." />
 
-    <exec program="${app.nitriq}">
+    <exec program="${app.nitriq}" workingdir="${dirs.build.code}">
       <arg line="${files.nitriq_project} ${files.nitriq_queries} ${file.html.nitriq_results}" />
     </exec>
   </target>
