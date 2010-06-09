@@ -46,6 +46,13 @@ Donations Accepted - If you enjoy using this product or it has saved you time an
 It helps keep to the product updated, pays for site hosting, etc. https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4410250
 
 # RELEASE NOTES
+=0.9.0.306=  
+* Added a framework switch for NUnit - handling .NET 4.0 Support (r305)  
+* Zip.build handles HG versioning (r304)  
+* Nitriq support. Please check for a new setting in the config. (r302)  
+* NUnit default is now 2.5.5. (r300)  
+* CLS Compliance is now an opt in setting. Please check for a new setting in the config. (r299)  
+  
 =0.9.0.297=  
 * .NET 4.0 Support (r296)  
 * Fixed a bug with property setting in tfs.step (r293)  
