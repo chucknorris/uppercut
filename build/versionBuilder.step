@@ -107,7 +107,6 @@
 
   <target name="generate_assembly_info" description="Generate assembly info">
     <echo message="Generating SolutionVersion.${language.short} with assembly version ${version.major}.${version.minor}.${version.build}.${version.revision}." />
-    <property name="version.hash" value="${environment::get-variable('uc.app.revision.hash')}" if="${environment::variable-exists('uc.app.revision.hash')}" />
     <asminfo output="${path.file.version}" language="${language.long}">
       <imports>
         <import namespace="System" />

@@ -93,6 +93,7 @@
 
   <target name="set_version_environment_variable">
     <setenv name="uc.app.revision" value="${version.revision}"/>
+    <setenv name="uc.app.revision.hash" value="${version.hash}"/>
   </target>
 
 

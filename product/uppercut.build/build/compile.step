@@ -22,9 +22,12 @@
   <property name="microsoft.framework" value="net-3.5" overwrite="false" />
   <property name="msbuild.configuration" value="Release" overwrite="false" />
   <property name="msbuild.platform" value="Any CPU" overwrite="false" />
+  <property name="msbuild.outputpath" value="${dirs.build}\${folder.app.drop}" overwrite="false" />
   <property name="solution.path" value="${dirs.current}\${path.to.toplevel}\${path_to_solution}\${project.name}.sln" />
   <property name="solution.path" value="${dirs.current}\${path.to.toplevel}\${path_to_solution}\${project.name}.vbp" if="${microsoft.framework =='vb6'}" />
-  <property name="nant.settings.currentframework" value="${microsoft.framework}" if="${microsoft.framework !='vb6'}" />
+  <property name="nant.settings.currentframework" value="net-3.5" if="${microsoft.framework !='vb6'}" />
+  <property name="framework.multitargeting" value="false" />
+  <property name="framework.multitargeting.delimiter" value="," />
   <property name="file.custom.step.before" value="${dirs.build_scripts_custom}\${file.current.no_extension}.pre.step" />
   <property name="file.custom.step.after" value="${dirs.build_scripts_custom}\${file.current.no_extension}.post.step" />
   <property name="file.custom.step.replace" value="${dirs.build_scripts_custom}\${file.current.no_extension}.replace.step" />
@@ -35,6 +38,7 @@
   <target name="run_tasks">
     <echo message="Running ${project::get-name()} tasks." />
     <call target="prepare" if="${target::exists('prepare')}" />
+    <call target="check_for_multitargeting_and_set_nant_framework_to_last" if="${target::exists('check_for_multitargeting_and_set_nant_framework_to_last')}" />
     <call target="custom_tasks_before" if="${target::exists('custom_tasks_before')}"  />
     <call target="custom_tasks_replace" if="${target::exists('custom_tasks_replace')}"  />
     <call target="run_normal_tasks" if="${not is.replaced}" />
@@ -42,7 +46,7 @@
   </target>
 
   <target name="run_normal_tasks"
-          depends="error_check,build_code, copy_documentation, copy_db"
+          depends="error_check, build_code, copy_documentation, copy_db"
           description="Compiling project." />
 
   <target name="custom_tasks_before">
@@ -75,6 +79,25 @@
       if="${project.name=='__SOLUTION_NAME_WITHOUT_SLN_EXTENSION__'}" />
   </target>
 
+  <target name="check_for_multitargeting_and_set_nant_framework_to_last">
+    <if test="${string::contains(microsoft.framework,',')}">
+      <echo message="You want to multi target, eh? You passed a comma into the framework: ${microsoft.framework}" />
+      <property name="framework.multitargeting" value="true" />
+      <property name="framework.multitargeting.delimiter" value="," />
+      <foreach item="String" in="${microsoft.framework}" delim="," property="framework.to.use">
+        <property name="nant.settings.currentframework" value="${string::trim(framework.to.use)}" />
+      </foreach>
+    </if>
+    <if test="${string::contains(microsoft.framework,';')}">
+      <echo message="You want to multi target, eh? You passed a semicolon into the framework: ${microsoft.framework}" />
+      <property name="framework.multitargeting" value="true" />
+      <property name="framework.multitargeting.delimiter" value=";" />
+      <foreach item="String" in="${microsoft.framework}" delim=";" property="framework.to.use">
+        <property name="nant.settings.currentframework" value="${string::trim(framework.to.use)}" />
+      </foreach>
+    </if>
+  </target>
+  
   <target name="build_code" depends="" description="Building Library">
     <echo message="Compiling ${solution.path}."/>
     <call target="build_dotNET_code" if="${microsoft.framework !='vb6'}" />
@@ -82,10 +105,27 @@
   </target>
 
   <target name="build_dotNET_code" >
-    <msbuild project="${solution.path}" verbosity="quiet">
+    <if test="${framework.multitargeting}">
+      <foreach item="String" in="${microsoft.framework}" delim="${framework.multitargeting.delimiter}" property="framework.specific">
+        <property name="msbuild.outputpath" value="${dirs.build}\${folder.app.drop}\${framework.specific}" />
+        <property name="microsoft.framework.specific" value="${string::trim(framework.specific)}" />
+        <echo message="Building on ${framework::get-version(microsoft.framework.specific)}" />
+        <call target="build_dotNet_code_framework" />
+      </foreach>
+    </if>
+    <if test="${not framework.multitargeting}">
+      <property name="microsoft.framework.specific" value="${string::trim(microsoft.framework)}" />
+              <echo message="Building on ${framework::get-version(microsoft.framework.specific)}" />
+      <call target="build_dotNet_code_framework" />
+    </if>
+  </target>
+  
+  <target name="build_dotNet_code_framework">
+    <msbuild project="${solution.path}" verbosity="minimal">
       <property name="Configuration" value="${msbuild.configuration}" />
-      <property name="OutputPath" value="${dirs.build}\${folder.app.drop}" />
+      <property name="OutputPath" value="${msbuild.outputpath}" />
       <property name="Platform" value="${msbuild.platform}" />
+      <property name="TargetFrameworkVersion" value="v${framework::get-version(microsoft.framework.specific)}" />
     </msbuild>
   </target>
 
