@@ -22,6 +22,7 @@
   <property name="microsoft.framework" value="net-3.5" overwrite="false" />
   <property name="msbuild.configuration" value="Release" overwrite="false" />
   <property name="msbuild.platform" value="Any CPU" overwrite="false" />
+  <property name="msbuild.override_output_path" value="true" overwrite="false" />
   <property name="msbuild.outputpath" value="${dirs.build}\${folder.app.drop}" overwrite="false" />
   <property name="solution.path" value="${dirs.current}\${path.to.toplevel}\${path_to_solution}\${project.name}.sln" />
   <property name="solution.path" value="${dirs.current}\${path.to.toplevel}\${path_to_solution}\${project.name}.vbp" if="${microsoft.framework =='vb6'}" />
@@ -109,24 +110,35 @@
       <foreach item="String" in="${microsoft.framework}" delim="${framework.multitargeting.delimiter}" property="framework.specific">
         <property name="msbuild.outputpath" value="${dirs.build}\${folder.app.drop}\${framework.specific}" />
         <property name="microsoft.framework.specific" value="${string::trim(framework.specific)}" />
-        <echo message="Building on ${framework::get-version(microsoft.framework.specific)}" />
         <call target="build_dotNet_code_framework" />
       </foreach>
     </if>
     <if test="${not framework.multitargeting}">
       <property name="microsoft.framework.specific" value="${string::trim(microsoft.framework)}" />
-              <echo message="Building on ${framework::get-version(microsoft.framework.specific)}" />
       <call target="build_dotNet_code_framework" />
     </if>
   </target>
   
   <target name="build_dotNet_code_framework">
-    <msbuild project="${solution.path}" verbosity="minimal">
-      <property name="Configuration" value="${msbuild.configuration}" />
-      <property name="OutputPath" value="${msbuild.outputpath}" />
-      <property name="Platform" value="${msbuild.platform}" />
-      <property name="TargetFrameworkVersion" value="v${framework::get-version(microsoft.framework.specific)}" />
-    </msbuild>
+    <echo message="Building on ${framework::get-version(microsoft.framework.specific)}" />
+    <!-- nant is retarded - I had to have two of these instead of throwing an if on the outputpath -->
+    <if test="${msbuild.override_output_path}">
+      <msbuild project="${solution.path}" verbosity="minimal">
+        <property name="Configuration" value="${msbuild.configuration}" />
+        <property name="OutputPath" value="${msbuild.outputpath}" />
+        <property name="Platform" value="${msbuild.platform}" />
+        <property name="TargetFrameworkVersion" value="v${framework::get-version(microsoft.framework.specific)}" />
+        <property name="ToolsVersion" value="${framework::get-version(microsoft.framework.specific)}" />
+      </msbuild>
+    </if>
+    <if test="${not msbuild.override_output_path}">
+      <msbuild project="${solution.path}" verbosity="minimal">
+        <property name="Configuration" value="${msbuild.configuration}" />
+        <property name="Platform" value="${msbuild.platform}" />
+        <property name="TargetFrameworkVersion" value="v${framework::get-version(microsoft.framework.specific)}" />
+        <property name="ToolsVersion" value="${framework::get-version(microsoft.framework.specific)}" />
+      </msbuild>
+    </if>
   </target>
 
   <target name="build_vb6_code">
