@@ -19,7 +19,10 @@ UppercuT uses conventions and has a simple configuration file for you to edit. G
 UppercuT is extremely powerful because it is customizable and extendable. Every step of the build process is customizable with a pre, post and replace hook.  
 
 UppercuT is not a build server, but it integrates nicely with CruiseControl.NET, TeamCity, Hudson, etc.  
-
+  
+## Join the mailing list
+ Ask questions - get answers - [http://groups.google.com/group/chucknorrisframework](http://groups.google.com/group/chucknorrisframework)  
+  
 ## Getting started with UppercuT
 ### Downloads
  You can download UppercuT from [http://code.google.com/p/uppercut/downloads/list](http://code.google.com/p/uppercut/downloads/list)
@@ -46,6 +49,12 @@ Donations Accepted - If you enjoy using this product or it has saved you time an
 It helps keep to the product updated, pays for site hosting, etc. https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4410250
 
 # RELEASE NOTES
+=0.9.0.318=  
+* Nitriq support. Please check for a new setting in the config. (r317)  
+* OutputPath is configurable not to be overridden by UppercuT - see http://code.google.com/p/uppercut/issues/detail?id=15 for details.   Please check for a new setting in the config. (r316)  
+* Multi-targeting for building your product on several frameworks at once  - see http://code.google.com/p/uppercut/issues/detail?id=14 for details. (r316)  
+* Zip uses the version hash (which is only different if you are git or mercurial). (r313)  
+  
 =0.9.0.306=  
 * Added a framework switch for NUnit - handling .NET 4.0 Support (r305)  
 * Zip.build handles HG versioning (r304)  
