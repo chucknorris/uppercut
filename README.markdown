@@ -49,6 +49,10 @@ Donations Accepted - If you enjoy using this product or it has saved you time an
 It helps keep to the product updated, pays for site hosting, etc. https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4410250
 
 # RELEASE NOTES
+=0.9.0.x=  
+* The version hash for SVN and TFS should just use version.revision. (r321)  
+* General fix - when a step of the build process fails the build, any extensions or custom tasks related to it should also fail the build. (r319)  
+  
 =0.9.0.318=  
 * Nitriq support. Please check for a new setting in the config. (r317)  
 * OutputPath is configurable not to be overridden by UppercuT - see http://code.google.com/p/uppercut/issues/detail?id=15 for details.   Please check for a new setting in the config. (r316)  
