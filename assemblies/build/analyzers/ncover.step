@@ -41,7 +41,7 @@
   <property name="is.replaced" value="false" />
   <property name="fail.build.on.error" value="false" />
 
-  <target name="go" depends="run_tasks" if="${file::exists(app.ncover)}" />
+  <target name="go" depends="run_tasks" if="${file::exists(app.ncover) and test.framework !='none'}" />
 
   <target name="run_tasks">
     <echo message="Running ${project::get-name()} tasks." />
@@ -55,7 +55,7 @@
   <target name="run_normal_tasks"
           depends="get_test_dlls, ncover, ncover_explorer"
           description="Using NCover to Analyze project for test quality indicators."
-          if="${file::exists(app.ncover)}" />
+          if="${file::exists(app.ncover) and test.framework !='none'}" />
 
   <target name="custom_tasks_before">
     <echo message="Running custom tasks if ${file.custom.step.before} exists." />

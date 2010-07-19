@@ -26,9 +26,15 @@ UppercuT is not a build server, but it integrates nicely with CruiseControl.NET,
 ## Getting started with UppercuT
 ### Downloads
  You can download UppercuT from [http://code.google.com/p/uppercut/downloads/list](http://code.google.com/p/uppercut/downloads/list)
-
+  
  You can also obtain a copy from the build server at [http://teamcity.codebetter.com](http://teamcity.codebetter.com).
-
+  
+### Gems  
+If you have Ruby 1.8.6+ (and Gems 1.3.7+) installed, you can get the current release of UppercuT to your machine the fastest!  
+  
+1. Type 'gem install uppercutbuild'  
+2. At the top level directory (trunk or branch name) type 'uppercutbuild install' for bringing in uppercut for the first time or 'uppercutbuild upgrade' if you already uppercut and are just wanting to upgrade the build folder.   
+  
 ### Source
 This is the best way to get to the bleeding edge of what we are doing.
 
@@ -49,7 +55,14 @@ Donations Accepted - If you enjoy using this product or it has saved you time an
 It helps keep to the product updated, pays for site hosting, etc. https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4410250
 
 # RELEASE NOTES
-=0.9.0.x=  
+=0.9.0.337=  
+* ILMerge is now a step of the build process. Please check the configuration for the new setting. (r337)  
+* UppercuT now has the command 'uppercutbuild upgrade'. (r336)  
+* Zip will not include the gems folder. (r334)  
+* UppercuT (through gems) can copy UppercuT to a solution directory by issuing 'uppercutbuild install' at the top level directory (trunk or branch name). (r333)  
+  
+=0.9.0.328=  
+* Now supports building gems - see http://code.google.com/p/uppercut/issues/detail?id=16 for details.  (r328)  
 * The version hash for SVN and TFS should just use version.revision. (r321)  
 * General fix - when a step of the build process fails the build, any extensions or custom tasks related to it should also fail the build. (r319)  
   

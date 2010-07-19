@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<project name="CUSTOM POST UPDATEASSEMBLIES" default="go">
+<project name="CUSTOM POST GEMSBUILD" default="go">
   <!-- Project UppercuT - http://projectuppercut.org -->
   <property name="build.config.settings" value="__NONE__" overwrite="false" />
   <include buildfile="${build.config.settings}" if="${file::exists(build.config.settings)}" />
@@ -15,25 +15,30 @@
   <property name="dirs.drop" value="${dirs.current}\${path.to.toplevel}\${folder.code_drop}" overwrite="false" />
   <property name="folder.app.drop" value="${project.name}" overwrite="false" />
   <property name="folder.database" value="__DATABASE_FOLDER_NAME__" overwrite="false" />
+  <property name="dirs.database" value="${dirs.current}\${path.to.toplevel}\${folder.database}" overwrite="false" />
   <property name="folder.reports" value="${project.name}.Reports" overwrite="false" />
+  <property name="dirs.reports" value="${dirs.current}\${path.to.toplevel}\${folder.reports}" overwrite="false" />
   <property name="folder.file_server" value="file.server" overwrite="false" />
+  <property name="dirs.file_server" value="${dirs.current}\${path.to.toplevel}\${folder.file_server}" overwrite="false" />
   <property name="folder.environment_files" value="environment.files" overwrite="false" />
+  <property name="dirs.environment_files" value="${dirs.current}\${path.to.toplevel}\${folder.environment_files}" overwrite="false" />
   <property name="folder.deployment" value="deployment" overwrite="false" />
+  <property name="dirs.deployment" value="${dirs.current}\${path.to.toplevel}\${folder.deployment}" overwrite="false" />
   <property name="folder.settings" value="settings" overwrite="false" />
-  <property name="folder.gems" value="gems" overwrite="false" />
+  <property name="dirs.settings" value="${dirs.current}\${path.to.toplevel}\${folder.settings}" overwrite="false" />
   <property name="folder.documentation" value="docs" overwrite="false" />
-  <property name="dirs.assemblies" value="${dirs.current}\${path.to.toplevel}\assemblies" overwrite="false" />
-
+  <property name="dirs.docs" value="${dirs.current}\${path.to.toplevel}\${folder.documentation}" overwrite="false" />
+  <property name="folder.references" value="lib" overwrite="false" />
+  <property name="dirs.lib" value="${dirs.current}\${path.to.toplevel}\${folder.references}" overwrite="false" />
+  <property name="folder.gems" value="gems" overwrite="false" />
+  
   <target name="go" depends="run_tasks" />
-
+  
   <target name="run_tasks">
-    <delete dir="${dirs.assemblies}\${folder.deployment}" />
-    <delete dir="${dirs.assemblies}\lib" />
-    <delete dir="${dirs.assemblies}\${folder.settings}" />
-    <delete dir="${dirs.assemblies}\${folder.gems}" />
     <delete>
-      <fileset basedir="${dirs.assemblies}" >
-        <include name="*.*" />
+      <fileset basedir="${dirs.drop}/${folder.gems}" >
+        <exclude name="*.gem" />
+        <include name="**/*" />
       </fileset>
     </delete>
   </target>

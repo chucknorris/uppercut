@@ -88,6 +88,7 @@
     <echo message="Attempting to zip up binaries to ${zip.file}." />
     <zip zipfile="${zip.file}">
       <fileset basedir="${dirs.drop}">
+        <exclude name="gems/**" />
         <include name="**/*" />
       </fileset>
     </zip>

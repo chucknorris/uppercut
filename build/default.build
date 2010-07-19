@@ -23,6 +23,7 @@
   <property name="version.hash" value="${version.revision}" overwrite="false" />
   <property name="version.build" value="0" />
   <property name="allow.powershell.unrestricted" value="false" overwrite="false" />
+  <property name="run.ilmerge" value="false" overwrite="false" />
   <property name="file.uppercut.assembly" value="uppercut.tasks.dll" />
   <property name="path.uppercut.assembly" value="${dirs.current}\${file.uppercut.assembly}" />
   <property name="file.custom.step.before" value="${dirs.build_scripts_custom}\${file.current.no_extension}.pre.build" />
@@ -94,6 +95,9 @@
     <nant buildfile="${dirs.current}\environmentBuilder.step" inheritall="true" />
     <nant buildfile="${dirs.current}\analyze.step" inheritall="true" />
     <nant buildfile="${dirs.current}\package.step" inheritall="true" />
+    <nant buildfile="${dirs.current}\ilmerge.build" inheritall="true" if="${run.ilmerge}" />
+    <nant buildfile="${dirs.current}\gemsPrepare.step" inheritall="true" />
+    <nant buildfile="${dirs.current}\gemsBuild.step" inheritall="true" />
   </target>
 
   <target name="get_revision">
