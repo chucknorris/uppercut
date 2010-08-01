@@ -33,7 +33,7 @@ UppercuT is not a build server, but it integrates nicely with CruiseControl.NET,
 If you have Ruby 1.8.6+ (and Gems 1.3.7+) installed, you can get the current release of UppercuT to your machine the fastest!  
   
 1. Type 'gem install uppercutbuild'  
-2. At the top level directory (trunk or branch name) type 'uppercutbuild install' for bringing in uppercut for the first time or 'uppercutbuild upgrade' if you already uppercut and are just wanting to upgrade the build folder.   
+2. At the top level directory (trunk or branch name) type 'uppercutbuild init' for bringing in uppercut for the first time or 'uppercutbuild upgrade' if you already uppercut and are just wanting to upgrade the build folder.   
   
 ### Source
 This is the best way to get to the bleeding edge of what we are doing.
@@ -41,7 +41,7 @@ This is the best way to get to the bleeding edge of what we are doing.
 1. Clone the source down to your machine. 
   `git clone git://github.com/chucknorris/uppercut.git`  
 2. Type `cd uppercut`  
-3. Type `git config core.autocrlf true` to set line endings to auto convert for this repository  
+3. Type `git config core.autocrlf false` to set line endings to auto convert for this repository  
 4. Type `git status`. You should not see any files to change.
 5. Run `build.bat`. NOTE: You must have git on the path (open a regular command line and type git).
   
@@ -55,6 +55,11 @@ Donations Accepted - If you enjoy using this product or it has saved you time an
 It helps keep to the product updated, pays for site hosting, etc. https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4410250
 
 # RELEASE NOTES
+=0.9.0.x=  
+* Gems by default are now versioned with datestamp on the end (YYYYMMDD) (r342)  
+* Changed the default test framework to NUnit. (r340)  
+* Changed 'uppercutbuild install to 'uppercutbuild init' (r339)  
+  
 =0.9.0.337=  
 * ILMerge is now a step of the build process. Please check the configuration for the new setting. (r337)  
 * UppercuT now has the command 'uppercutbuild upgrade'. (r336)  
