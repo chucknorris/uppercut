@@ -18,6 +18,8 @@ _ReSharper*
 *.bak
 *.orig
 *.log
+*.pidb
+*userprefs
  
 TestResult.xml
 submit.xml
