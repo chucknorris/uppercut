@@ -125,13 +125,19 @@
   
   <target name="build_dotNet_code_framework">
     <echo message="Building on ${framework::get-version(microsoft.framework.specific)}" />
+    <mkdir dir="${msbuild.outputpath}" />
     <if test="${platform::is-unix()}">
-    	<mkdir dir="${xbuild.outputpath}" />
-    	<echo message="/nologo /property:OutputPath='${xbuild.outputpath}' /property:Configuration=${msbuild.configuration} /verbosity:minimal /noconsolelogger /target:Rebuild" />
+    	<!-- Do clean and build in two steps since xbuild has a bug with using OutputPath and Rebuild together Bug #628525 at Novell -->
+    	<echo message="Cleaning build..." />
     	<exec program="xbuild"
           basedir="/usr/bin"
           workingdir="${dirs.build}"
-          commandline="${solution.path} /nologo /property:OutputPath='${xbuild.outputpath}' /property:Configuration=${msbuild.configuration} /verbosity:minimal /noconsolelogger /target:Rebuild" />
+          commandline="${solution.path} /nologo /property:OutputPath='${msbuild.outputpath}' /property:Configuration=${msbuild.configuration} /verbosity:minimal /noconsolelogger /target:Clean" />
+        <echo message="Building..." />
+    	<exec program="xbuild"
+          basedir="/usr/bin"
+          workingdir="${dirs.build}"
+          commandline="${solution.path} /nologo /property:OutputPath='${msbuild.outputpath}' /property:Configuration=${msbuild.configuration} /verbosity:minimal /noconsolelogger" />
     </if>
     <if test="${platform::is-windows()}">
 	    <!-- nant is retarded - I had to have two of these instead of throwing an if on the outputpath -->
