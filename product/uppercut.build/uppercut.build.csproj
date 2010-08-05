@@ -221,5 +221,9 @@
       <Link>uppercut.ico</Link>
     </None>
     <None Include="build\csharp.functions" />
+    <None Include="build.sh" />
+    <None Include="test.sh" />
+    <None Include="open.sh" />
+    <None Include="zip.sh" />
   </ItemGroup>
 </Project>

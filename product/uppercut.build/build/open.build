@@ -15,6 +15,7 @@
   <property name="solution.path" value="${path::get-full-path(dirs.solution)}${path.separator}${project.name}.sln" />
   <property name="solution.path.full" value="${path::get-full-path(solution.path)}" />
   <property name="app.visual_studio" value="${environment::get-folder-path('ProgramFiles')}\Common Files\Microsoft Shared\MSEnv\VSLauncher.exe" />
+  <property name="app.monodevelop" value="monodevelop" />
   <property name="file.uppercut.assembly" value="uppercut.tasks.dll" />
   <property name="path.uppercut.assembly" value="${dirs.current}${path.separator}${file.uppercut.assembly}" />
   <property name="allow.powershell.unrestricted" value="false" overwrite="false" />
@@ -65,14 +66,25 @@
   </target>
 
   <target name="open_visual_studio">
-    <echo message="Opening visual studio with solution file ${solution.path.full}."/>
-    <exec
-      spawn="true"
-      basedir="${dirs.solution}"
-      program="${app.visual_studio}"
-      commandline="${solution.path.full}"
-      >
-    </exec>
+  	<if test="${platform::is-unix()}">
+  		<echo message="Opening MonoDevelop with solution file ${solution.path.full}."/>
+  		<exec
+	      spawn="true"
+	      program="${app.monodevelop}"
+	      commandline="${project.name}.sln"
+	      >
+	    </exec>
+  	</if>
+  	<if test="${platform::is-windows()}">
+	    <echo message="Opening visual studio with solution file ${solution.path.full}."/>
+	    <exec
+	      spawn="true"
+	      basedir="${dirs.solution}"
+	      program="${app.visual_studio}"
+	      commandline="${solution.path.full}"
+	      >
+	    </exec>
+	 </if>
   </target>
 
   <target name="custom_tasks_after">
