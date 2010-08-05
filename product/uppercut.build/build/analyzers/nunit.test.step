@@ -5,6 +5,7 @@
   <property name="build.config.settings" value="__NONE__" overwrite="false" />
   <include buildfile="${build.config.settings}" if="${file::exists(build.config.settings)}" />
   <property name="path.separator" value="${string::trim(path::combine(' ', ' '))}" />
+  <include buildfile="..${path.separator}csharp.functions" />
   <property name="file.current.no_extension" value="nunit.test" />
   <property name="dirs.current" value="${directory::get-parent-directory(project::get-buildfile-path())}" />
   <property name="path.to.toplevel" value="..${path.separator}.." />
@@ -152,15 +153,9 @@
       </fileset>
     </nunit2report>
   </target>
-
+  
   <target name="open_results">
-    <echo message="Opening results at ${path::get-full-path(dirs.test_results)}${path.separator}${file.test_results}.html."/>
-    <exec
-      spawn="true"
-      program="${environment::get-folder-path('ProgramFiles')}\Internet Explorer\iexplore.exe"
-      commandline="${path::get-full-path(dirs.test_results)}${path.separator}${file.test_results}.html"
-      >
-    </exec>
+  	<echo message="${process::start(path::get-full-path(dirs.test_results) + path.separator + file.test_results + '.html')}" />
   </target>
 
   <target name="custom_tasks_after">

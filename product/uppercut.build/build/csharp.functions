@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="BuildSettings">
+    <script language="C#" prefix="process" >
+		<imports>
+			<import namespace="System.Diagnostics" />
+		</imports>
+		<code>
+			<![CDATA[
+			[Function("start")]
+			public string ProcessStart(string url)
+			{
+				Process.Start(url);
+				return string.Format("Launching {0}", url);
+			}
+			]]>
+		</code>
+	</script>
+</project>

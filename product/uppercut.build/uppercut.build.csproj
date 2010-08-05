@@ -220,5 +220,6 @@
     <None Include="..\..\lib\icon\uppercut.ico">
       <Link>uppercut.ico</Link>
     </None>
+    <None Include="build\csharp.functions" />
   </ItemGroup>
 </Project>
