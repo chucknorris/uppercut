@@ -20,9 +20,12 @@
   <property name="company.name" value="__COMPANY_NAME__" overwrite="false" />
   <property name="source_control_type" value="svn" overwrite="false" />
   <property name="version.uppercut" value="0" />
+  <property name="version.major" value="0" overwrite="false" />
+  <property name="version.minor" value="0" overwrite="false" />
+  <property name="version.patch" value="0" overwrite="false" />
+  <property name="version.build" value="0" />
   <property name="version.revision" value="0" />
   <property name="version.hash" value="${version.revision}" overwrite="false" />
-  <property name="version.build" value="0" />
   <property name="allow.powershell.unrestricted" value="false" overwrite="false" />
   <property name="run.ilmerge" value="false" overwrite="false" />
   <property name="file.uppercut.assembly" value="uppercut.tasks.dll" />

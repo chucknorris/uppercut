@@ -56,7 +56,7 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 
 # RELEASE NOTES
 =1.0.0.0=  
-* UppercuT now uses semantic versioning See http://SemVer.org for details. (r)  
+* UppercuT now uses semantic versioning See http://SemVer.org for details. You need to add this to your config file: <property name="version.patch" value="0" overwrite="false" /> (r351)  
 * UppercuT now builds on Linux (patch from Svein Ackenhausen). (r350)  
 * Non multi targeting now works like it did before any of this multitargeting started. (r348)  
   

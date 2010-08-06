@@ -30,9 +30,10 @@
   <property name="folder.gems.exists" value="${directory::exists(dirs.gems)}" />
   <property name="version.major" value="1" overwrite="false" />
   <property name="version.minor" value="0" overwrite="false" />
+  <property name="version.patch" value="0" overwrite="false" />
   <property name="version.build" value="0" overwrite="false" />
   <property name="version.revision" value="0" overwrite="false" />
-  <property name="assembly.version.full" value="${version.major}.${version.minor}.${version.build}.${version.revision}" />
+  <property name="assembly.version.full" value="${version.major}.${version.minor}.${version.patch}.0" />
   <property name="gem.build.date" value="20100801" overwrite="false" />
   <property name="file.gems.version" value="${dirs.drop.gems}${path.separator}VERSION" />
   
@@ -139,9 +140,8 @@
   </target>
   
   <target name="generate_version_file">
-  
-  <echo message="Generating ${file.gems.version} with ${assembly.version.full} and ${gem.build.date} for the version" />
-  <echo file="${file.gems.version}" append="false" failonerror="false">${assembly.version.full}.${gem.build.date}</echo>
+    <echo message="Generating ${file.gems.version} with ${assembly.version.full} and ${gem.build.date} for the version" />
+    <echo file="${file.gems.version}" append="false" failonerror="false">${assembly.version.full}.${gem.build.date}</echo>
   </target>
   
   <target name="custom_tasks_after">
