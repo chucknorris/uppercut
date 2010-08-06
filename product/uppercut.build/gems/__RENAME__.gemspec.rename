@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
 #  spec.bindir = 'bin'
 #  spec.executables << '__REPLACE__'
 
-#  spec.add_dependency('log4net','= 1.2.10')
+#  spec.add_dependency('log4net','= 1.2.10.0')
 
   spec.summary     = '__REPLACE__'
   spec.description = <<-EOF 
