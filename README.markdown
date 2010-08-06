@@ -57,6 +57,7 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 # RELEASE NOTES
 =1.0.0.0=  
 * UppercuT now uses semantic versioning See http://SemVer.org for details. (r)  
+* UppercuT now builds on Linux (patch from Svein Ackenhausen). (r350)  
 * Non multi targeting now works like it did before any of this multitargeting started. (r348)  
   
 =0.9.0.346=  

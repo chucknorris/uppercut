@@ -3,6 +3,7 @@
   <!-- Visit http://roundhouse.googlecode.com/ for details -->
   <property name="deploy.settings" value="__NONE__" overwrite="false" />
   <include buildfile="${deploy.settings}" if="${file::exists(deploy.settings)}" />
+  <property name="path.separator" value="${string::trim(path::combine(' ', ' '))}" />
   <property name="dirs.current" value="${directory::get-parent-directory(project::get-buildfile-path())}" />
   <property name="project.name" value="__PROJECT_NAME__" overwrite="false" />
   <property name="folder.app.drop" value="${project.name}" overwrite="false" />
@@ -11,9 +12,9 @@
   <property name="server.database" value="__DATABASE_SERVER__" overwrite="false" />
   <property name="database.name" value="__DATABASE_NAME__" overwrite="false" />
   <property name="environment" value="" overwrite="false" />
-  <property name="dirs.db" value="${dirs.current}\..\..\${folder.database}\${database.name}" overwrite="false" />
+  <property name="dirs.db" value="${dirs.current}${path.separator}..${path.separator}..${path.separator}${folder.database}${path.separator}${database.name}" overwrite="false" />
   <property name="file.version" value="${project.name}.dll" overwrite="false" />
-  <property name="path.file.version" value="${dirs.current}\..\..\${folder.app.drop}\${file.version}" overwrite="false" />
+  <property name="path.file.version" value="${dirs.current}${path.separator}..${path.separator}..${path.separator}${folder.app.drop}${path.separator}${file.version}" overwrite="false" />
   <property name="restore" value="false" overwrite="false" />
   <property name="restore.from.path" value="" overwrite="false" />
   <property name="restore.from.path.full" value="${path::get-full-path(restore.from.path)}" if="${restore.from.path!= ''}" />
