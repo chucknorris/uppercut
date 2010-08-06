@@ -133,7 +133,6 @@
           <property name="Configuration" value="${msbuild.configuration}" />
           <property name="OutputPath" value="${msbuild.outputpath}" />
           <property name="Platform" value="${msbuild.platform}" />
-          <property name="TargetFrameworkVersion" value="v${framework::get-version(microsoft.framework.specific)}" />
         </msbuild>
       </if>
     </if>
@@ -150,7 +149,6 @@
         <msbuild project="${solution.path}" verbosity="minimal">
           <property name="Configuration" value="${msbuild.configuration}" />
           <property name="Platform" value="${msbuild.platform}" />
-          <property name="TargetFrameworkVersion" value="v${framework::get-version(microsoft.framework.specific)}" />
         </msbuild>
       </if>
     </if>

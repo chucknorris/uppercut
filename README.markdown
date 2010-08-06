@@ -47,14 +47,18 @@ This is the best way to get to the bleeding edge of what we are doing.
   
   
 # REQUIREMENTS
-* .NET Framework 3.5 
-* source control on the command line and in PATH environment variable - svn for Subversion / tf for TFS / git for Git
+* .NET Framework 3.5  
+* source control on the command line and in PATH environment variable - svn for Subversion / tf for TFS / git for Git  
 
 # DONATE
 Donations Accepted - If you enjoy using this product or it has saved you time and money in some way, please consider making a donation.  
 It helps keep to the product updated, pays for site hosting, etc. https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4410250
 
 # RELEASE NOTES
+=1.0.0.0=  
+* UppercuT now uses semantic versioning See http://SemVer.org for details. (r)  
+* Non multi targeting now works like it did before any of this multitargeting started. (r348)  
+  
 =0.9.0.346=  
 * Fixed general compile issues related to multi-targeting changes from last release (r346)  
 * Gems by default are now versioned with datestamp on the end (YYYYMMDD) (r342)  
