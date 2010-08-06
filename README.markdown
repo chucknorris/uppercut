@@ -43,7 +43,7 @@ This is the best way to get to the bleeding edge of what we are doing.
 2. Type `cd uppercut`  
 3. Type `git config core.autocrlf false` to set line endings to auto convert for this repository  
 4. Type `git status`. You should not see any files to change.
-5. Run `build.bat`. NOTE: You must have git on the path (open a regular command line and type git).
+5. Run `build.bat`. NOTE: You must have git on the path (open a regular command line and type git).  
   
   
 # REQUIREMENTS
@@ -55,7 +55,8 @@ Donations Accepted - If you enjoy using this product or it has saved you time an
 It helps keep to the product updated, pays for site hosting, etc. https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4410250
 
 # RELEASE NOTES
-=0.9.0.x=  
+=0.9.0.346=  
+* Fixed general compile issues related to multi-targeting changes from last release (r346)  
 * Gems by default are now versioned with datestamp on the end (YYYYMMDD) (r342)  
 * Changed the default test framework to NUnit. (r340)  
 * Changed 'uppercutbuild install to 'uppercutbuild init' (r339)  
