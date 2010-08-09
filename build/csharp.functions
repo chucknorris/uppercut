@@ -29,7 +29,10 @@
 
             protected override void ExecuteTask()
             {
-                ExecuteProcess(CombinePaths(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),"Internet Explorer","iexplore.exe"), Display);
+            	if (platformIsWindows())
+                	ExecuteProcess(CombinePaths(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),"Internet Explorer","iexplore.exe"), Display);
+                else
+                	ExecuteProcess(Display);
             }
 
             protected string CombinePaths(params string[] paths)
@@ -44,6 +47,16 @@
                 return combinedPath;
             }
 
+            protected void ExecuteProcess(string file)
+            {
+            	ProcessStartInfo psi = new ProcessStartInfo(file, "");
+            	using (Process p = new Process())
+                {
+                    p.StartInfo = psi;
+                    p.Start();
+                }
+            }
+			
             protected void ExecuteProcess(string process, string arguments)
             {
                 ProcessStartInfo psi = new ProcessStartInfo(Path.GetFullPath(process), arguments);
@@ -58,6 +71,12 @@
                 }
 
             }
+            
+            protected bool platformIsWindows()
+			{
+				PlatformID platform = Environment.OSVersion.Platform;
+				return !(platform.Equals(PlatformID.Unix) || platform.Equals(PlatformID.MacOSX));
+			}
         }
        
       ]]>

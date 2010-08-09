@@ -67,11 +67,11 @@
 
   <target name="open_visual_studio">
   	<if test="${platform::is-unix()}">
-  		<echo message="Opening MonoDevelop with solution file ${solution.path.full}."/>
+  		<echo message="Opening MonoDevelop with solution file ${solution.path.full}"/>
   		<exec
 	      spawn="true"
 	      program="${app.monodevelop}"
-	      commandline="${project.name}.sln"
+	      commandline="${solution.path.full}"
 	      >
 	    </exec>
   	</if>
