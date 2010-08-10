@@ -57,7 +57,7 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 # RELEASE NOTES
 =1.0.1.0=  
 * UppercuT has an option to use the old versioning as well. You need to add this to your config file: <property name="version.use_semanticversioning" value="false" overwrite="false" /> (r354)  
-* Linux fixes for opening items (from Svein Ackenhausen) (r354)  
+* Linux fixes for opening items (from Svein Ackenhausen) (r355)  
   
 =1.0.0.0=  
 * UppercuT now uses semantic versioning See http://SemVer.org for details. You need to add this to your config file: <property name="version.patch" value="0" overwrite="false" /> (r351)  
