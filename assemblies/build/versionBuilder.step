@@ -20,7 +20,7 @@
   <property name="language.long" value="CSharp" />
   <property name="file.version" value="SolutionVersion.${language.short}" overwrite="false" />
   <property name="path.file.version" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${path_to_solution}${path.separator}${file.version}" overwrite="false" />
-  <property name="version.use_semanticversioning" value="true" overwrite="false" />
+  <property name="version.use_semanticversioning" value="false" overwrite="false" />
   <property name="version.major" value="1" overwrite="false" />
   <property name="version.minor" value="0" overwrite="false" />
   <property name="version.patch" value="0" overwrite="false" />
