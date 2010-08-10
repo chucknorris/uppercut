@@ -223,7 +223,9 @@
     <Content Include="build.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="build\csharp.functions" />
+    <Content Include="build\csharp.functions">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="test.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
