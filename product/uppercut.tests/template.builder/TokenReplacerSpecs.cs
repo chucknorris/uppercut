@@ -103,7 +103,7 @@ namespace uppercut.tests.template.builder
             [Observation]
             public void should_contain_replaced_values_for_the_current_items()
             {
-                Assert.AreEqual(17079, result.IndexOf("TESTBondService"));
+                Assert.AreNotEqual(-1, result.IndexOf("TESTBondService"));
             }
 
 
