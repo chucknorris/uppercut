@@ -55,7 +55,12 @@ Donations Accepted - If you enjoy using this product or it has saved you time an
 It helps keep to the product updated, pays for site hosting, etc. https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4410250
 
 # RELEASE NOTES
+=1.1.x.x=  
+* Adding in support for xUnit.  
+* Adding in support for StorEvil.  
+  
 =1.0.3.0=  
+* Fixed a bug with path to solution no longer being respected at v1 after Linux patch. (361)  
 * Upgraded Mono Migration Analyzer to v2.6 (360)  
   
 =1.0.2.0=  

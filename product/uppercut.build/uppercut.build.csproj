@@ -220,6 +220,9 @@
     <None Include="..\..\lib\icon\uppercut.ico">
       <Link>uppercut.ico</Link>
     </None>
+    <Content Include="build\analyzers\storevil.test.step">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="build.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
