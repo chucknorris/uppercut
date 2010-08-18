@@ -5,10 +5,15 @@
   <include buildfile="${build.config.settings}" if="${file::exists(build.config.settings)}" />
   <property name="dirs.current" value="${directory::get-parent-directory(project::get-buildfile-path())}" />
   <property name="dirs.build" value="${dirs.current}\..\build_output" />
+  <property name="version.use_semanticversioning" value="false" overwrite="false" />
   <property name="version.major" value="1" overwrite="false" />
   <property name="version.minor" value="0" overwrite="false" />
+  <property name="version.patch" value="0" overwrite="false" />
   <property name="version.build" value="0" overwrite="false" />
   <property name="version.revision" value="0" overwrite="false" />
+  <property name="version.hash" value="${version.revision}" overwrite="false" />
+  <property name="version.uc.full" value="${version.major}.${version.minor}.${version.build}.${version.revision}" />
+  <property name="version.uc.full" value="${version.major}.${version.minor}.${version.patch}.0" if="${version.use_semanticversioning}" />
   <property name="folder.app.drop" value="app" overwrite="false" />
   <property name="files.uppercut.info" value="${dirs.build}\${folder.app.drop}\build\UppercuT.xml" />
   
@@ -19,7 +24,7 @@
     <echo file="${files.uppercut.info}" append="false" failonerror="false">
 <![CDATA[<?xml version="1.0" ?>
 <uppercut>
-  <version>${version.major}.${version.minor}.${version.build}.${version.revision}</version>
+  <version>${version.uc.full}</version>
 </uppercut>
 ]]>
     </echo>

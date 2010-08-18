@@ -55,6 +55,18 @@ Donations Accepted - If you enjoy using this product or it has saved you time an
 It helps keep to the product updated, pays for site hosting, etc. https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4410250
 
 # RELEASE NOTES
+=1.0.3.0=  
+* Upgraded Mono Migration Analyzer to v2.6 (360)  
+  
+=1.0.2.0=  
+* Default versioning follows the old scheme. Semantic versioning is accomplished by adding this to your config file: <property name="version.use_semanticversioning" value="true" overwrite="false" /> (r357)  
+* Gem building failure will not fail the build. (r357)  
+* UppercuT reported version fix. (r357)  
+  
+=1.0.1.0=  
+* UppercuT has an option to use the old versioning as well. You need to add this to your config file: <property name="version.use_semanticversioning" value="false" overwrite="false" /> (r354)  
+* Linux fixes for opening items (from Svein Ackenhausen) (r355)  
+  
 =1.0.0.0=  
 * UppercuT now uses semantic versioning See http://SemVer.org for details. You need to add this to your config file: <property name="version.patch" value="0" overwrite="false" /> (r351)  
 * UppercuT now builds on Linux (patch from Svein Ackenhausen). (r350)  
