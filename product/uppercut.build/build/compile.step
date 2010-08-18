@@ -26,7 +26,7 @@
   <property name="msbuild.override_output_path" value="true" overwrite="false" />
   <property name="msbuild.outputpath" value="${dirs.build}${path.separator}${folder.app.drop}" overwrite="false" />
   <property name="xbuild.outputpath" value=".${path.separator}${folder.code_build}${path.separator}${folder.app.drop}" overwrite="false" />
-  <property name="solution.path" value="${directory::get-parent-directory(dirs.current)}${path.separator}${project.name}.sln" />
+  <property name="solution.path" value="${directory::get-parent-directory(dirs.current)}${path.separator}${path_to_solution}${path.separator}${project.name}.sln" />
   <property name="solution.path" value="${directory::get-parent-directory(dirs.current)}${path.separator}${project.name}.vbp" if="${microsoft.framework =='vb6'}" />
   <property name="nant.settings.currentframework" value="mono-1.0" if="${platform::is-unix()}" />
   <property name="nant.settings.currentframework" value="net-3.5" if="${microsoft.framework !='vb6' and platform::is-windows()}" />
