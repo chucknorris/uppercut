@@ -60,7 +60,7 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 * Adding in support for StorEvil.  
   
 =1.0.5.0=  
-* Now builds mono correctly on windows. (363)  
+* Now builds mono correctly on windows. (366)  
   
 =1.0.4.0=  
 * Gems builds default to not using the build date as part of the version. A new setting has been added to the uppercut.config: <property name="use.gem.build_date" value="false" overwrite="false" /> (364)  

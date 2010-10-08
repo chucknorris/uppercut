@@ -111,6 +111,7 @@
     <if test="${framework.multitargeting}">
       <foreach item="String" in="${microsoft.framework}" delim="${framework.multitargeting.delimiter}" property="framework.specific">
         <property name="msbuild.outputpath" value="${dirs.build}${path.separator}${folder.app.drop}${path.separator}${framework.specific}" />
+        <property name="msbuild.outputpath.windows.mono" value="${string::replace(msbuild.outputpath,'\','/')}" />
         <property name="microsoft.framework.specific" value="${string::trim(framework.specific)}" />
         <call target="build_dotNet_code_framework" />
       </foreach>
