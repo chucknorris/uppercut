@@ -59,6 +59,9 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 * Adding in support for xUnit.  
 * Adding in support for StorEvil.  
   
+=1.0.5.0=  
+* Now builds mono correctly on windows. (363)  
+  
 =1.0.4.0=  
 * Gems builds default to not using the build date as part of the version. A new setting has been added to the uppercut.config: <property name="use.gem.build_date" value="false" overwrite="false" /> (364)  
 * Gems builds now include a version suffix so you can be in prerelease mode or dev mode when using semantic versioning. A new setting has been added to the uppercut.config: <property name="version.gem.suffix" value="" overwrite="false" /> (364)  
