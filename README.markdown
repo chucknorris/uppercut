@@ -60,6 +60,7 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 * Adding in support for StorEvil.  
   
 =1.0.6.0=  
+* Updating xbuild for use with 32bit windows machines. (369)  
 * Gallio NAnt tasks were not being loaded. (368)  
   
 =1.0.5.0=  
