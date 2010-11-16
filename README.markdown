@@ -59,6 +59,9 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 * Adding in support for xUnit.  
 * Adding in support for StorEvil.  
   
+=1.0.6.0=  
+* Gallio NAnt tasks were not being loaded. (368)  
+  
 =1.0.5.0=  
 * Now builds mono correctly on windows. (366)  
   
