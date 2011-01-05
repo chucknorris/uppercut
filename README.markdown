@@ -59,6 +59,9 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 * Adding in support for xUnit.  
 * Adding in support for StorEvil.  
   
+=1.1.1.0=  
+* Adding a build.log to the output of the build  - see http://code.google.com/p/uppercut/issues/detail?id for details. (373)  
+  
 =1.1.0.0=  
 * Added support for obfuscation. New settings have been added to the uppercut.config: <property name="obfuscation" value="false" overwrite="false" /> <property name="app.eazfuscator" value="..${path.separator}${folder.references}${path.separator}Eazfuscator.NET${path.separator}Eazfuscator.NET.exe" overwrite="false" /> and a tool that goes under the lib folder: Eazfuscator.NET  - see http://code.google.com/p/uppercut/issues/detail?id=21 for details. (372)  
   
