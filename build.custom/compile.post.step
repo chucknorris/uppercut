@@ -21,6 +21,7 @@
         <include name="NAnt/**" />
         <include name="NCover/**" />
         <include name="MoMA/**" />
+        <include name="Eazfuscator.NET/**" />
       </fileset>
     </copy>
   </target>
