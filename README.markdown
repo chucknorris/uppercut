@@ -60,7 +60,7 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 * Adding in support for StorEvil.  
   
 =1.2.0.0=  
-* NuGet Support. New settings have been added to the uppercut.config: <property name="app.nuget" value="..${path.separator}${folder.references}${path.separator}NuGet${path.separator}NuGet.exe" overwrite="false" /> and a tool that goes under the lib folder: NuGet  - see http://code.google.com/p/uppercut/issues/detail?id=20 for details. (377)  
+* NuGet Support. New settings have been added to the uppercut.config: <property name="app.nuget" value="..${path.separator}${folder.references}${path.separator}NuGet${path.separator}NuGet.exe" overwrite="false" /> and a tool that goes under the lib folder: NuGet  - see http://code.google.com/p/uppercut/issues/detail?id=20 for details. (378)  
   
 =1.1.1.0=  
 * Including Eazfuscator in the output (375)  

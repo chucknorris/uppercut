@@ -54,7 +54,7 @@
   </target>
 
   <target name="run_normal_tasks"
-          depends="build_nugget"
+          depends="build_nugget,remove_nuget_files"
           description="Building nuget." />
 
   <target name="custom_tasks_before">
@@ -100,6 +100,15 @@
         </exec>
       </do>
     </foreach>
+  </target>
+  
+  <target name="remove_nuget_files">
+    <delete>
+      <fileset basedir="${dirs.drop.nuget}" >
+        <exclude name="*.nupkg" />
+        <include name="**/*" />
+      </fileset>
+    </delete>
   </target>
   
   <target name="custom_tasks_after">
