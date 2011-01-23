@@ -220,6 +220,15 @@
     <None Include="..\..\lib\icon\uppercut.ico">
       <Link>uppercut.ico</Link>
     </None>
+    <Content Include="build\nugetBuild.step">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="build\nugetPrepare.step">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nuget\__NAME__.nuspec">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="build\obfuscate.step">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

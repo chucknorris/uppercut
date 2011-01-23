@@ -120,6 +120,8 @@
     <nant buildfile="${dirs.current}${path.separator}ilmerge.build" inheritall="true" if="${run.ilmerge}" />
     <nant buildfile="${dirs.current}${path.separator}gemsPrepare.step" inheritall="true" failonerror="false" />
     <nant buildfile="${dirs.current}${path.separator}gemsBuild.step" inheritall="true" failonerror="false" />
+    <nant buildfile="${dirs.current}${path.separator}nugetPrepare.step" inheritall="true" failonerror="false" />
+    <nant buildfile="${dirs.current}${path.separator}nugetBuild.step" inheritall="true" failonerror="false" />
   </target>
 
   <target name="get_revision">

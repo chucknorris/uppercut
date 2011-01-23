@@ -22,6 +22,7 @@
         <include name="NCover/**" />
         <include name="MoMA/**" />
         <include name="Eazfuscator.NET/**" />
+        <include name="NuGet/**" />
       </fileset>
     </copy>
   </target>

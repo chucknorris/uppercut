@@ -21,6 +21,7 @@
   <property name="folder.deployment" value="deployment" overwrite="false" />
   <property name="folder.settings" value="settings" overwrite="false" />
   <property name="folder.gems" value="gems" overwrite="false" />
+  <property name="folder.nuget" value="nuget" overwrite="false" />
   <property name="folder.documentation" value="docs" overwrite="false" />
   <property name="dirs.assemblies" value="${dirs.current}\${path.to.toplevel}\assemblies" overwrite="false" />
 
@@ -31,6 +32,7 @@
     <delete dir="${dirs.assemblies}\lib" />
     <delete dir="${dirs.assemblies}\${folder.settings}" />
     <delete dir="${dirs.assemblies}\${folder.gems}" />
+    <delete dir="${dirs.assemblies}\${folder.nuget}" />
     <delete>
       <fileset basedir="${dirs.assemblies}" >
         <include name="*.*" />

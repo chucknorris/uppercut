@@ -1,23 +1,24 @@
 Project UppercuT - Builds in Seconds, Not Days
 =======
-
-![UppercuT](https://github.com/chucknorris/uppercut/raw/master/docs/logo/UppercuT_Logo_Small.jpg "UppercuT - insanely easy. Insanely.")
-
+  
+![UppercuT](https://github.com/chucknorris/uppercut/raw/master/docs/logo/UppercuT_Logo_Small.jpg "UppercuT - insanely easy. Insanely.")  
+  
 # LICENSE
-Apache 2.0 - see docs/legal (just LEGAL in the zip folder)
-
+Apache 2.0 - see docs/legal (just LEGAL in the zip folder)  
+  
 # IMPORTANT
-NOTE: If you are looking at the source - please run build.bat before opening the solution. It creates the SolutionVersion.cs file that is necessary for a successful build.
-
+NOTE: If you are looking at the source - please run build.bat before opening the solution. It creates the SolutionVersion.cs file that is necessary for a successful build.  
+  
 # INFO
 ## Overview
-UppercuT is automated .NET build framework that is templated NAnt with conventions. UppercuT is the insanely easy to use build framework.  
-
+UppercuT is a conventional automated .NET build framework (templated NAnt). UppercuT is the insanely easy to use build framework.  
+  
 It seeks to solve both maintenance concerns and ease of build to help you concentrate on what you really want to do: write code. Upgrading the build should take seconds, not hours. And that is where UppercuT will beat any other automated build system hands down.  
-UppercuT uses conventions and has a simple configuration file for you to edit. Getting from zero to build takes literally less than five minutes. If you are still writing your own build scripts, you are working too hard.   
-
+  
+UppercuT uses conventions and has a simple configuration file for you to edit. Getting from zero to build takes literally less than five minutes. If you are still writing your own build scripts, you are working too hard.  
+  
 UppercuT is extremely powerful because it is customizable and extendable. Every step of the build process is customizable with a pre, post and replace hook.  
-
+  
 UppercuT is not a build server, but it integrates nicely with CruiseControl.NET, TeamCity, Hudson, etc.  
   
 ## Join the mailing list
@@ -36,19 +37,18 @@ If you have Ruby 1.8.6+ (and Gems 1.3.7+) installed, you can get the current rel
 2. At the top level directory (trunk or branch name) type 'uppercutbuild init' for bringing in uppercut for the first time or 'uppercutbuild upgrade' if you already uppercut and are just wanting to upgrade the build folder.   
   
 ### Source
-This is the best way to get to the bleeding edge of what we are doing.
-
-1. Clone the source down to your machine. 
+This is the best way to get to the bleeding edge of the code.  
+  
+1. Clone the source down to your machine.  
   `git clone git://github.com/chucknorris/uppercut.git`  
 2. Type `cd uppercut`  
 3. Type `git config core.autocrlf false` to set line endings to auto convert for this repository  
-4. Type `git status`. You should not see any files to change.
+4. Type `git status`. You should not see any files to change.  
 5. Run `build.bat`. NOTE: You must have git on the path (open a regular command line and type git).  
-  
   
 # REQUIREMENTS
 * .NET Framework 3.5  
-* source control on the command line and in PATH environment variable - svn for Subversion / tf for TFS / git for Git  
+* Source control on the command line and in PATH environment variable - svn for Subversion / tf for TFS / git for Git  
 
 # DONATE
 Donations Accepted - If you enjoy using this product or it has saved you time and money in some way, please consider making a donation.  
@@ -58,6 +58,9 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 =1.1.x.x=  
 * Adding in support for xUnit.  
 * Adding in support for StorEvil.  
+  
+=1.2.0.0=  
+* NuGet Support. New settings have been added to the uppercut.config: <property name="app.nuget" value="..${path.separator}${folder.references}${path.separator}NuGet${path.separator}NuGet.exe" overwrite="false" /> and a tool that goes under the lib folder: NuGet  - see http://code.google.com/p/uppercut/issues/detail?id=20 for details. (377)  
   
 =1.1.1.0=  
 * Including Eazfuscator in the output (375)  
@@ -159,4 +162,4 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
   * BREAKING CHANGE: For your custom tasks, you may need to make changes.  
 
 # CREDITS
-see docs/legal/CREDITS (just LEGAL/Credits in the zip folder)
+see docs/legal/CREDITS (just LEGAL/Credits in the zip folder)  
