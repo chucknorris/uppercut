@@ -25,6 +25,7 @@
   <property name="folder.settings" value="settings" overwrite="false" />
   <property name="folder.documentation" value="docs" overwrite="false" />
   <property name="file.build_info" value="${dirs.build}${path.separator}_BuildInfo.xml" />
+  <property name="file.build_log" value="${dirs.build}${path.separator}build.log" />
   <property name="file.custom.step.before" value="${dirs.build_scripts_custom}${path.separator}${file.current.no_extension}.pre.step" />
   <property name="file.custom.step.after" value="${dirs.build_scripts_custom}${path.separator}${file.current.no_extension}.post.step" />
   <property name="file.custom.step.replace" value="${dirs.build_scripts_custom}${path.separator}${file.current.no_extension}.replace.step" />
@@ -200,6 +201,11 @@
 
     <copy
      file="${file.build_info}"
+     todir="${dirs.drop}${path.separator}${folder.build_artifacts}"
+      />
+      
+    <copy
+     file="${file.build_log}"
      todir="${dirs.drop}${path.separator}${folder.build_artifacts}"
       />
 

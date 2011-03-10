@@ -59,6 +59,10 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 * Adding in support for xUnit.  
 * Adding in support for StorEvil.  
   
+==1.3.0.0==  
+* Fix for spaces in the path when trying to resolve the revision for SVN - see http://code.google.com/p/uppercut/issues/detail?id=25 for details. (385)  
+* xUnit Support for automated testing. Will handle multiple test assemblies for you. (384)  
+  
 =1.2.0.0=  
 * NuGet Support. New settings have been added to the uppercut.config: <property name="app.nuget" value="..${path.separator}${folder.references}${path.separator}NuGet${path.separator}NuGet.exe" overwrite="false" /> and a tool that goes under the lib folder: NuGet  - see http://code.google.com/p/uppercut/issues/detail?id=20 for details. (378)  
   

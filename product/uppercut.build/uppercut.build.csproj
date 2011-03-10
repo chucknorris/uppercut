@@ -104,6 +104,9 @@
     <Content Include="build\analyzers\test.step">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="build\analyzers\xunit.test.step">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="build\compile.step">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

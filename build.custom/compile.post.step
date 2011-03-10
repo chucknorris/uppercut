@@ -23,6 +23,7 @@
         <include name="MoMA/**" />
         <include name="Eazfuscator.NET/**" />
         <include name="NuGet/**" />
+        <include name="xUnit/**" />
       </fileset>
     </copy>
   </target>
