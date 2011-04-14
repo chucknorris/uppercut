@@ -59,6 +59,9 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 * Adding in support for xUnit.  
 * Adding in support for StorEvil.  
   
+==1.3.1.0==  
+* Adding in _PublishedApplications known folder. - see http://code.google.com/p/uppercut/issues/detail?id=27 for details. (386)  
+  
 ==1.3.0.0==  
 * Fix for spaces in the path when trying to resolve the revision for SVN - see http://code.google.com/p/uppercut/issues/detail?id=25 for details. (385)  
 * xUnit Support for automated testing. Will handle multiple test assemblies for you. (384)  
