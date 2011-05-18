@@ -56,7 +56,6 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 
 # RELEASE NOTES
 =1.1.x.x=  
-* Adding in support for xUnit.  
 * Adding in support for StorEvil.  
   
 ==1.3.1.0==  
