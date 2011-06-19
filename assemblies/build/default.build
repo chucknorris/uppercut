@@ -16,6 +16,7 @@
   <property name="folder.code_drop" value="code_drop" overwrite="false" />
   <property name="dirs.drop" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.code_drop}" overwrite="false" />
   <property name="log.build" value="${dirs.build}${path.separator}build.log" />
+  <property name="folder.build_artifacts" value="build_artifacts" overwrite="false" />
   <property name="project.name" value="__SOLUTION_NAME_WITHOUT_SLN_EXTENSION__" overwrite="false" />
   <property name="repository.path" value="__REPOSITORY_PATH__" overwrite="false" />
   <property name="company.name" value="__COMPANY_NAME__" overwrite="false" />
@@ -53,6 +54,10 @@
     <record name="${log.build}" action="Flush" failonerror="false" />
     <record name="${log.build}" action="Stop" failonerror="false" />
     <record name="${log.build}" action="Close" failonerror="false" />
+    <copy
+      file="${log.build}"
+      todir="${dirs.drop}${path.separator}${folder.build_artifacts}"
+      />
   </target>
   
   <target name="run_tasks">

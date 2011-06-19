@@ -58,6 +58,13 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 =1.1.x.x=  
 * Adding in support for StorEvil.  
   
+==1.4.0.0==  
+* FIX: Issue 31 - Log file copied to code_drop directory before build is complete - see http://code.google.com/p/uppercut/issues/detail?id=31 for details. (396)  
+* Handle Readonly Files during build - allows you to build against source controls that mark files readonly (looking at you TFS) - see http://code.google.com/p/uppercut/issues/detail?id=29 for details. (396)  
+* Fix: Obfuscation should find files that are versioning with SemVer. (395)  
+* Allowing arguments to be passed into the build.bat file as pass through to nant. (389)  
+* NuGet support enhancements to allow subdirectories for building multiple nuget packages in a single solution. (388)  
+  
 ==1.3.1.0==  
 * Adding in _PublishedApplications known folder. - see http://code.google.com/p/uppercut/issues/detail?id=27 for details. (386)  
   

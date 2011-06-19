@@ -120,6 +120,9 @@
     <property name="version.product" value="${version.major}.${version.minor}.${version.build}.${version.hash}" />
     <property name="version.product" value="${version.major}.${version.minor}.${version.patch}.${version.hash}" if="${version.use_semanticversioning}" />
     
+    <!-- remove TFS read only if there -->
+    <attrib file="${path.file.version}" normal="true" if="${file::exists(path.file.version)}" />
+    
     <asminfo output="${path.file.version}" language="${language.long}">
       <imports>
         <import namespace="System" />

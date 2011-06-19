@@ -28,7 +28,9 @@
   <property name="version.build" value="0" overwrite="false" />
   <property name="version.revision" value="0" overwrite="false" />
   <property name="version.hash" value="${version.revision}" overwrite="false" />
-  <property name="version.file" value="${version.major}.${version.minor}.${version.build}.${version.revision}" overwrite="false" />
+  <property name="version" value="${version.major}.${version.minor}.${version.build}.${version.revision}" />
+  <property name="version" value="${version.major}.${version.minor}.${version.patch}.0" if="${version.use_semanticversioning}" />
+  <property name="version.file" value="${version}" overwrite="false" />
 
   <property name="sign.project_with_key" value="false" overwrite="false" />
   <property name="sign.key.use_relative_pathing" value="false" overwrite="false" />
@@ -97,6 +99,7 @@
   </target>
   
   <target name="get_project_output_files">
+    <echo message="Getting all files with '${version.file}' as the file version." />
     <foreach item="File" property="dll.filename">
       <in>
         <items>

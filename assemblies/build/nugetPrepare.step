@@ -56,7 +56,7 @@
   </target>
 
   <target name="run_normal_tasks"
-          depends="prepare, copy_nuget_folder, copy_app_drop_to_lib_folder, copy_docs_to_doc_folder, copy_notices_to_doc_folder, update_nuspecs_with_version"
+          depends="prepare, copy_nuget_folder, copy_app_drop_to_lib_folder, copy_docs_to_doc_folder, copy_notices_to_doc_folder, set_file_attributes_to_normal, update_nuspecs_with_version"
           description="Packaging nuget." />
 
   <target name="prepare">
@@ -138,6 +138,15 @@
 </nuget>]]>
     </echo>
   </target>
+  
+  <target name="set_file_attributes_to_normal">
+    <echo message="Removing read only attributes that some source control things put on files in '${dirs.drop.nuget}'." />
+    <attrib normal="true">
+      <fileset basedir="${dirs.drop.nuget}">
+        <include name="**/*" />
+      </fileset>
+    </attrib>
+  </target>  
   
   <target name="update_nuspecs_with_version">
     <echo message="Finding and updating version in all nuspec files in ${dirs.drop.nuget}."/>
