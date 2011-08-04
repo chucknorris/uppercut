@@ -145,6 +145,7 @@
   <target name="run_tests" depends="prepare" description="Running Unit Tests">
   
     <if test="${dlls.test !=''}">
+      <property name="tests.ran" value="true" />
       <echo message="Running tests using NUnit and putting results in ${dirs.test_results}."/>
       <exec 
           program="${app.nunit.console}" 
@@ -152,7 +153,6 @@
           failonerror="true">
         <arg value="${args.test_runner}" />
       </exec>
-      <property name="tests.ran" value="true" />
     </if>
     <if test="${dlls.test ==''}">
       <echo message="No test dlls to run against" />
