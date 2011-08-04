@@ -39,51 +39,27 @@
   <property name="file.key.name.public" value="${dirs.build}${path.separator}public.${project.name}.snk" overwrite="false" />
   <property name="obfuscate" value="false" overwrite="false" />
 
-  <property name="file.custom.step.before" value="${dirs.build_scripts_custom}${path.separator}${file.current.no_extension}.pre.step" />
-  <property name="file.custom.step.after" value="${dirs.build_scripts_custom}${path.separator}${file.current.no_extension}.post.step" />
-  <property name="file.custom.step.replace" value="${dirs.build_scripts_custom}${path.separator}${file.current.no_extension}.replace.step" />
   <property name="is.replaced" value="false" />
   <property name="fail.build.on.error" value="true" />
 
   <target name="go" depends="run_tasks" />
 
   <target name="run_tasks">
-    <echo message="Running ${project::get-name()} tasks." />
+    <echo level="Warning" message="" />
+    <echo level="Warning" message="====================" />
+    <echo level="Warning" message="${project::get-name()}" />
+    <echo level="Warning" message="====================" />
     <call target="prepare" if="${target::exists('prepare')}" />
-    <call target="custom_tasks_before" if="${target::exists('custom_tasks_before')}"  />
-    <call target="custom_tasks_replace" if="${target::exists('custom_tasks_replace')}"  />
+    <customExtension extends="${project::get-buildfile-path()}" type="pre" failonerror="${fail.build.on.error}" />
+    <customExtension extends="${project::get-buildfile-path()}" type="replace" failonerror="${fail.build.on.error}" />
     <call target="run_normal_tasks" if="${not is.replaced}" />
-    <call target="custom_tasks_after" if="${target::exists('custom_tasks_after')}" />
+    <customExtension extends="${project::get-buildfile-path()}" type="post" failonerror="${fail.build.on.error}" />
   </target>
 
   <target name="run_normal_tasks"
           depends="error_check, determine_language, generate_key_file, generate_assembly_info"
           description="Generating Assembly File." />
 
-  <target name="custom_tasks_before">
-    <echo message="Running custom tasks if ${file.custom.step.before} exists." />
-    <nant buildfile="${file.custom.step.before}" inheritall="true" if="${file::exists(file.custom.step.before)}" failonerror="${fail.build.on.error}" />
-    <exec program="powershell.exe" if="${file::exists(file.custom.step.before + '.ps1')}" failonerror="${fail.build.on.error}">
-      <arg value="${path::get-full-path(file.custom.step.before + '.ps1')}" />
-    </exec>
-    <exec program="ruby.exe" if="${file::exists(file.custom.step.before + '.rb')}" failonerror="${fail.build.on.error}">
-      <arg value="${path::get-full-path(file.custom.step.before + '.rb')}" />
-    </exec>
-  </target>
-
-  <target name="custom_tasks_replace">
-    <echo message="Running custom tasks instead of normal tasks if ${file.custom.step.replace} exists." />
-    <property name="is.replaced" value="true" if="${file::exists(file.custom.step.replace)}" />
-    <nant buildfile="${file.custom.step.replace}" inheritall="true" if="${file::exists(file.custom.step.replace)}" failonerror="${fail.build.on.error}" />
-    <property name="is.replaced" value="true" if="${file::exists(file.custom.step.replace + '.ps1')}" />
-    <exec program="powershell.exe" if="${file::exists(file.custom.step.replace + '.ps1')}" failonerror="${fail.build.on.error}" >
-      <arg value="${path::get-full-path(file.custom.step.replace + '.ps1')}" />
-    </exec>
-    <property name="is.replaced" value="true" if="${file::exists(file.custom.step.replace + '.rb')}" />
-    <exec program="ruby.exe" if="${file::exists(file.custom.step.replace + '.rb')}" failonerror="${fail.build.on.error}" >
-      <arg value="${path::get-full-path(file.custom.step.replace + '.rb')}" />
-    </exec>
-  </target>
 
   <target name="error_check">
     <fail message="You must fill out the project.name, repository.path, and company.name settings in the settings${path.separator}UppercuT.config file. Please do that and retry the build."
@@ -91,7 +67,7 @@
   </target>
 
   <target name="generate_key_file" description="Generates a .snk using the sn.exe tool if none exists and strong naming is specified" if="${sign.project_with_key}">
-    <echo message="Generating a strong name key (${file.key.name.private}) using ${app.strongname} if the key file doesn't already exist." />
+    <echo level="Warning" message="Generating a strong name key (${file.key.name.private}) using ${app.strongname} if the key file doesn't already exist." />
     <exec
 		program="${app.strongname}"
 		commandline="-k ${file.key.name.private}"
@@ -114,7 +90,7 @@
   <target name="generate_assembly_info" description="Generate assembly info">
     <property name="version.assembly" value="${version.major}.${version.minor}.${version.build}.${version.revision}" />
     <property name="version.assembly" value="${version.major}.${version.minor}.${version.patch}.0"  if="${version.use_semanticversioning}" />
-    <echo message="Generating SolutionVersion.${language.short} with assembly version ${version.assembly}." />
+    <echo level="Warning" message="Generating SolutionVersion.${language.short} with assembly version ${version.assembly}." />
     <property name="version.file" value="${version.major}.${version.minor}.${version.build}.${version.revision}" />
     <property name="version.file" value="${version.major}.${version.minor}.${version.patch}.${version.build}" if="${version.use_semanticversioning}" />
     <property name="version.product" value="${version.major}.${version.minor}.${version.build}.${version.hash}" />
@@ -150,17 +126,6 @@
         <attribute type="ObfuscateAssemblyAttribute" value="false" if="${obfuscate}" />
       </attributes>
     </asminfo>
-  </target>
-
-  <target name="custom_tasks_after">
-    <echo message="Running custom tasks if ${file.custom.step.after} exists." />
-    <nant buildfile="${file.custom.step.after}" inheritall="true" if="${file::exists(file.custom.step.after)}" failonerror="${fail.build.on.error}" />
-    <exec program="powershell.exe" if="${file::exists(file.custom.step.after + '.ps1')}" failonerror="${fail.build.on.error}" >
-      <arg value="${path::get-full-path(file.custom.step.after + '.ps1')}" />
-    </exec>
-    <exec program="ruby.exe" if="${file::exists(file.custom.step.after + '.rb')}" failonerror="${fail.build.on.error}" >
-      <arg value="${path::get-full-path(file.custom.step.after + '.rb')}" />
-    </exec>
   </target>
 
 </project>

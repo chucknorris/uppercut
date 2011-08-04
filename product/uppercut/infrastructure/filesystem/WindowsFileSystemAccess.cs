@@ -287,5 +287,14 @@ namespace uppercut.infrastructure.filesystem
 
         #endregion
 
+        public string path_combine(string left_item, params string[] right_items) {
+            string return_path = left_item;
+            foreach (string right_item in right_items) {
+                return_path = Path.Combine(return_path, right_item);
+            }
+
+            return return_path;
+        }
+
     }
 }

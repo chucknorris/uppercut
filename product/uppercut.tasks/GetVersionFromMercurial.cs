@@ -61,7 +61,7 @@ namespace uppercut.tasks
             set_up_properties();
             IFileSystemAccess file_system = Container.get_an_instance_of<IFileSystemAccess>();
 
-            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Attempting to resolve version using Mercurial. This will get both number and hash.");
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Attempting to resolve version using Mercurial. This will get both number and hash.");
 
             output_file = Path.Combine(Project.BaseDirectory, output_file);
 
@@ -88,13 +88,13 @@ namespace uppercut.tasks
             StreamReader version_output = null;
             string hg_tip_output = string.Empty;
 
-            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing(Project.BaseDirectory);
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing(Project.BaseDirectory);
             //run_external_application("cmd", hg_path + " " + hg_version_arguments + " > " + output_file, repo_directory, true);
-            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Running cmd /c {0} {1} on {2}", hg_path, hg_version_arguments, repo_path);
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Running cmd /c {0} {1} on {2}", hg_path, hg_version_arguments, repo_path);
             version_output = run_external_application("cmd", "/c " + hg_path + " " + hg_version_arguments, repo_directory, true);
             hg_tip_output = version_output.ReadToEnd();
 
-            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing(hg_tip_output);
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing(hg_tip_output);
 
             return hg_tip_output;
         }
@@ -131,8 +131,8 @@ namespace uppercut.tasks
             {
                 revision = changeset_info[1].Replace(" ", "");
             }
-            
-            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Revision string returned \"{0}\"", revision);
+
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Revision string returned \"{0}\"", revision);
             
             int revision_number = 0;
             int.TryParse(revision, out revision_number);
@@ -149,7 +149,7 @@ namespace uppercut.tasks
                 sha1_hash = changeset_info[2].Replace(" ", "");
             }
 
-            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("SHA1 returned \"{0}\"", sha1_hash);
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("SHA1 returned \"{0}\"", sha1_hash);
 
             return sha1_hash;
         }
@@ -192,7 +192,7 @@ namespace uppercut.tasks
                 }
             }
 
-            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing(error_output.ReadToEnd());
+            infrastructure.logging.Log.bound_to(this).log_an_error_event_containing(error_output.ReadToEnd());
 
             return standard_output;
         }

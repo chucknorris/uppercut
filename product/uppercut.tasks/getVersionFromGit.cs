@@ -63,7 +63,7 @@ namespace uppercut.tasks
             set_up_properties();
             IFileSystemAccess file_system = Container.get_an_instance_of<IFileSystemAccess>();
 
-            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing(
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing(
                 "Attempting to resolve version. Must have a tag to get versioning from. If you do not, one will be created.");
 
             output_file = Path.Combine(Project.BaseDirectory, output_file);
@@ -92,22 +92,22 @@ namespace uppercut.tasks
             StreamReader version_output = null;
             string git_describe_output = string.Empty;
 
-            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing(Project.BaseDirectory);
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing(Project.BaseDirectory);
             //run_external_application("cmd", git_path + " " + git_version_arguments + " > " + output_file, repo_directory, true);
-            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_version_arguments, repo_path);
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_version_arguments, repo_path);
             version_output = run_external_application("cmd", "/c " + git_path + " " + git_version_arguments, repo_directory, true);
             git_describe_output = version_output.ReadToEnd();
 
             if (git_describe_output.to_lower().Contains("fatal") || string.IsNullOrEmpty(git_describe_output))
             {
-                infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_create_tag_arguments, repo_path);
+                infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_create_tag_arguments, repo_path);
                 had_to_create_tags = true;
                 run_external_application("cmd", "/c " + git_path + " " + git_create_tag_arguments, repo_directory, true);
             }
 
             if (had_to_create_tags)
             {
-                infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_version_arguments, repo_path);
+                infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_version_arguments, repo_path);
                 version_output = run_external_application("cmd", "/c " + git_path + " " + git_version_arguments, repo_directory, true);
                 git_describe_output = version_output.ReadToEnd();
             }
@@ -120,9 +120,9 @@ namespace uppercut.tasks
             StreamReader hash_output = null;
             string git_sha1_hash_output = string.Empty;
 
-            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing(Project.BaseDirectory);
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing(Project.BaseDirectory);
             //run_external_application("cmd", git_path + " " + git_version_arguments + " > " + output_file, repo_directory, true);
-            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_sha1_hash_arguments, repo_path);
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_sha1_hash_arguments, repo_path);
             hash_output = run_external_application("cmd", "/c " + git_path + " " + git_sha1_hash_arguments, repo_directory, true);
             git_sha1_hash_output = hash_output.ReadToEnd();
 
@@ -196,8 +196,8 @@ namespace uppercut.tasks
                     process.WaitForExit();
                 }
             }
-            
-            infrastructure.logging.Log.bound_to(this).log_an_info_event_containing(error_output.ReadToEnd());
+
+            infrastructure.logging.Log.bound_to(this).log_an_error_event_containing(error_output.ReadToEnd());
 
             return standard_output;
         }

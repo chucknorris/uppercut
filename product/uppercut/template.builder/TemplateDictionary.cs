@@ -53,13 +53,10 @@ namespace uppercut.template.builder
             const string token_value_start = "value=\"";
             const string token_value_end = "\"";
 
-            return
-                replace_tokens_with_other_dictionary_values(get_token_value(input, token_value_start, token_value_end),
-                                                            tokens);
+            return replace_tokens_with_other_dictionary_values(get_token_value(input, token_value_start, token_value_end),tokens);
         }
 
-        public static string replace_tokens_with_other_dictionary_values(string input,
-                                                                         IDictionary<string, string> tokens)
+        public static string replace_tokens_with_other_dictionary_values(string input,IDictionary<string, string> tokens)
         {
             if (string.IsNullOrEmpty(input)) return input;
 

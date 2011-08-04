@@ -170,5 +170,7 @@ namespace uppercut.infrastructure.filesystem
 
         #endregion
 
+        string path_combine(string left_item, params string[] right_items);
+
     }
 }

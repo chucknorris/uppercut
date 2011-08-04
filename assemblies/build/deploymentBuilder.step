@@ -24,52 +24,28 @@
   <property name="dirs.src.deployment.settings.templates" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.deployment}${path.separator}Settings" overwrite="false" />
   <property name="dirs.deployment.settings.templates.holding" value="${dirs.deployment}${path.separator}settingsHolding" overwrite="false" />
   <property name="dirs.deployment.settings.templates" value="${dirs.drop}${path.separator}${folder.deployment}${path.separator}Settings" overwrite="false" />
-  <property name="file.custom.step.before" value="${dirs.build_scripts_custom}${path.separator}${file.current.no_extension}.pre.step" />
-  <property name="file.custom.step.after" value="${dirs.build_scripts_custom}${path.separator}${file.current.no_extension}.post.step" />
-  <property name="file.custom.step.replace" value="${dirs.build_scripts_custom}${path.separator}${file.current.no_extension}.replace.step" />
+
   <property name="is.replaced" value="false" />
   <property name="fail.build.on.error" value="false" />
 
   <target name="go" depends="run_tasks" />
 
   <target name="run_tasks">
-    <echo message="Running ${project::get-name()} tasks." />
+    <echo level="Warning" message="" />
+    <echo level="Warning" message="====================" />
+    <echo level="Warning" message="${project::get-name()}" />
+    <echo level="Warning" message="====================" />
     <call target="prepare" if="${target::exists('prepare')}" />
-    <call target="custom_tasks_before" if="${target::exists('custom_tasks_before')}"  />
-    <call target="custom_tasks_replace" if="${target::exists('custom_tasks_replace')}"  />
+    <customExtension extends="${project::get-buildfile-path()}" type="pre" failonerror="${fail.build.on.error}" />
+    <customExtension extends="${project::get-buildfile-path()}" type="replace" failonerror="${fail.build.on.error}" />
     <call target="run_normal_tasks" if="${not is.replaced}" />
-    <call target="custom_tasks_after" if="${target::exists('custom_tasks_after')}" />
+    <customExtension extends="${project::get-buildfile-path()}" type="post" failonerror="${fail.build.on.error}" />
   </target>
 
   <target name="run_normal_tasks"
           depends="copy_templates, copy_settings_templates, set_file_attributes_to_normal, build_deployments, build_deployments_settings"
           description="Deployment File Builder"
           if="${directory::exists(dirs.deployment.templates)}" />
-
-  <target name="custom_tasks_before">
-    <echo message="Running custom tasks if ${file.custom.step.before} exists." />
-    <nant buildfile="${file.custom.step.before}" inheritall="true" if="${file::exists(file.custom.step.before)}" failonerror="${fail.build.on.error}" />
-    <exec program="powershell.exe" if="${file::exists(file.custom.step.before + '.ps1')}" failonerror="${fail.build.on.error}">
-      <arg value="${path::get-full-path(file.custom.step.before + '.ps1')}" />
-    </exec>
-    <exec program="ruby.exe" if="${file::exists(file.custom.step.before + '.rb')}" failonerror="${fail.build.on.error}">
-      <arg value="${path::get-full-path(file.custom.step.before + '.rb')}" />
-    </exec>
-  </target>
-
-  <target name="custom_tasks_replace">
-    <echo message="Running custom tasks instead of normal tasks if ${file.custom.step.replace} exists." />
-    <property name="is.replaced" value="true" if="${file::exists(file.custom.step.replace)}" />
-    <nant buildfile="${file.custom.step.replace}" inheritall="true" if="${file::exists(file.custom.step.replace)}" failonerror="${fail.build.on.error}" />
-    <property name="is.replaced" value="true" if="${file::exists(file.custom.step.replace + '.ps1')}" />
-    <exec program="powershell.exe" if="${file::exists(file.custom.step.replace + '.ps1')}" failonerror="${fail.build.on.error}" >
-      <arg value="${path::get-full-path(file.custom.step.replace + '.ps1')}" />
-    </exec>
-    <property name="is.replaced" value="true" if="${file::exists(file.custom.step.replace + '.rb')}" />
-    <exec program="ruby.exe" if="${file::exists(file.custom.step.replace + '.rb')}" failonerror="${fail.build.on.error}" >
-      <arg value="${path::get-full-path(file.custom.step.replace + '.rb')}" />
-    </exec>
-  </target>
 
   <target name="copy_templates" if="${directory::exists(dirs.deployment.templates)}">
      <copy todir="${dirs.deployment.templates.holding}">
@@ -88,7 +64,7 @@
   </target>
   
   <target name="set_file_attributes_to_normal">
-    <echo message="Removing read only attributes that some source control things put on files in '${dirs.deployment}'." />
+    <echo level="Warning" message="Removing read only attributes that some source control things put on files in '${dirs.deployment}'." />
     <attrib normal="true">
       <fileset basedir="${dirs.deployment}">
         <include name="**/*" />
@@ -97,37 +73,32 @@
   </target> 
   
   <target name="build_deployments" if="${directory::exists(dirs.deployment.templates.holding)}" >
-    <buildTemplateFiles
-      settingsFilesDirectory="${dirs.deployment.settings}"
-      templatesDirectory="${dirs.deployment.templates.holding}"
-      destinationDirectory="${dirs.deployment}"
-      templateExtension=".BAT"
-      keepExtension="true"
-      useEnvironmentSubdirectory="false"
-    />
+    <echo level="Warning" message="DeploymentBuilder: Building Templates in '${dirs.deployment}' with '*.bat' as the name." />
+    <!--loglevel level="Info" -->
+      <buildTemplateFiles
+        settingsFilesDirectory="${dirs.deployment.settings}"
+        templatesDirectory="${dirs.deployment.templates.holding}"
+        destinationDirectory="${dirs.deployment}"
+        templateExtension=".BAT"
+        keepExtension="true"
+        useEnvironmentSubdirectory="false"
+      />
+    <!--/loglevel -->
     <delete dir="${dirs.deployment.templates.holding}" />
   </target>
 
   <target name="build_deployments_settings" if="${directory::exists(dirs.deployment.settings.templates.holding)}" >
-    <buildTemplateFiles
-      settingsFilesDirectory="${dirs.deployment.settings}"
-      templatesDirectory="${dirs.deployment.settings.templates.holding}"
-      destinationDirectory="${dirs.deployment.settings.templates}"
-      templateExtension=".BAT"
-      keepExtension="true"
-    />
+    <echo level="Warning" message="DeploymentBuilder Part Deuce: Building Templates in '${dirs.deployment.settings.templates}' with '*.bat' as the name." />
+    <!--loglevel level="Info" -->
+        <buildTemplateFiles
+        settingsFilesDirectory="${dirs.deployment.settings}"
+        templatesDirectory="${dirs.deployment.settings.templates.holding}"
+        destinationDirectory="${dirs.deployment.settings.templates}"
+        templateExtension=".BAT"
+        keepExtension="true"
+      />
+    <!--/loglevel -->
     <delete dir="${dirs.deployment.settings.templates.holding}" />
-  </target>
-
-  <target name="custom_tasks_after">
-    <echo message="Running custom tasks if ${file.custom.step.after} exists." />
-    <nant buildfile="${file.custom.step.after}" inheritall="true" if="${file::exists(file.custom.step.after)}" failonerror="${fail.build.on.error}" />
-    <exec program="powershell.exe" if="${file::exists(file.custom.step.after + '.ps1')}" failonerror="${fail.build.on.error}" >
-      <arg value="${path::get-full-path(file.custom.step.after + '.ps1')}" />
-    </exec>
-    <exec program="ruby.exe" if="${file::exists(file.custom.step.after + '.rb')}" failonerror="${fail.build.on.error}" >
-      <arg value="${path::get-full-path(file.custom.step.after + '.rb')}" />
-    </exec>
   </target>
 
 </project>

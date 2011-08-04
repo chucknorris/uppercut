@@ -35,12 +35,13 @@
   <target name="go" depends="run_tasks" />
 
   <target name="run_tasks">
+    <echo level="Warning" message="" />
     <!-- INSERT YOUR TASKS HERE OR CALL OUT TO OTHER TASKS -->
     <!-- Sample provided below that you can customize -->
   </target>
   
   <!--<target name="documentation">
-    <echo message="Packaging documentation files to ${dirs.drop}${path.separator}${folder.documentation}."/>
+    <echo level="Warning" message="Packaging documentation files to ${dirs.drop}${path.separator}${folder.documentation}."/>
     <copy todir="${dirs.drop}${path.separator}${folder.documentation}">
       <fileset basedir="${dirs.build}${path.separator}${folder.documentation}">
         <include name="**/*.*" />

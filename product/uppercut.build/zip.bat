@@ -11,7 +11,7 @@ if %ERRORLEVEL% NEQ 0 goto errors
 SET NANT="%DIR%lib\Nant\nant.exe"
 SET build.config.settings="%DIR%settings\UppercuT.config"
 
-%NANT% /f:.\build\zip.build -D:build.config.settings=%build.config.settings% %*
+%NANT% -logger:NAnt.Core.DefaultLogger -quiet /f:.\build\zip.build -D:build.config.settings=%build.config.settings% %*
 
 if %ERRORLEVEL% NEQ 0 goto errors
 
