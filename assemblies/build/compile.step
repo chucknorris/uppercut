@@ -43,7 +43,13 @@
   <property name="is.replaced" value="false" />
   <property name="fail.build.on.error" value="true" />
 
-  <target name="go" depends="run_tasks" />
+  <target name="go" depends="load_uppercut_assemblies, run_tasks" />
+  
+  <property name="file.uppercut.assembly" value="uppercut.tasks.dll" />
+    <property name="path.uppercut.assembly" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.build_scripts}${path.separator}${file.uppercut.assembly}" />
+  <target name="load_uppercut_assemblies">
+    <loadtasks assembly="${path.uppercut.assembly}" if="${file::exists(path.uppercut.assembly)}" />
+  </target>
 
   <target name="run_tasks">
     <echo level="Warning" message="" />

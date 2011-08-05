@@ -135,7 +135,7 @@
             infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("            [echo] ====================");
             infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("            [echo] {0} {1} Extension", file_system.get_file_name_without_extension_from(extends), extension_type.ToUpper());
             infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("            [echo] ====================");
-            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("            [echo] Running '{0}' - details will be in build.log.", file_name);
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("            [echo] Running '{0}' - details will be in the build.log.", file_name);
         }
 
         private string get_file_name(string custom_extensions_folder, string build_folder, IFileSystemAccess file_system)
