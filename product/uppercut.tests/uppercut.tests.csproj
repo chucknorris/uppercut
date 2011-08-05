@@ -110,6 +110,7 @@
     <Compile Include="EmptyTestContainer.cs" />
     <Compile Include="template.builder\EnvironmentDictionarySpecs.cs" />
     <Compile Include="template.builder\settings\DevSettings.cs" />
+    <Compile Include="template.builder\settings\DevTokenSettings.cs" />
     <Compile Include="template.builder\settings\DrSettings.cs" />
     <Compile Include="template.builder\settings\LocalSettings.cs" />
     <Compile Include="template.builder\settings\ProdSettings.cs" />

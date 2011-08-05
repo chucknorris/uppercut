@@ -10,7 +10,6 @@ namespace uppercut.tasks
     using System.IO;
     using Castle.Windsor;
     using infrastructure.containers;
-    using infrastructure.extensions;
     using infrastructure.filesystem;
     using infrastructure.logging;
     using infrastructure.logging.custom;

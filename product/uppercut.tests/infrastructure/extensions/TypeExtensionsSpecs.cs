@@ -8,7 +8,6 @@ namespace uppercut.tests.infrastructure.extensions
     using developwithpassion.bdd.mbunit;
     using developwithpassion.bdd.mbunit.standard;
     using developwithpassion.bdd.mbunit.standard.observations;
-    using uppercut.infrastructure.extensions;
 
     public abstract class concern_for_type_extensions : observations_for_a_static_sut
     {

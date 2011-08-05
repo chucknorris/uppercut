@@ -5,7 +5,6 @@
     using System.Text;
     using infrastructure.console;
     using infrastructure.containers;
-    using infrastructure.extensions;
     using infrastructure.filesystem;
     using NAnt.Core;
     using NAnt.Core.Attributes;

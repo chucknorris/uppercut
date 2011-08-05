@@ -97,6 +97,7 @@
     <Compile Include="..\..\SolutionVersion.cs">
       <Link>Properties\SolutionVersion.cs</Link>
     </Compile>
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="infrastructure\console\CommandRunner.cs" />
     <Compile Include="infrastructure\logging\custom\MultipleLogger.cs" />
     <Compile Include="infrastructure\logging\custom\MultipleLoggerLogFactory.cs" />
@@ -107,10 +108,10 @@
     <Compile Include="infrastructure\containers\Container.cs" />
     <Compile Include="infrastructure\containers\custom\WindsorContainer.cs" />
     <Compile Include="infrastructure\containers\IContainer.cs" />
-    <Compile Include="infrastructure\extensions\Iteration.cs" />
-    <Compile Include="infrastructure\extensions\StringExtensions.cs" />
-    <Compile Include="infrastructure\extensions\TypeCasting.cs" />
-    <Compile Include="infrastructure\extensions\TypeExtensions.cs" />
+    <Compile Include="Iteration.cs" />
+    <Compile Include="StringExtensions.cs" />
+    <Compile Include="TypeCasting.cs" />
+    <Compile Include="TypeExtensions.cs" />
     <Compile Include="infrastructure\filesystem\IFileSystemAccess.cs" />
     <Compile Include="infrastructure\filesystem\WindowsFileSystemAccess.cs" />
     <Compile Include="infrastructure\logging\custom\Log4NetLogFactory.cs" />

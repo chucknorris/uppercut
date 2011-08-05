@@ -53,17 +53,37 @@ namespace uppercut.template.builder
             const string token_value_start = "value=\"";
             const string token_value_end = "\"";
 
-            return replace_tokens_with_other_dictionary_values(get_token_value(input, token_value_start, token_value_end),tokens);
+            return replace_tokens_with_other_dictionary_values(get_token_value(input, token_value_start, token_value_end), tokens);
         }
 
-        public static string replace_tokens_with_other_dictionary_values(string input,IDictionary<string, string> tokens)
+        public static IList<Match> get_value_token_matches(string value_text)
+        {
+            IList<Match> matches = new List<Match>();
+            Regex regular_expression = new Regex(@"\$\{[\w\.\'\`\s\,\;\:\\\/\$\-\(\)\[\]\@\%]+\}", RegexOptions.Singleline & RegexOptions.Compiled);
+
+            foreach (Match name_value_match in regular_expression.Matches(value_text))
+            {
+                matches.Add(name_value_match);
+            }
+
+            return matches;
+        }
+
+
+        public static string replace_tokens_with_other_dictionary_values(string input, IDictionary<string, string> tokens)
         {
             if (string.IsNullOrEmpty(input)) return input;
 
-            string token = get_token_value(input, "${", "}");
-            if (tokens.ContainsKey(@"${" + token + @"}"))
+            foreach (Match token in get_value_token_matches(input).or_empty_list())
             {
-                return input.Replace(@"${" + token + @"}", tokens[@"${" + token + @"}"]);
+                if (token != null && !string.IsNullOrWhiteSpace(token.Value))
+                {
+                    string tokenValue = token.Value;
+                    if (tokens.ContainsKey(tokenValue))
+                    {
+                        input = input.Replace(tokenValue, tokens[tokenValue]);
+                    }
+                }
             }
 
             return input;

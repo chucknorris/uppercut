@@ -335,7 +335,40 @@ namespace uppercut.tests.template.builder
             {
                 Assert.AreEqual(@"\\appdevserver\Apps", result["${dirs.app.toplevel}"]);
             }
+        }
 
+        [Concern(typeof(TemplateDictionary))]
+        public class when_environment_dictionary_is_creating_a_token_replacement_dictionary_from_a_settings_file_that_has_tokens : concern_for_TemplateDictionary
+        {
+            protected static IDictionary<string, string> result;
+
+            context c = () => { };
+
+            private because b = () => { result = TemplateDictionary.create_token_replacement_dictionary(DevTokenSettings.Contents); };
+
+            [Observation]
+            public void should_have_replaced_when_tokens_are_separated_by_text()
+            {
+                Assert.AreEqual(@"\\appdevserver\Apps-DEV", result["${settings.separatedby.text}"]);
+            }         
+            
+            [Observation]
+            public void should_have_replaced_when_tokens_are_separated_by_slash()
+            {
+                Assert.AreEqual(@"\\appdevserver\DEV\Archive", result["${settings.separatedby.slash}"]);
+            } 
+            
+            [Observation]
+            public void should_have_replaced_when_tokens_are_not_separated_at_all()
+            {
+                Assert.AreEqual(@"appdevserverDEV", result["${settings.no.separation}"]);
+            } 
+            
+            [Observation]
+            public void should_have_skipped_tokens_not_in_the_dictionary()
+            {
+                Assert.AreEqual(@"appdevserver\${nonexistant.setting}", result["${settings.with.nonexisting}"]);
+            }
 
         }
   

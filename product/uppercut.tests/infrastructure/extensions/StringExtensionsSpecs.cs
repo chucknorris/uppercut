@@ -5,14 +5,13 @@ namespace uppercut.tests.infrastructure.extensions
     using developwithpassion.bdd.mbunit;
     using developwithpassion.bdd.mbunit.standard;
     using developwithpassion.bdd.mbunit.standard.observations;
-    using uppercut.infrastructure.extensions;
 
     [Concern(typeof(StringExtensions))]
     public class when_the_string_extensions_formats_a_string_using_provided_arguments : observations_for_a_static_sut
     {
         static string result;
 
-        because b = () => result = "this is the {0}".format_using(1);
+        because b = () => result = "this is the {0}".format_with(1);
 
         [Observation]
         public void should_return_the_string_formatted_with_the_arguments()

@@ -4,7 +4,6 @@ namespace uppercut.template.builder
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-    using infrastructure.extensions;
     using infrastructure.filesystem;
     using infrastructure.logging;
 

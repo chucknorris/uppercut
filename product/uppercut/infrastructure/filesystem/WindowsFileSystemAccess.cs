@@ -2,7 +2,6 @@ namespace uppercut.infrastructure.filesystem
 {
     using System;
     using System.IO;
-    using extensions;
     using logging;
 
     /// <summary>
