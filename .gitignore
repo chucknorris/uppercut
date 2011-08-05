@@ -8,6 +8,7 @@ obj
 _ReSharper*
 
 *.suo
+*.sln.docstates
 *.user 
 *.csproj.user
 *.resharper.user
