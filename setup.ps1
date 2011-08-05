@@ -31,27 +31,29 @@ cinstm nuget.commandline
 
 #restore the nuget packages
 $nugetConfigs = Get-ChildItem '.\' -Recurse | ?{$_.name -match "packages\.config"} | select
-foreach ($nugetConfig in $nugetConfigs) {
-  Write-Host "restoring packages from $($nugetConfig.FullName)"
-  nuget install $($nugetConfig.FullName) /OutputDirectory packages
+
+if ($nugetConfigs -ne '') {
+  foreach ($nugetConfig in $nugetConfigs) {
+    Write-Host "restoring packages from $($nugetConfig.FullName)"
+    nuget install $($nugetConfig.FullName) /OutputDirectory packages
+  }
 }
 
-#TODO move tools contents to other folders and nuget.commandline moves to NuGet
-
 # install the uppercut libraries
-nuget install NuGet.Core -version 1.4.20609.9012 -OuptutDirectory 'lib' -x
-nuget install NuGet.CommandLine -version 1.4.20615.182 -OuptutDirectory 'lib' -x
-nuget install eazfuscator.net -version 2.9.41.774 -OuptutDirectory 'lib' -x
-nuget install nunit -version 2.5.9.10348 -OuptutDirectory 'lib' -x
+nuget install NuGet.Core -version 1.4.20615.9012 -OutputDirectory lib -x
+nuget install NuGet.CommandLine -version 1.4.20615.182 -OutputDirectory lib -x
+nuget install eazfuscator.net -version 2.9.41.774 -OutputDirectory lib -x
+nuget install nunit -version 2.5.9.10348 -OutputDirectory lib -x
 
-nuget install uppercut.bdddoc -version 1.5 -OuptutDirectory 'lib' -x
-nuget install uppercut.mbunit2 -version 1.5 -OuptutDirectory 'lib' -x
-nuget install uppercut.developwithpassion.bdd -version 1.5 -OuptutDirectory 'lib' -x
-nuget install uppercut.ilmerge -version 1.5 -OuptutDirectory 'lib' -x
-nuget install uppercut.moma -version 1.5 -OuptutDirectory 'lib' -x
-nuget install uppercut.nant -version 1.5 -OuptutDirectory 'lib' -x
-nuget install uppercut.ncover -version 1.5 -OuptutDirectory 'lib' -x
-nuget install uppercut.xunit -version 1.5 -OuptutDirectory 'lib' -x
+nuget install uppercut.bdddoc -version 1.5 -OutputDirectory lib -x -source http://www.myget.org/F/uppercut/
+nuget install uppercut.mbunit2 -version 1.5 -OutputDirectory lib -x -source http://www.myget.org/F/uppercut/
+nuget install uppercut.developwithpassion.bdd -version 1.5 -OutputDirectory lib -x -source http://www.myget.org/F/uppercut/
+nuget install uppercut.ilmerge -version 1.5 -OutputDirectory lib -x -source http://www.myget.org/F/uppercut/
+nuget install uppercut.moma -version 1.5 -OutputDirectory lib -x -source http://www.myget.org/F/uppercut/
+nuget install uppercut.nant -version 1.5 -OutputDirectory lib -x -source http://www.myget.org/F/uppercut/
+nuget install uppercut.ncover -version 1.5 -OutputDirectory lib -x -source http://www.myget.org/F/uppercut/
+nuget install uppercut.xunit -version 1.5 -OutputDirectory lib -x -source http://www.myget.org/F/uppercut/
+#future nuget install uppercut.storevil -version 1.5 -OutputDirectory lib -x -source http://www.myget.org/F/uppercut/
 
-#FUTURE StorEvil
 
+#TODO move tools contents to top level folders and nuget.commandline moves to NuGet
