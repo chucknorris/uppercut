@@ -18,6 +18,8 @@
   <property name="test.framework" value="mbunit" overwrite="false" />
   <property name="is.replaced" value="false" />
   <property name="fail.build.on.error" value="true" />
+  <property name="app.ruby" value="C:\Ruby\bin\ruby.exe" overwrite="false" />
+  <property name="app.powershell" value="%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe" overwrite="false" />
 
     <target name="go" depends="load_uppercut_assemblies, run_tasks" />
   

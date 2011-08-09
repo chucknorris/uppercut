@@ -32,11 +32,11 @@
   <property name="is.replaced" value="false" />
   <property name="fail.build.on.error" value="true" />
  
-  <target name="go" depends="run_tasks" />
+  <target name="go" depends="run_tasks"  if="${file::exists(app.storevil.console)}" />
 
   <target name="run_all_tests" depends="prepare, set_storevil_failure_mode, get_spec_dlls_all, run_tests, generate_report" description="Like go but runs all tests" />
   
-  <target name="run_tasks">
+  <target name="run_tasks" if="${file::exists(app.storevil.console)}" >
     <echo level="Warning" message="" />
     <echo level="Warning" message="====================" />
     <echo level="Warning" message="${project::get-name()}" />

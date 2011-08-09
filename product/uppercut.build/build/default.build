@@ -28,16 +28,17 @@
   <property name="version.build" value="0" />
   <property name="version.revision" value="0" />
   <property name="version.hash" value="${version.revision}" overwrite="false" />
-  <property name="allow.powershell.unrestricted" value="false" overwrite="false" />
   <property name="run.ilmerge" value="false" overwrite="false" />
   <property name="file.uppercut.assembly" value="uppercut.tasks.dll" />
   <property name="path.uppercut.assembly" value="${dirs.current}${path.separator}${file.uppercut.assembly}" />
   <property name="obfuscate" value="false" overwrite="false" />
+  <property name="app.ruby" value="C:\Ruby\bin\ruby.exe" overwrite="false" />
+  <property name="app.powershell" value="%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe" overwrite="false" />
   
   <property name="is.replaced" value="false" />
   <property name="fail.build.on.error" value="true" />
 
-  <target name="go" depends="prepare, start_recorder, report_start_time, load_uppercut_assemblies, allow_powershell_unrestricted, report_uppercut_version, run_tasks, report_finish_time, stop_recorder" />
+  <target name="go" depends="prepare, start_recorder, report_start_time, load_uppercut_assemblies, report_uppercut_version, run_tasks, report_finish_time, stop_recorder" />
 
   <target name="start_recorder">
     <record name="${log.build}" autoflush="true" level="Info" action="Start" failonerror="false" />
@@ -149,17 +150,6 @@
 
   <target name="load_uppercut_assemblies">
     <loadtasks assembly="${path.uppercut.assembly}" if="${file::exists(path.uppercut.assembly)}" />
-  </target>
-
-  <target name="allow_powershell_unrestricted">
-    <!-- powershell 1.0 -->
-    <exec program="powershell.exe" if="${allow.powershell.unrestricted}" failonerror="false">
-      <arg value="set-executionpolicy unrestricted" />
-    </exec>
-    <!-- powershell 2.0 -->
-    <exec program="powershell.exe" if="${allow.powershell.unrestricted}" failonerror="false">
-      <arg value="set-executionpolicy unrestricted -force -scope CurrentUser" />
-    </exec>
   </target>
 
 </project>

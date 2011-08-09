@@ -14,15 +14,19 @@
   <property name="dirs.solution" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${path_to_solution}" />
   <property name="solution.path" value="${path::get-full-path(dirs.solution)}${path.separator}${project.name}.sln" />
   <property name="solution.path.full" value="${path::get-full-path(solution.path)}" />
+  <property name="language.short" value="cs" overwrite="false" />
+  <property name="file.version" value="SolutionVersion.${language.short}" overwrite="false" />
+  <property name="path.file.version" value="${dirs.solution}${path.separator}${file.version}" overwrite="false" />
   <property name="app.visual_studio" value="${environment::get-folder-path('ProgramFiles')}\Common Files\Microsoft Shared\MSEnv\VSLauncher.exe" />
   <property name="app.monodevelop" value="monodevelop" />
   <property name="file.uppercut.assembly" value="uppercut.tasks.dll" />
   <property name="path.uppercut.assembly" value="${dirs.current}${path.separator}${file.uppercut.assembly}" />
-  <property name="allow.powershell.unrestricted" value="false" overwrite="false" />
   <property name="is.replaced" value="false" />
   <property name="fail.build.on.error" value="false" />
+  <property name="app.ruby" value="C:\Ruby\bin\ruby.exe" overwrite="false" />
+  <property name="app.powershell" value="%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe" overwrite="false" />
 
-  <target name="go" depends="load_uppercut_assemblies, allow_powershell_unrestricted, run_tasks" />
+  <target name="go" depends="load_uppercut_assemblies, run_tasks" />
 
   <target name="run_tasks">
     <echo level="Warning" message="" />
@@ -37,8 +41,13 @@
   </target>
 
   <target name="run_normal_tasks"
-          depends="open_visual_studio"
+          depends="build_version, open_visual_studio"
           description="Opening Visual Studio." />
+
+  <target name="build_version">
+    <echo message="Checking for dependent version file." />
+    <nant buildfile="${dirs.current}${path.separator}versionBuilder.step" inheritall="true" if="${file::exists(path.file.version) == false}" />
+  </target>
 
   <target name="open_visual_studio">
   	<if test="${platform::is-unix()}">
@@ -56,25 +65,22 @@
 	      spawn="true"
 	      basedir="${dirs.solution}"
 	      program="${app.visual_studio}"
-	      commandline="${solution.path.full}"
+        commandline="${solution.path.full}"
+        if="${file::exists(app.visual_studio) == true}"
 	      >
 	    </exec>
+      <exec
+        spawn="true"
+        program="CMD.exe"
+        commandline="/C START ${solution.path.full}"
+        if="${file::exists(app.visual_studio) == false}"
+        >
+      </exec>
 	 </if>
   </target>
 
   <target name="load_uppercut_assemblies">
     <loadtasks assembly="${path.uppercut.assembly}" if="${file::exists(path.uppercut.assembly)}" />
-  </target>
-
-  <target name="allow_powershell_unrestricted">
-    <!-- powershell 1.0 -->
-    <exec program="powershell.exe" if="${allow.powershell.unrestricted}" failonerror="false">
-      <arg value="set-executionpolicy unrestricted" />
-    </exec>
-    <!-- powershell 2.0 -->
-    <exec program="powershell.exe" if="${allow.powershell.unrestricted}" failonerror="false">
-      <arg value="set-executionpolicy unrestricted -force -scope CurrentUser" />
-    </exec>
   </target>
 
 </project>

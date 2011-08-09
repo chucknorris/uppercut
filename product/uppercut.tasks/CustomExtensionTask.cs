@@ -1,6 +1,8 @@
 ﻿namespace uppercut.tasks
 {
+    using System;
     using System.Collections;
+    using System.Collections.Specialized;
     using System.IO;
     using System.Text;
     using infrastructure.console;
@@ -14,8 +16,8 @@
     public class CustomExtensionTask : UppercuTTaskBase
     {
         //private readonly string nant = ".\\lib\\nant\\nant.exe";
-        private readonly string powershell = "poweshell.exe";
-        private readonly string ruby = "ruby.exe";
+        private string powershell = @"%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe";
+        private string ruby = @"C:\Ruby\bin\ruby.exe";
 
         [TaskAttribute("extends", Required = true)]
         [StringValidator(AllowEmpty = false)]
@@ -43,27 +45,51 @@
             //    infrastructure.logging.Log.bound_to(this).log_a_debug_event_containing("Project|{0}:{1}", property.Key, property.Value);
             //    //set these all on the shell execution
             //}
+
+            if (Project.Properties.Contains("app.ruby"))
+            {
+                ruby = Project.Properties["app.ruby"];
+                if (ruby != @"C:\Ruby\bin\ruby.exe")
+                {
+                    infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Setting app.ruby to '{0}'", ruby);
+                }
+            }
+            ruby = expand_environment_variables(ruby);
+
+            if (Project.Properties.Contains("app.powershell"))
+            {
+                powershell = Project.Properties["app.powershell"];
+                if (powershell != @"%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe")
+                {
+                    infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Setting app.powershell to '{0}'", powershell);
+                }
+            }
+            powershell = expand_environment_variables(powershell);
+
             if (file_system.file_exists(file_name))
             {
                 an_extension_exists = true;
-                log_file_found(file_name,file_system);
+                log_file_found(file_name, file_system);
                 run_nant_core_task(file_name);
             }
 
-            //todo: put a whole bunch of environment properties out on the shell just prior
-            var powershell_extension = file_system.get_full_path(file_system.path_combine(file_name, ".ps1"));
+            var powershell_extension = file_system.get_full_path(file_name + ".ps1");
+            infrastructure.logging.Log.bound_to(this).log_a_debug_event_containing("Looking for '{0}'", powershell_extension);
             if (file_system.file_exists(powershell_extension))
             {
                 an_extension_exists = true;
                 log_file_found(powershell_extension, file_system);
-                CommandRunner.run(powershell, powershell_extension, true);
+                string powershell_args = string.Format("-NoProfile -ExecutionPolicy unrestricted -Command \"& '{0}'\"", powershell_extension);
+                //cmd.exe /c "%windir%\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy unrestricted -Command \"& 'powershell_extension'"
+                CommandRunner.run(powershell, powershell_args, true, get_string_dictionary(Project.Properties));
             }
-            var ruby_extension = file_system.get_full_path(file_system.path_combine(file_name, ".rb"));
+            var ruby_extension = file_system.get_full_path(file_name + ".rb");
+            infrastructure.logging.Log.bound_to(this).log_a_debug_event_containing("Looking for '{0}'", ruby_extension);
             if (file_system.file_exists(ruby_extension))
             {
                 an_extension_exists = true;
-                log_file_found(ruby_extension,file_system);
-                CommandRunner.run(ruby, ruby_extension, true);
+                log_file_found(ruby_extension, file_system);
+                CommandRunner.run(ruby, ruby_extension, true, get_string_dictionary(Project.Properties));
             }
 
             if (an_extension_exists && extension_type.to_lower() == "replace")
@@ -71,7 +97,23 @@
                 Project.Properties["is.replaced"] = "true";
             }
         }
-        
+
+        private string expand_environment_variables(string proerty_to_expand)
+        {
+            return Environment.ExpandEnvironmentVariables(proerty_to_expand);
+        }
+
+        private StringDictionary get_string_dictionary(PropertyDictionary properties)
+        {
+            var string_dict = new StringDictionary();
+            foreach (DictionaryEntry entry in properties)
+            {
+                string_dict.Add(entry.Key.ToString(), entry.Value.ToString());
+            }
+
+            return string_dict;
+        }
+
         #region deprecated
 
         private string arrange_arguments_for_nant(string file_name, PropertyDictionary properties)
@@ -94,7 +136,7 @@
             }
             return sb.ToString();
         }
-        
+
         private bool is_nant_property(DictionaryEntry property)
         {
             //if (property.Key.ToString().to_lower().Contains("nant.settings.")) return true;
@@ -126,10 +168,10 @@
 
             return false;
         }
-        
+
         #endregion
-        
-        private void log_file_found(string file_name,IFileSystemAccess file_system)
+
+        private void log_file_found(string file_name, IFileSystemAccess file_system)
         {
             infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("            [echo] ");
             infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("            [echo] ====================");
@@ -151,18 +193,18 @@
         private void run_nant_core_task(string file_path)
         {
             var build_file = new FileInfo(file_path);
-          
+
             var nant_task = new NAntTask();
             nant_task.Project = this.Project;
             nant_task.FailOnError = this.FailOnError;
             nant_task.Verbose = true;
             //nant_task.Threshold = Level.Info;
 
-            
+
             nant_task.BuildFile = build_file;
             nant_task.InheritRefs = false;
             nant_task.InheritAll = true;
-            
+
             nant_task.Execute();
         }
     }

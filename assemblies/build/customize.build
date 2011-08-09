@@ -17,6 +17,8 @@
   <property name="file.customized" value="" readonly="false" />
   <property name="path.to.custom_file" value="-1" />
   <property name="path.to.custom_file" value="" if="${file::exists(customize.step.name)}" />
+  <property name="app.ruby" value="C:\Ruby\bin\ruby.exe" overwrite="false" />
+  <property name="app.powershell" value="%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe" overwrite="false" />
 
   <target name="go" depends="run_tasks, report_finish_time" />
 

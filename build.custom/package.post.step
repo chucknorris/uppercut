@@ -37,6 +37,8 @@
         <exclude name="uppercut*test*.dll" />
         <exclude name="uppercut.build.dll" />
         <include name="uppercut*.dll" />
+        <include name="uc.exe" />
+        <include name="uc.exe.config" />
         <include name="Castle*.dll" />
       </fileset>
     </copy>
@@ -45,6 +47,8 @@
       <fileset basedir="${dirs.build}\${folder.app.drop}">
         <exclude name="uppercut*test*.dll" />
         <exclude name="uppercut.build.dll" />
+        <exclude name="uc.exe" />
+        <exclude name="uc.exe.config" />
         <include name="uppercut.settings.editor*" />
         <include name="Castle*.dll" />
       </fileset>
@@ -57,6 +61,8 @@
         <include name="${dirs.drop}\${folder.app.drop}\Castle.*" />
         <include name="${dirs.drop}\${folder.app.drop}\*.dll" />
         <include name="${dirs.drop}\${folder.app.drop}\*.pdb" />
+        <include name="${dirs.drop}\${folder.app.drop}\uc.exe" />
+        <include name="${dirs.drop}\${folder.app.drop}\uc.exe.config" />
         <include name="${dirs.drop}\${folder.app.drop}\_BuildInfo.xml" />
         <include name="${dirs.drop}\${folder.app.drop}\uppercut.settings.editor*" />
       </fileset>

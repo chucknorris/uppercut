@@ -55,17 +55,23 @@ Donations Accepted - If you enjoy using this product or it has saved you time an
 It helps keep to the product updated, pays for site hosting, etc. https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4410250
 
 # RELEASE NOTES
-=1.1.x.x=  
+=1.x.x.x=  
 * Adding in support for StorEvil.  
   
 ==1.4.0.0==  
+* Issue 36 - Enhancement: Open creates SolutionVersion if missing - see http://code.google.com/p/uppercut/issues/detail?id=36 for details (407)  
+* Fix: Issue 35 - Open fails on Windows platform when VSLauncher.exe is missing - see http://code.google.com/p/uppercut/issues/detail?id=35 for details (407)  
+* Issue 28 - Enhancement: Allow setting of Ruby and PowerShell path via variable - see http://code.google.com/p/uppercut/issues/detail?id=28 for details (405)  
+* Issue 38 - Enhancement - Pass properties to ruby/powershell extensions. - see http://code.google.com/p/uppercut/issues/detail?id=38  for details (404)  
+* Console Logging is very reduced with all detail to build.log. (400)  
+* Issue 32: Upgrade to NAnt 0.91 Alpha 2 - see http://code.google.com/p/uppercut/issues/detail?id=32 for details (400)  
+* FIX: Settings file values should be able to have more than one other settings value token - see https://github.com/chucknorris/uppercut/issues/3 for details (400)  
+* FIX : Nunit now generates a report when the tests fail. (399)  
 * FIX: Issue 31 - Log file copied to code_drop directory before build is complete - see http://code.google.com/p/uppercut/issues/detail?id=31 for details. (396)  
-* Handle Readonly Files during build - allows you to build against source controls that mark files readonly (looking at you TFS) - see http://code.google.com/p/uppercut/issues/detail?id=29 for details. (396)  
+* Issue 29 - Handle Readonly Files during build - allows you to build against source controls that mark files readonly (looking at you TFS) - see http://code.google.com/p/uppercut/issues/detail?id=29 for details. (396)  
 * Fix: Obfuscation should find files that are versioning with SemVer. (395)  
 * Allowing arguments to be passed into the build.bat file as pass through to nant. (389)  
 * NuGet support enhancements to allow subdirectories for building multiple nuget packages in a single solution. (388)  
-  
-==1.3.1.0==  
 * Adding in _PublishedApplications known folder. - see http://code.google.com/p/uppercut/issues/detail?id=27 for details. (386)  
   
 ==1.3.0.0==  

@@ -20,6 +20,12 @@
   <property name="dirs.db" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.database}" />
   <property name="project.name" value="__SOLUTION_NAME_WITHOUT_SLN_EXTENSION__" overwrite="false" />
   <property name="folder.app.drop" value="${project.name}" overwrite="false" />
+  <property name="folder.references" value="lib" overwrite="false" />
+  <property name="dirs.lib" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.references}" overwrite="false" />
+  <property name="folder.build_artifacts" value="build_artifacts" overwrite="false" />
+  <property name="dirs.build_artifacts" value="${path::get-full-path(dirs.build)}${path.separator}${folder.build_artifacts}" />
+  <property name="dirs.build_results" value="${dirs.build_artifacts}${path.separator}compile" overwrite="false" />
+  <property name="msbuild.logger" value="ThoughtWorks.CruiseControl.MSBuild.XmlLogger,&quot;${dirs.lib}${path.separator}NAnt${path.separator}ThoughtWorks.CruiseControl.MSBuild.dll&quot;" />
   <property name="path_to_solution" value="." overwrite="false" />
   <property name="microsoft.framework" value="net-3.5" overwrite="false" />
   <property name="msbuild.configuration" value="Release" overwrite="false" />
@@ -42,6 +48,8 @@
   <property name="file.custom.step.replace" value="${dirs.build_scripts_custom}${path.separator}${file.current.no_extension}.replace.step" />
   <property name="is.replaced" value="false" />
   <property name="fail.build.on.error" value="true" />
+  <property name="app.ruby" value="C:\Ruby\bin\ruby.exe" overwrite="false" />
+  <property name="app.powershell" value="%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe" overwrite="false" />
 
   <target name="go" depends="load_uppercut_assemblies, run_tasks" />
   
@@ -63,6 +71,12 @@
     <call target="run_normal_tasks" if="${not is.replaced}" />
     <customExtension extends="${project::get-buildfile-path()}" type="post" failonerror="${fail.build.on.error}" />
     <call target="set_file_attributes_to_normal" />
+  </target>
+  
+  <target name="prepare">
+    <echo message="Removing and adding ${dirs.build_results}."/>
+    <delete dir="${dirs.build_results}" failonerror="false" />
+    <mkdir dir="${dirs.build_results}" />
   </target>
 
   <target name="run_normal_tasks"
@@ -149,6 +163,8 @@
               <property name="Platform" value="${msbuild.platform}" />
               <property name="TargetFrameworkVersion" value="v${framework::get-version(microsoft.framework.specific)}" />
               <property name="ToolsVersion" value="${framework::get-version(microsoft.framework.specific)}" />
+              <!--property name="Logger" value="${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" /-->
+              <arg line="/l:${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" />
             </msbuild>
           </if>
         </if>
@@ -171,6 +187,8 @@
               <property name="Configuration" value="${msbuild.configuration}" />
               <property name="OutputPath" value="${msbuild.outputpath}" />
               <property name="Platform" value="${msbuild.platform}" />
+              <!--property name="Logger" value="${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" /-->
+              <arg line="/l:${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" />
             </msbuild>
           </if>
         </if>
@@ -196,7 +214,9 @@
               <property name="Platform" value="${msbuild.platform}" />
               <property name="TargetFrameworkVersion" value="v${framework::get-version(microsoft.framework.specific)}" />
               <property name="ToolsVersion" value="${framework::get-version(microsoft.framework.specific)}" />
-            </msbuild>
+              <!--property name="Logger" value="${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" /-->
+              <arg line="/l:${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" />
+              </msbuild>
           </if>
         </if>
         <if test="${not framework.multitargeting}">
@@ -217,6 +237,8 @@
             <msbuild project="${solution.path}" verbosity="minimal">
               <property name="Configuration" value="${msbuild.configuration}" />
               <property name="Platform" value="${msbuild.platform}" />
+              <!--property name="Logger" value="${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" /-->
+              <arg line="/l:${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" />
             </msbuild>
           </if>
         </if>

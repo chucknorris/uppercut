@@ -18,11 +18,12 @@
   <property name="file.uppercut.assembly" value="uppercut.tasks.dll" />
   <property name="path.uppercut.assembly" value="${dirs.current}${path.separator}${file.uppercut.assembly}" />
   <property name="dirs.assemblies" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}assemblies" overwrite="false" />
-  <property name="allow.powershell.unrestricted" value="false" overwrite="false" />
   <property name="is.replaced" value="false" />
   <property name="fail.build.on.error" value="true" />
+  <property name="app.ruby" value="C:\Ruby\bin\ruby.exe" overwrite="false" />
+  <property name="app.powershell" value="%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe" overwrite="false" />
 
-  <target name="go" depends="load_uppercut_assemblies, allow_powershell_unrestricted, run_tasks" />
+  <target name="go" depends="load_uppercut_assemblies, run_tasks" />
 
   <target name="run_tasks">
     <echo level="Warning" message="" />
@@ -56,17 +57,6 @@
 
   <target name="load_uppercut_assemblies">
     <loadtasks assembly="${path.uppercut.assembly}" if="${file::exists(path.uppercut.assembly)}" />
-  </target>
-  
-  <target name="allow_powershell_unrestricted">
-    <!-- powershell 1.0 -->
-    <exec program="powershell.exe" if="${allow.powershell.unrestricted}" failonerror="false">
-      <arg value="set-executionpolicy unrestricted" />
-    </exec>
-    <!-- powershell 2.0 -->
-    <exec program="powershell.exe" if="${allow.powershell.unrestricted}" failonerror="false">
-      <arg value="set-executionpolicy unrestricted -force -scope CurrentUser" />
-    </exec>
   </target>
     
 </project>

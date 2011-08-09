@@ -114,6 +114,9 @@
     <Content Include="build\analyzers\mbunit2.test.step">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="build\analyzers\metrics.step">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="build\analyzers\ncover.step">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -242,9 +245,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\lib\icon\uppercut.ico">
-      <Link>uppercut.ico</Link>
-    </None>
     <Content Include="build\nugetBuild.step">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
