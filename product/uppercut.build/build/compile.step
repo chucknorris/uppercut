@@ -157,7 +157,7 @@
                 commandline='${solution.path.windows.mono} /nologo /property:OutputPath="${msbuild.outputpath.windows.mono}" /property:Configuration=${msbuild.configuration} /verbosity:minimal' />
           </if>
           <if test="${framework::get-family(microsoft.framework.specific) != 'mono'}" >
-            <msbuild project="${solution.path}" verbosity="minimal">
+            <msbuild project="${solution.path}" verbosity="minimal" if="${microsoft.framework.specific != 'net-1.0' and microsoft.framework.specific != 'net-1.1'}">
               <property name="Configuration" value="${msbuild.configuration}" />
               <property name="OutputPath" value="${msbuild.outputpath}" />
               <property name="Platform" value="${msbuild.platform}" />
@@ -166,6 +166,13 @@
               <!--property name="Logger" value="${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" /-->
               <arg line="/l:${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" />
             </msbuild>
+            <solution 
+              configuration="${msbuild.configuration}" 
+              solutionfile="${solution.path}" 
+              outputdir="${msbuild.outputpath}" 
+              platform="${msbuild.platform}" 
+              if="${microsoft.framework.specific == 'net-1.0' or microsoft.framework.specific == 'net-1.1'}" 
+            />
           </if>
         </if>
         <if test="${not framework.multitargeting}">
@@ -183,13 +190,20 @@
                 commandline='${solution.path.windows.mono} /nologo /property:OutputPath="${msbuild.outputpath.windows.mono}" /property:Configuration=${msbuild.configuration} /verbosity:minimal' />
           </if>
           <if test="${framework::get-family(microsoft.framework.specific) != 'mono'}" >
-            <msbuild project="${solution.path}" verbosity="minimal">
+            <msbuild project="${solution.path}" verbosity="minimal" if="${microsoft.framework.specific != 'net-1.0' and microsoft.framework.specific != 'net-1.1'}">
               <property name="Configuration" value="${msbuild.configuration}" />
               <property name="OutputPath" value="${msbuild.outputpath}" />
               <property name="Platform" value="${msbuild.platform}" />
               <!--property name="Logger" value="${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" /-->
               <arg line="/l:${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" />
             </msbuild>
+            <solution 
+              configuration="${msbuild.configuration}" 
+              solutionfile="${solution.path}" 
+              outputdir="${msbuild.outputpath}" 
+              platform="${msbuild.platform}" 
+              if="${microsoft.framework.specific == 'net-1.0' or microsoft.framework.specific == 'net-1.1'}" 
+            />
           </if>
         </if>
       </if>
@@ -209,14 +223,20 @@
                 commandline="${solution.path} /nologo /property:Configuration=${msbuild.configuration} /verbosity:minimal" />
           </if>
           <if test="${framework::get-family(microsoft.framework.specific) != 'mono'}" >
-            <msbuild project="${solution.path}" verbosity="minimal">
+            <msbuild project="${solution.path}" verbosity="minimal" if="${microsoft.framework.specific != 'net-1.0' and microsoft.framework.specific != 'net-1.1'}">
               <property name="Configuration" value="${msbuild.configuration}" />
               <property name="Platform" value="${msbuild.platform}" />
               <property name="TargetFrameworkVersion" value="v${framework::get-version(microsoft.framework.specific)}" />
               <property name="ToolsVersion" value="${framework::get-version(microsoft.framework.specific)}" />
               <!--property name="Logger" value="${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" /-->
               <arg line="/l:${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" />
-              </msbuild>
+            </msbuild>
+            <solution 
+              configuration="${msbuild.configuration}" 
+              solutionfile="${solution.path}" 
+              platform="${msbuild.platform}" 
+              if="${microsoft.framework.specific == 'net-1.0' or microsoft.framework.specific == 'net-1.1'}" 
+            />
           </if>
         </if>
         <if test="${not framework.multitargeting}">
@@ -234,12 +254,18 @@
                 commandline="${solution.path.windows.mono} /nologo /property:Configuration=${msbuild.configuration} /verbosity:minimal" />
           </if>
           <if test="${framework::get-family(microsoft.framework.specific) != 'mono'}" >
-            <msbuild project="${solution.path}" verbosity="minimal">
+            <msbuild project="${solution.path}" verbosity="minimal" if="${microsoft.framework.specific != 'net-1.0' and microsoft.framework.specific != 'net-1.1'}">
               <property name="Configuration" value="${msbuild.configuration}" />
               <property name="Platform" value="${msbuild.platform}" />
               <!--property name="Logger" value="${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" /-->
               <arg line="/l:${msbuild.logger};&quot;${dirs.build_results}${path.separator}msbuild-${microsoft.framework.specific}-results.xml&quot;" />
             </msbuild>
+            <solution 
+              configuration="${msbuild.configuration}" 
+              solutionfile="${solution.path}" 
+              platform="${msbuild.platform}" 
+              if="${microsoft.framework.specific == 'net-1.0' or microsoft.framework.specific == 'net-1.1'}" 
+            />
           </if>
         </if>
       </if>
