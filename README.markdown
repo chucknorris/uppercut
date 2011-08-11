@@ -58,6 +58,9 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 =1.x.x.x=  
 * Adding in support for StorEvil.  
   
+==1.4.1.0==  
+* FIX: Issue 39 - The detailed build.log is not being written to sometimes - see http://code.google.com/p/uppercut/issues/detail?id=39 for details. (415)  
+  
 ==1.4.0.0==  
 * FIX: Issue 33 - Cannot build .NET 1.0 and 1.1 Solutions - see http://code.google.com/p/uppercut/issues/detail?id=33 for details. (412)  
 * Issue 37 - Enhancement: Add support for Microsoft's built-in code metrics. New settings have been added to the uppercut.config: <property name="app.metric" value="C:${path.separator}Program Files (x86)${path.separator}Microsoft Visual Studio 10.0${path.separator}Team Tools${path.separator}Static Analysis Tools${path.separator}FxCop${path.separator}Metrics.exe" overwrite="false" /> - see http://code.google.com/p/uppercut/issues/detail?id=37 for details. (410)  

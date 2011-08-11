@@ -76,8 +76,14 @@
 
   <target name="prepare">
     <echo level="Warning" message="Removing and adding ${dirs.build}."/>
-    <delete dir="${dirs.build}" failonerror="false" />
     <mkdir dir="${dirs.build}" failonerror="false" />
+    <delete dir="${dirs.build}\build_artifacts" failonerror="false" />
+    <delete dir="${dirs.build}\${folder.documentation}" failonerror="false" />
+    <delete dir="${dirs.build}\${folder.environment_files}" failonerror="false" />
+    <delete dir="${dirs.build}\${folder.database}" failonerror="false" />
+    <delete dir="${dirs.build}\${folder.reports}" failonerror="false" />
+    <delete dir="${dirs.build}\${folder.file_server}" failonerror="false" />
+    <delete dir="${dirs.build}\${folder.app.drop}" failonerror="false" />
   </target>
 
   <target name="error_check">
