@@ -182,12 +182,12 @@
 
         private string get_file_name(string custom_extensions_folder, string build_folder, IFileSystemAccess file_system)
         {
+            string base_path = file_system.get_full_path(file_system.get_directory_name_from(extends)).to_lower().Replace(build_folder.to_lower(), custom_extensions_folder.to_lower());
+            base_path = base_path.Substring(base_path.IndexOf(custom_extensions_folder.to_lower()));
+            
+            string file_name = string.Format("{0}.{1}{2}", file_system.get_file_name_without_extension_from(extends), extension_type,file_system.get_file_extension_from(extends));
 
-            string base_path = Project.BaseDirectory.to_lower().Replace(build_folder.to_lower(), custom_extensions_folder.to_lower());
-            string file_name = string.Format("{0}.{1}{2}", file_system.get_file_name_without_extension_from(extends), extension_type,
-                                             file_system.get_file_extension_from(extends));
-
-            return file_system.get_full_path(file_system.path_combine(base_path, file_name));
+            return file_system.get_full_path(file_system.path_combine(Directory.GetCurrentDirectory(), base_path, file_name));
         }
 
         private void run_nant_core_task(string file_path)

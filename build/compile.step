@@ -6,22 +6,22 @@
   <include buildfile="${build.config.settings}" if="${file::exists(build.config.settings)}" />
   <property name="path.separator" value="${string::trim(path::combine(' ', ' '))}" />
   <property name="file.current.no_extension" value="compile" />
-  <property name="dirs.current" value="${directory::get-parent-directory(project::get-buildfile-path())}" />
-  <property name="path.to.toplevel" value=".." />
-  <property name="folder.build_scripts" value="build" overwrite="false" />
+  <property name="dirs.current" value="${directory::get-current-directory()}" />
+  <property name="dirs.current.file" value="${directory::get-parent-directory(project::get-buildfile-path())}" />  
+  <property name="W" value="build" overwrite="false" />
   <property name="folder.build_scripts_custom" value="build.custom" overwrite="false" />
-  <property name="dirs.build_scripts_custom" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.build_scripts_custom}" />
+  <property name="dirs.build_scripts_custom" value="${dirs.current}${path.separator}${folder.build_scripts_custom}" />
   <property name="folder.code_build" value="build_output" overwrite="false" />
-  <property name="dirs.build" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.code_build}" />
+  <property name="dirs.build" value="${dirs.current}${path.separator}${folder.code_build}" />
   <property name="dirs.build.windows.mono" value="${string::replace(dirs.build,'\','/')}" />
   <property name="folder.documentation" value="docs" overwrite="false" />
-  <property name="dirs.docs" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.documentation}" />
+  <property name="dirs.docs" value="${dirs.current}${path.separator}${folder.documentation}" />
   <property name="folder.database" value="__DATABASE_FOLDER_NAME__" overwrite="false" />
-  <property name="dirs.db" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.database}" />
+  <property name="dirs.db" value="${dirs.current}${path.separator}${folder.database}" />
   <property name="project.name" value="__SOLUTION_NAME_WITHOUT_SLN_EXTENSION__" overwrite="false" />
   <property name="folder.app.drop" value="${project.name}" overwrite="false" />
   <property name="folder.references" value="lib" overwrite="false" />
-  <property name="dirs.lib" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.references}" overwrite="false" />
+  <property name="dirs.lib" value="${dirs.current}${path.separator}${folder.references}" overwrite="false" />
   <property name="folder.build_artifacts" value="build_artifacts" overwrite="false" />
   <property name="dirs.build_artifacts" value="${path::get-full-path(dirs.build)}${path.separator}${folder.build_artifacts}" />
   <property name="dirs.build_results" value="${dirs.build_artifacts}${path.separator}compile" overwrite="false" />
@@ -33,9 +33,9 @@
   <property name="msbuild.override_output_path" value="true" overwrite="false" />
   <property name="msbuild.outputpath" value="${dirs.build}${path.separator}${folder.app.drop}" overwrite="false" />
   <property name="msbuild.outputpath.windows.mono" value="${string::replace(msbuild.outputpath,'\','/')}" />
-  <property name="solution.path" value="${directory::get-parent-directory(dirs.current)}${path.separator}${path_to_solution}${path.separator}${project.name}.sln" />
-  <property name="solution.path.windows.mono" value="${string::replace(directory::get-parent-directory(dirs.current),'\','/')}/${string::replace(path_to_solution,'\','/')}/${project.name}.sln" />
-  <property name="solution.path" value="${directory::get-parent-directory(dirs.current)}${path.separator}${path_to_solution}${path.separator}${project.name}.vbp" if="${microsoft.framework =='vb6'}" />
+  <property name="solution.path" value="${dirs.current}${path.separator}${path_to_solution}${path.separator}${project.name}.sln" />
+  <property name="solution.path.windows.mono" value="${string::replace(dirs.current,'\','/')}/${string::replace(path_to_solution,'\','/')}/${project.name}.sln" />
+  <property name="solution.path" value="${dirs.current}${path.separator}${path_to_solution}${path.separator}${project.name}.vbp" if="${microsoft.framework =='vb6'}" />
   <property name="nant.settings.currentframework" value="mono-2.0" if="${platform::is-unix()}" />
   <property name="nant.settings.currentframework" value="net-3.5" if="${microsoft.framework !='vb6' and platform::is-windows()}" />
   <property name="app.xbuild" value="C:\Program Files (x86)\Mono-2.8\bin\xbuild.bat" overwrite="false" if="${platform::is-windows() and file::exists('C:\Program Files (x86)\Mono-2.8\bin\xbuild.bat')}" />
@@ -43,9 +43,6 @@
   <property name="app.xbuild" value="xbuild" overwrite="false" if="${platform::is-unix()}" />
   <property name="framework.multitargeting" value="false" />
   <property name="framework.multitargeting.delimiter" value="," />
-  <property name="file.custom.step.before" value="${dirs.build_scripts_custom}${path.separator}${file.current.no_extension}.pre.step" />
-  <property name="file.custom.step.after" value="${dirs.build_scripts_custom}${path.separator}${file.current.no_extension}.post.step" />
-  <property name="file.custom.step.replace" value="${dirs.build_scripts_custom}${path.separator}${file.current.no_extension}.replace.step" />
   <property name="is.replaced" value="false" />
   <property name="fail.build.on.error" value="true" />
   <property name="app.ruby" value="C:\Ruby\bin\ruby.exe" overwrite="false" />
@@ -54,7 +51,7 @@
   <target name="go" depends="load_uppercut_assemblies, run_tasks" />
   
   <property name="file.uppercut.assembly" value="uppercut.tasks.dll" />
-    <property name="path.uppercut.assembly" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.build_scripts}${path.separator}${file.uppercut.assembly}" />
+    <property name="path.uppercut.assembly" value="${dirs.current.file}${path.separator}${file.uppercut.assembly}" />
   <target name="load_uppercut_assemblies">
     <loadtasks assembly="${path.uppercut.assembly}" if="${file::exists(path.uppercut.assembly)}" />
   </target>

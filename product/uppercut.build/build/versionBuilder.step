@@ -6,20 +6,20 @@
   <include buildfile="${build.config.settings}" if="${file::exists(build.config.settings)}" />
   <property name="path.separator" value="${string::trim(path::combine(' ', ' '))}" />
   <property name="file.current.no_extension" value="versionBuilder" />
-  <property name="dirs.current" value="${directory::get-parent-directory(project::get-buildfile-path())}" />
-  <property name="path.to.toplevel" value=".." />
+  <property name="dirs.current" value="${directory::get-current-directory()}" />
+  <property name="dirs.current.file" value="${directory::get-parent-directory(project::get-buildfile-path())}" />  
   <property name="folder.build_scripts" value="build" overwrite="false" />
   <property name="folder.build_scripts_custom" value="build.custom" overwrite="false" />
-  <property name="dirs.build_scripts_custom" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.build_scripts_custom}" />
+  <property name="dirs.build_scripts_custom" value="${dirs.current}${path.separator}${folder.build_scripts_custom}" />
   <property name="folder.code_build" value="build_output" overwrite="false" />
-  <property name="dirs.build" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.code_build}" />
+  <property name="dirs.build" value="${dirs.current}${path.separator}${folder.code_build}" />
   <property name="project.name" value="__SOLUTION_NAME_WITHOUT_SLN_EXTENSION__" overwrite="false" />
   <property name="company.name" value="__COMPANY_NAME__" overwrite="false" />
   <property name="path_to_solution" value="." overwrite="false" />
   <property name="language.short" value="cs" overwrite="false" />
   <property name="language.long" value="CSharp" />
   <property name="file.version" value="SolutionVersion.${language.short}" overwrite="false" />
-  <property name="path.file.version" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${path_to_solution}${path.separator}${file.version}" overwrite="false" />
+  <property name="path.file.version" value="${dirs.current}${path.separator}${path_to_solution}${path.separator}${file.version}" overwrite="false" />
   <property name="version.use_semanticversioning" value="false" overwrite="false" />
   <property name="version.major" value="1" overwrite="false" />
   <property name="version.minor" value="0" overwrite="false" />
@@ -34,8 +34,8 @@
   <property name="sign.key.use_relative_pathing" value="false" overwrite="false" />
   <property name="sign.key.relative_path_from_projects" value="..${path.separator}..${path.separator}" overwrite="false" />
   <property name="app.strongname" value="C:\Program Files\Microsoft SDKs\Windows\v6.0A\Bin\sn.exe" overwrite="false" />
-  <property name="file.key.name.private" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${project.name}.snk" overwrite="false" />
-  <property name="file.key.name.private" value="${path.to.toplevel}${path.separator}${project.name}.snk" overwrite="false" if="${sign.key.use_relative_pathing}" />
+  <property name="file.key.name.private" value="${dirs.current}${path.separator}${project.name}.snk" overwrite="false" />
+  <property name="file.key.name.private" value="${project.name}.snk" overwrite="false" if="${sign.key.use_relative_pathing}" />
   <property name="file.key.name.public" value="${dirs.build}${path.separator}public.${project.name}.snk" overwrite="false" />
   <property name="obfuscate" value="false" overwrite="false" />
 

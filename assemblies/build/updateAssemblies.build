@@ -6,18 +6,18 @@
   <include buildfile="${build.config.settings}" if="${file::exists(build.config.settings)}" />
   <property name="path.separator" value="${string::trim(path::combine(' ', ' '))}" />
   <property name="file.current.no_extension" value="updateAssemblies" />
-  <property name="dirs.current" value="${directory::get-parent-directory(project::get-buildfile-path())}" />
-  <property name="path.to.toplevel" value=".." />
+  <property name="dirs.current" value="${directory::get-current-directory()}" />
+  <property name="dirs.current.file" value="${directory::get-parent-directory(project::get-buildfile-path())}" />  
   <property name="folder.build_scripts" value="build" overwrite="false" />
   <property name="folder.build_scripts_custom" value="build.custom" overwrite="false" />
-  <property name="dirs.build_scripts_custom" value="${dirs.current}${path.separator}..${path.separator}${folder.build_scripts_custom}" />
+  <property name="dirs.build_scripts_custom" value="${dirs.current}${folder.build_scripts_custom}" />
   <property name="folder.code_drop" value="code_drop" overwrite="false" />
-  <property name="dirs.drop" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}${folder.code_drop}" overwrite="false" />
+  <property name="dirs.drop" value="${dirs.current}${path.separator}${folder.code_drop}" overwrite="false" />
   <property name="folder.app.drop" value="${project.name}" overwrite="false" />
   <property name="project.name" value="__SOLUTION_NAME_WITHOUT_SLN_EXTENSION__" overwrite="false" />
   <property name="file.uppercut.assembly" value="uppercut.tasks.dll" />
-  <property name="path.uppercut.assembly" value="${dirs.current}${path.separator}${file.uppercut.assembly}" />
-  <property name="dirs.assemblies" value="${dirs.current}${path.separator}${path.to.toplevel}${path.separator}assemblies" overwrite="false" />
+  <property name="path.uppercut.assembly" value="${dirs.current.file}${path.separator}${file.uppercut.assembly}" />
+  <property name="dirs.assemblies" value="${dirs.current}${path.separator}assemblies" overwrite="false" />
   <property name="is.replaced" value="false" />
   <property name="fail.build.on.error" value="true" />
   <property name="app.ruby" value="C:\Ruby\bin\ruby.exe" overwrite="false" />
