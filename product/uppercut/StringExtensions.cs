@@ -21,5 +21,22 @@ namespace uppercut
             return input.ToUpper();
         }
 
+        public static string replace_last_instance_of(this string input, string toReplace, string replaceWith)
+        {
+            if (input == null)
+            {
+                return null;
+            }
+
+            int indexOf = input.LastIndexOf(toReplace);
+            if (indexOf == -1)
+            {
+                return input;
+            }
+
+            string removedString = input.Remove(indexOf, toReplace.Length);
+            string replacedString = removedString.Insert(indexOf, replaceWith);
+            return replacedString;
+        }
     }
 }

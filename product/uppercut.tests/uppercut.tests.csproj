@@ -117,10 +117,10 @@
     <Compile Include="template.builder\TokenReplacerSpecs.cs" />
     <Compile Include="infrastructure\containers\ContainerSpecs.cs" />
     <Compile Include="infrastructure\containers\custom\WindsorContainerSpecs.cs" />
-    <Compile Include="infrastructure\extensions\IterationSpecs.cs" />
-    <Compile Include="infrastructure\extensions\StringExtensionsSpecs.cs" />
-    <Compile Include="infrastructure\extensions\TypeCastingSpecs.cs" />
-    <Compile Include="infrastructure\extensions\TypeExtensionsSpecs.cs" />
+    <Compile Include="IterationSpecs.cs" />
+    <Compile Include="StringExtensionsSpecs.cs" />
+    <Compile Include="TypeCastingSpecs.cs" />
+    <Compile Include="TypeExtensionsSpecs.cs" />
     <Compile Include="infrastructure\logging\custom\Log4NetLogFactorySpecs.cs" />
     <Compile Include="infrastructure\logging\custom\Log4NetLoggerSpecs.cs" />
     <Compile Include="infrastructure\logging\LogSpecs.cs" />
@@ -163,7 +163,7 @@
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.-->
   <Target Name="BeforeBuild">
-  <Exec Command="&quot;$(SolutionDir)lib\NuGet\NuGet.exe&quot; install &quot;$(ProjectDir)packages.config&quot; -o &quot;$(SolutionDir)packages&quot;" />
+    <Exec Command="&quot;$(SolutionDir)lib\NuGet\NuGet.exe&quot; install &quot;$(ProjectDir)packages.config&quot; -o &quot;$(SolutionDir)packages&quot;" />
   </Target>
   <!-- <Target Name="AfterBuild">
   </Target>

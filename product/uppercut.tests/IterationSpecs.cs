@@ -1,4 +1,4 @@
-namespace uppercut.tests.infrastructure.extensions
+namespace uppercut.tests
 {
     using bdddoc.core;
     using developwithpassion.bdd.mbunit;

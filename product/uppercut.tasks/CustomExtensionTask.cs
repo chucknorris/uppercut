@@ -182,7 +182,7 @@
 
         private string get_file_name(string custom_extensions_folder, string build_folder, IFileSystemAccess file_system)
         {
-            string base_path = file_system.get_full_path(file_system.get_directory_name_from(extends)).to_lower().Replace(build_folder.to_lower(), custom_extensions_folder.to_lower());
+            string base_path = file_system.get_full_path(file_system.get_directory_name_from(extends)).to_lower().replace_last_instance_of(build_folder.to_lower(), custom_extensions_folder.to_lower());
             base_path = base_path.Substring(base_path.IndexOf(custom_extensions_folder.to_lower()));
             
             string file_name = string.Format("{0}.{1}{2}", file_system.get_file_name_without_extension_from(extends), extension_type,file_system.get_file_extension_from(extends));
