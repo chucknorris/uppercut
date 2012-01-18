@@ -16,13 +16,15 @@
     <copy todir="${dirs.build}\${folder.app.drop}\lib">
       <fileset basedir="${dirs.lib}">
         <exclude name="**/submit.xml" />
+        <include name="Eazfuscator.NET/**" />
         <include name="MbUnit2/**" />
-        <include name="NUnit/**" />
+        <include name="MoMA/**" />
         <include name="NAnt/**" />
         <include name="NCover/**" />
-        <include name="MoMA/**" />
-        <include name="Eazfuscator.NET/**" />
         <include name="NuGet/**" />
+        <include name="NUnit/**" />
+        <include name="OpenCover/**" />
+        <include name="ReportGenerator/**" />
         <include name="xUnit/**" />
       </fileset>
     </copy>
