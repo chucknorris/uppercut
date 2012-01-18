@@ -25,7 +25,7 @@
   <property name="folder.settings" value="settings" overwrite="false" />
   <property name="folder.documentation" value="docs" overwrite="false" />
   <property name="folder.gems" value="gems" overwrite="false" />
-  <property name="dirs.gems" value="${folder.gems}" overwrite="false" />
+  <property name="dirs.gems" value="${dirs.current}${path.separator}${folder.gems}" overwrite="false" />
   <property name="dirs.drop.gems" value="${dirs.drop}${path.separator}${folder.gems}" overwrite="false" />
   <property name="folder.gems.exists" value="${directory::exists(dirs.gems)}" />
   <property name="version.major" value="1" overwrite="false" />

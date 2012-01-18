@@ -116,9 +116,6 @@
     <Content Include="build\analyzers\metrics.step">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="build\analyzers\ncover.step">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="build\analyzers\ndepend.step">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -291,5 +288,16 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="build\analyzers\cover.step">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="build\analyzers\ncover.cover.step">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="build\analyzers\opencover.cover.step">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

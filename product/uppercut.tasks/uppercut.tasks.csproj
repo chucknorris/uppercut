@@ -92,6 +92,7 @@
       <Link>Properties\SolutionVersion.cs</Link>
     </Compile>
     <Compile Include="BuildTemplateFiles.cs" />
+    <Compile Include="CustomExtensionFunctions.cs" />
     <Compile Include="CustomExtensionTask.cs" />
     <Compile Include="getVersionFromGit.cs" />
     <Compile Include="GetVersionFromMercurial.cs" />

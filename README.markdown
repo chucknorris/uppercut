@@ -58,6 +58,9 @@ It helps keep to the product updated, pays for site hosting, etc. https://www.pa
 =1.x.x.x=  
 * Adding in support for StorEvil.  
   
+==1.4.2.0==  
+* FIX: Issue 41 - v1.4 no longer runs nuget or gems steps - see http://code.google.com/p/uppercut/issues/detail?id=41 for details. (420)  
+  
 ==1.4.1.0==  
 * FIX: Issue 40 - customizations fail when the folder path has build in it more than once - see http://code.google.com/p/uppercut/issues/detail?id=40 for details. (418)  
 * FIX: Issue 39 - The detailed build.log is not being written to sometimes - see http://code.google.com/p/uppercut/issues/detail?id=39 for details. (415)  

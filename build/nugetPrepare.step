@@ -26,7 +26,7 @@
   <property name="folder.settings" value="settings" overwrite="false" />
   <property name="folder.documentation" value="docs" overwrite="false" />
   <property name="folder.nuget" value="nuget" overwrite="false" />
-  <property name="dirs.nuget" value="${folder.nuget}" overwrite="false" />
+  <property name="dirs.nuget" value="${dirs.current}${path.separator}${folder.nuget}" overwrite="false" />
   <property name="dirs.drop.nuget" value="${dirs.drop}${path.separator}${folder.nuget}" overwrite="false" />
   <property name="folder.nuget.exists" value="${directory::exists(dirs.nuget)}" />
   <property name="version.use_semanticversioning" value="false" overwrite="false" />
