@@ -101,7 +101,7 @@ namespace uppercut.template.builder
                                                                          destination_directory,
                                                                          use_environment_subdirectory ? "\\" + settings_name: string.Empty);
                             file_system.verify_or_create_directory(destination_file_path);
-                            copy_file(file_name, String.Format("{0}\\{1}.{2}",destination_file_path,settings_name,destination_file_name));
+                            copy_file(file_name, String.Format("{0}\\{1}{2}", destination_file_path, use_environment_subdirectory ? string.Empty : settings_name + ".", destination_file_name));
                         }
                     }
                 }
