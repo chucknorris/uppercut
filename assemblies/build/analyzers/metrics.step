@@ -35,7 +35,6 @@
   <property name="file.uppercut.assembly" value="uppercut.tasks.dll" />
   <property name="path.uppercut.assembly" value="${dirs.current.file}${path.separator}..${path.separator}${file.uppercut.assembly}" />
   <target name="load_uppercut_assemblies">
-  <target name="load_uppercut_assemblies">
     <loadtasks assembly="${path.uppercut.assembly}" if="${file::exists(path.uppercut.assembly)}" />
   </target>
 
