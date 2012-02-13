@@ -1,4 +1,4 @@
-<NUnitProject>
+﻿<NUnitProject>
   <Settings appbase="."/>
   <Config name="Default" binpath="lib;tests;framework" runtimeFramework="v2.0">
     <assembly path="tests/nunit.framework.tests.dll" />
