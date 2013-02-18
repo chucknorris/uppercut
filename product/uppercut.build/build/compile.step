@@ -77,7 +77,7 @@
   </target>
 
   <target name="run_normal_tasks"
-          depends="error_check, build_code, copy_documentation, copy_db"
+          depends="error_check, set_vars, build_code, copy_documentation, copy_db"
           description="Compiling project." />
 
   <target name="error_check">
@@ -96,6 +96,11 @@
       <property name="framework.multitargeting" value="true" />
       <property name="framework.multitargeting.delimiter" value=";" />
     </if>
+  </target>
+  
+  <target name="set_vars">
+    <echo level="Warning" message="Setting compile variables" />
+    <setenv name="EnableNuGetPackageRestore" value="true"/>
   </target>
   
   <target name="build_code" depends="" description="Building Library">
@@ -286,6 +291,11 @@
     <echo level="Warning" message="Building database files to ${dirs.build}${path.separator}${folder.database}."/>
     <copy todir="${dirs.build}${path.separator}${folder.database}">
       <fileset basedir="${dirs.db}">
+        <exclude name="**/*.csproj" />
+        <exclude name="**/*.csproj.user" />
+        <exclude name="bin/**/*.*" />
+        <exclude name="obj/**/*.*" />
+        <exclude name="Properties/**/*.*" />
         <include name="**/*.*" />
       </fileset>
     </copy>
