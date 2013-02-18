@@ -38,6 +38,7 @@
     <nant buildfile="${dirs.current.file}${path.separator}analyzers${path.separator}ndepend.step" inheritall="true" failonerror="false" />
     <nant buildfile="${dirs.current.file}${path.separator}analyzers${path.separator}nitriq.step" inheritall="true" failonerror="false" />
     <nant buildfile="${dirs.current.file}${path.separator}analyzers${path.separator}metrics.step" inheritall="true" failonerror="false" />
+    <nant buildfile="${dirs.current.file}${path.separator}analyzers${path.separator}fxcop.step" inheritall="true" failonerror="false" />
     <nant buildfile="${dirs.current.file}${path.separator}analyzers${path.separator}moma.step" inheritall="true" failonerror="false" />
   </target>
 
