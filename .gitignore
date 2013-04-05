@@ -11,8 +11,8 @@ _ReSharper*
 *.sln.docstates
 *.user 
 *.csproj.user
-*.resharper.user
-*.ReSharper.user
+*.[rR]esharper.user
+*.DotSettings.user
 *.resharper
 *.cache
 *~
