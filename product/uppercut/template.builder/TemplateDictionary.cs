@@ -8,6 +8,7 @@ namespace uppercut.template.builder
         public static IDictionary<string, string> create_token_replacement_dictionary(string settings_text)
         {
             IDictionary<string, string> token_replacement_dictionary = new Dictionary<string, string>();
+            token_replacement_dictionary.Add("${quote}", "\"");
 
             foreach (Match name_value_match in get_matches(settings_text))
             {

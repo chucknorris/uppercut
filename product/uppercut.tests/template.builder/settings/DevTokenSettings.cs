@@ -11,6 +11,7 @@
     <property name=""settings.separatedby.slash"" value=""\\${server.files}\${environment}\Archive"" />
     <property name=""settings.no.separation"" value=""${server.files}${environment}"" />
     <property name=""settings.with.nonexisting"" value=""${server.files}\${nonexistant.setting}"" />
+    <property name=""settings.with.quote"" value=""${quote}somevalue${quote}"" />
     
 </project>";
     }

@@ -47,8 +47,8 @@ namespace uppercut.tests.template.builder
                 {
                     Assert.AreEqual("name=\"Bob\" value=\"bIll\"", match.ToString());
                 }
-            }
-
+            }      
+         
             [Observation]
             public void should_match_a_name_value_with_an_extra_space()
             {
@@ -327,7 +327,8 @@ namespace uppercut.tests.template.builder
             [Observation]
             public void should_create_quite_a_few_matches()
             {
-                Assert.AreEqual(62, result.Count);
+                // one more for the custom replacement value
+                Assert.AreEqual(63, result.Count);
             }
 
             [Observation]
@@ -369,7 +370,13 @@ namespace uppercut.tests.template.builder
             {
                 Assert.AreEqual(@"appdevserver\${nonexistant.setting}", result["${settings.with.nonexisting}"]);
             }
-
+            
+            [Observation]
+            public void should_have_replaced_quote_with_quote_values()
+            {
+                Assert.AreEqual(@"""somevalue""", result["${settings.with.quote}"]);
+            }
+    
         }
   
     
