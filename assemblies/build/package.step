@@ -157,7 +157,7 @@
   </target>
 
   <target name="deployment_scripts">
-    <echo level="Warning" message="Packaging deployment scripts to ${dirs.drop}${path.separator}${folder.deployment}."/>
+    <echo level="Warning" message="Packaging deployment scripts from '${dirs.current}${path.separator}${folder.deployment}' to '${dirs.drop}${path.separator}${folder.deployment}'."/>
     <copy todir="${dirs.drop}${path.separator}${folder.deployment}">
       <fileset basedir="${dirs.current}${path.separator}${folder.deployment}">
         <exclude name="**${path.separator}*.template" />
