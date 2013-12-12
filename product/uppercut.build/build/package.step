@@ -92,8 +92,9 @@
 
   <target name="app_published">
     <echo level="Warning" message="Packaging published applications to ${dirs.drop}${path.separator}_PublishedApplications."/>
-    <copy todir="${dirs.drop}${path.separator}_PublishedApplications">
-      <fileset basedir="${dirs.build}${path.separator}${folder.app.drop}${path.separator}_PublishedApplications">
+    <property name="dir.build.publishedapps" value="${dirs.build}${path.separator}${folder.app.drop}${path.separator}_PublishedApplications" />
+    <copy todir="${dirs.drop}${path.separator}_PublishedApplications" if="${directory::exists(dir.build.publishedapps)}">
+      <fileset basedir="${dir.build.publishedapps}">
         <exclude name="**${path.separator}*.template" />
         <include name="**/*.*" />
       </fileset>
@@ -101,9 +102,10 @@
   </target>
   
   <target name="web">
-    <echo level="Warning" message="Packaging website to ${dirs.drop}${path.separator}_PublishedWebSites."/>
-    <copy todir="${dirs.drop}${path.separator}_PublishedWebSites">
-      <fileset basedir="${dirs.build}${path.separator}${folder.app.drop}${path.separator}_PublishedWebSites">
+    <echo level="Warning" message="Packaging website to ${dirs.drop}${path.separator}_PublishedWebSites." />
+    <property name="dir.build.publishedwebsites" value="${dirs.build}${path.separator}${folder.app.drop}${path.separator}_PublishedWebSites" />
+    <copy todir="${dirs.drop}${path.separator}_PublishedWebSites" if="${directory::exists(dir.build.publishedwebsites)}">
+      <fileset basedir="${dir.build.publishedwebsites}">
         <exclude name="**${path.separator}*.template" />
         <include name="**/*.*" />
       </fileset>
@@ -112,8 +114,9 @@
 
   <target name="db">
     <echo level="Warning" message="Packaging database files to ${dirs.drop}${path.separator}${folder.database}."/>
-    <copy todir="${dirs.drop}${path.separator}${folder.database}">
-      <fileset basedir="${dirs.build}${path.separator}${folder.database}">
+    <property name="dir.build.db" value="${dirs.build}${path.separator}${folder.database}" />
+    <copy todir="${dirs.drop}${path.separator}${folder.database}" if="${directory::exists(dir.build.db)}">
+      <fileset basedir="${dir.build.db}">
         <exclude name="**${path.separator}*.template" />
         <include name="**/*.*" />
       </fileset>
@@ -122,8 +125,9 @@
 
   <target name="reports">
     <echo level="Warning" message="Packaging reports to ${dirs.drop}${path.separator}${folder.reports}."/>
-    <copy todir="${dirs.drop}${path.separator}${folder.reports}">
-      <fileset basedir="${dirs.current}${path.separator}${folder.reports}">
+    <property name="dir.reports" value="${dirs.current}${path.separator}${folder.reports}" />
+    <copy todir="${dirs.drop}${path.separator}${folder.reports}" if="${directory::exists(dir.reports)}">
+      <fileset basedir="${dir.reports}">
         <exclude name="**${path.separator}*.template" />
         <include name="**/*.*" />
       </fileset>
@@ -132,16 +136,18 @@
 
   <target name="file_server">
     <echo level="Warning" message="Packaging file server items to ${dirs.drop}${path.separator}${folder.file_server}."/>
-    <copy todir="${dirs.drop}${path.separator}${folder.file_server}">
-      <fileset basedir="${dirs.current}${path.separator}${folder.file_server}">
+    <property name="dir.fileserver" value="${dirs.current}${path.separator}${folder.file_server}" />
+    <copy todir="${dirs.drop}${path.separator}${folder.file_server}" if="${directory::exists(dir.fileserver)}">
+      <fileset basedir="${dir.fileserver}">
         <exclude name="**${path.separator}*.template" />
         <include name="**/*.*" />
       </fileset>
     </copy>
     
     <echo level="Warning" message="Packaging output fileserver items to ${dirs.drop}${path.separator}FileServer."/>
-     <copy todir="${dirs.drop}${path.separator}FileServer">
-      <fileset basedir="${dirs.build}${path.separator}${folder.app.drop}${path.separator}FileServer">
+    <property name="dir.build.fileserver" value="${dirs.build}${path.separator}${folder.app.drop}${path.separator}FileServer" />
+    <copy todir="${dirs.drop}${path.separator}FileServer" if="${directory::exists(dir.build.fileserver)}">
+      <fileset basedir="${dir.build.fileserver}">
         <include name="**/**" />
       </fileset>
     </copy>
@@ -149,8 +155,9 @@
 
   <target name="environment_files">
     <echo level="Warning" message="Packaging environment files to ${dirs.drop}${path.separator}${folder.environment_files}."/>
-    <copy todir="${dirs.drop}${path.separator}${folder.environment_files}">
-      <fileset basedir="${dirs.build}${path.separator}${folder.environment_files}">
+    <property name="dir.build.environmentfiles" value="${dirs.build}${path.separator}${folder.environment_files}" />
+    <copy todir="${dirs.drop}${path.separator}${folder.environment_files}" if="${directory::exists(dir.build.environmentfiles)}">
+      <fileset basedir="${dir.build.environmentfiles}">
         <include name="**/*.*" />
       </fileset>
     </copy>
@@ -158,8 +165,9 @@
 
   <target name="deployment_scripts">
     <echo level="Warning" message="Packaging deployment scripts from '${dirs.current}${path.separator}${folder.deployment}' to '${dirs.drop}${path.separator}${folder.deployment}'."/>
-    <copy todir="${dirs.drop}${path.separator}${folder.deployment}">
-      <fileset basedir="${dirs.current}${path.separator}${folder.deployment}">
+    <property name="dir.deploymentscripts" value="${dirs.current}${path.separator}${folder.deployment}" />
+    <copy todir="${dirs.drop}${path.separator}${folder.deployment}" if="${directory::exists(dir.deploymentscripts)}">
+      <fileset basedir="${dir.deploymentscripts}">
         <exclude name="**${path.separator}*.template" />
         <exclude name="templates${path.separator}**" />
         <include name="**/*.*" />
@@ -169,8 +177,9 @@
 
   <target name="settings_files">
     <echo level="Warning" message="Packaging settings files to ${dirs.drop}${path.separator}${folder.settings}."/>
-    <copy todir="${dirs.drop}${path.separator}${folder.settings}">
-      <fileset basedir="${dirs.current}${path.separator}${folder.settings}">
+    <property name="dir.settingsfiles" value="${dirs.current}${path.separator}${folder.settings}" />
+    <copy todir="${dirs.drop}${path.separator}${folder.settings}" if="${directory::exists(dir.settingsfiles)}">
+      <fileset basedir="${dir.settingsfiles}">
         <include name="**/*.settings" />
       </fileset>
     </copy>
@@ -211,8 +220,9 @@
 
   <target name="documentation">
     <echo level="Warning" message="Packaging documentation files to ${dirs.drop}${path.separator}${folder.documentation}."/>
-    <copy todir="${dirs.drop}${path.separator}${folder.documentation}">
-      <fileset basedir="${dirs.build}${path.separator}${folder.documentation}">
+    <property name="dir.build.documentation" value="${dirs.build}${path.separator}${folder.documentation}" />
+    <copy todir="${dirs.drop}${path.separator}${folder.documentation}" if="${directory::exists(dir.build.documentation)}">
+      <fileset basedir="${dir.build.documentation}">
         <include name="**/*.*" />
       </fileset>
     </copy>

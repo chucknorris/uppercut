@@ -41,7 +41,7 @@
   
   <!--<target name="documentation">
     <echo level="Warning" message="Packaging documentation files to ${dirs.drop}${path.separator}${folder.documentation}."/>
-    <copy todir="${dirs.drop}${path.separator}${folder.documentation}">
+    <copy todir="${dirs.drop}${path.separator}${folder.documentation}" failonerror="false">
       <fileset basedir="${dirs.build}${path.separator}${folder.documentation}">
         <include name="**/*.*" />
       </fileset>

@@ -55,6 +55,7 @@
     <copy
       file="${log.build}"
       todir="${dirs.drop}${path.separator}${folder.build_artifacts}"
+      failonerror="false"
       />
     <echo level="Warning" message="See '${dirs.drop}${path.separator}${folder.build_artifacts}${path.separator}build.log' for detailed build log information." />
   </target>

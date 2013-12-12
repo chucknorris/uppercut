@@ -280,7 +280,7 @@
 
   <target name="copy_documentation">
     <echo level="Warning" message="Building documentation files to ${dirs.build}${path.separator}${folder.documentation}."/>
-    <copy todir="${dirs.build}${path.separator}${folder.documentation}">
+    <copy todir="${dirs.build}${path.separator}${folder.documentation}" failonerror="false" >
       <fileset basedir="${dirs.docs}">
         <include name="**/*.*" />
       </fileset>
@@ -289,7 +289,7 @@
 
   <target name="copy_db">
     <echo level="Warning" message="Building database files to ${dirs.build}${path.separator}${folder.database}."/>
-    <copy todir="${dirs.build}${path.separator}${folder.database}">
+    <copy todir="${dirs.build}${path.separator}${folder.database}" failonerror="false">
       <fileset basedir="${dirs.db}">
         <exclude name="**/*.csproj" />
         <exclude name="**/*.csproj.user" />
