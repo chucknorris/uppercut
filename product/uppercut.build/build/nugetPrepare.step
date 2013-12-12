@@ -41,8 +41,8 @@
   <property name="version.use.build_date" value="false" overwrite="false" />
   <property name="pkg.build.date" value="20100801" overwrite="false" />
   <property name="file.nuget.version" value="${dirs.drop.nuget}${path.separator}version.xml" />
-	<property name="nuget.version" value="${version.major}.${version.minor}.${version.build}.${version.revision}" />
-	<property name="nuget.version" value="${version.major}.${version.minor}.${version.patch}"  if="${version.use_semanticversioning}" />
+  <property name="nuget.version" value="${version.major}.${version.minor}.${version.build}.${version.revision}" />
+  <property name="nuget.version" value="${version.major}.${version.minor}.${version.patch}"  if="${version.use_semanticversioning}" />
   
   <property name="is.replaced" value="false" />
   <property name="fail.build.on.error" value="false" />
