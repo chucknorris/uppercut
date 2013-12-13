@@ -81,7 +81,7 @@
           description="Compiling project." />
 
   <target name="error_check">
-    <fail message="You must fill out the project.name, repository.path, and company.name settings in the settings${path.separator}UppercuT.config file. Please do that and retry the build."
+    <fail message="You must fill out the project.name, repository.path, and company.name settings in the ${build.config.settings} file. Please do that and retry the build."
       if="${project.name=='__SOLUTION_NAME_WITHOUT_SLN_EXTENSION__'}" />
   </target>
 

@@ -88,7 +88,7 @@
   </target>
 
   <target name="error_check">
-    <fail message="You must fill out the project.name, repository.path, and company.name settings in the settings${path.separator}UppercuT.config file. Please do that and retry the build."
+    <fail message="You must fill out the project.name, repository.path, and company.name settings in the ${build.config.settings} file. Please do that and retry the build."
       if="${project.name=='__SOLUTION_NAME_WITHOUT_SLN_EXTENSION__' or repository.path=='__REPOSITORY_PATH__' or company.name=='__COMPANY_NAME__'}" />
   </target>
 
@@ -100,7 +100,7 @@
     <nant buildfile="${dirs.current.file}${path.separator}policyChecks.step" inheritall="true" />
     <nant buildfile="${dirs.current.file}${path.separator}versionBuilder.step" inheritall="true" />
     <nant buildfile="${dirs.current.file}${path.separator}generateBuildInfo.step" inheritall="true" />
-    <nant buildfile="${dirs.current.file}${path.separator}manifestBuilder.step" inheritall="true" />
+    <!--FIX PATHING TO WORK ON *NIX FIRST nant buildfile="${dirs.current.file}${path.separator}manifestBuilder.step" inheritall="true" /-->
     <nant buildfile="${dirs.current.file}${path.separator}compile.step" inheritall="true" />
     <nant buildfile="${dirs.current.file}${path.separator}environmentBuilder.step" inheritall="true" />
     <nant buildfile="${dirs.current.file}${path.separator}analyze.step" inheritall="true" />

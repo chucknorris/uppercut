@@ -20,11 +20,11 @@ function displayUsage
 
 displayUsage $1
 
-# http://www.michaelruck.de/2010/03/solving-pkg-config-and-mono-35-profile.html
 # http://cloudgen.wordpress.com/2013/03/06/configure-nant-to-run-under-mono-3-06-beta-for-mac-osx/
 export PKG_CONFIG_PATH=/opt/local/lib/pkgconfig:/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig
 
-mono ./lib/NAnt/NAnt.exe /logger:"NAnt.Core.DefaultLogger" /nologo /quiet /f:"$(cd $(dirname "$0"); pwd)/build/default.build" /D:build.config.settings="$(cd $(dirname "$0"); pwd)/settings/UppercuT.config" $*
+#mono ./lib/NAnt/NAnt.exe /logger:"NAnt.Core.DefaultLogger" /nologo /quiet /f:"$(cd $(dirname "$0"); pwd)/build/default.build" /D:build.config.settings="$(cd $(dirname "$0"); pwd)/settings/UppercuT.config" /D:microsoft.framework="mono-3.5" $*
+mono --runtime=v4.0.30319 ./lib/NAnt/NAnt.exe /logger:"NAnt.Core.DefaultLogger" /nologo /quiet /f:"$(cd $(dirname "$0"); pwd)/build/default.build" /D:build.config.settings="$(cd $(dirname "$0"); pwd)/settings/UppercuT.config" /D:microsoft.framework="mono-4.0" /D:run.ilmerge="false" $*
 
-#/quiet /nologo /debug  /t:"mono-4.0"
+#/quiet /nologo /debug /verbose /t:"mono-4.0"
 
