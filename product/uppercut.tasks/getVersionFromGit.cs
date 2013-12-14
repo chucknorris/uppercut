@@ -93,21 +93,21 @@ namespace uppercut.tasks
 
             infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing(Project.BaseDirectory);
             //run_external_application("cmd", git_path + " " + git_version_arguments + " > " + output_file, repo_directory, true);
-            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_version_arguments, repo_path);
-            version_output = run_external_application("cmd", "/c " + git_path + " " + git_version_arguments, repo_directory, true);
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Running {0} {1} on {2}", git_path, git_version_arguments, repo_path);
+            version_output = run_external_application(git_path, git_version_arguments, repo_directory, true);
             git_describe_output = version_output.ReadToEnd();
 
             if (git_describe_output.to_lower().Contains("fatal") || string.IsNullOrEmpty(git_describe_output))
             {
-                infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_create_tag_arguments, repo_path);
+                infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Running {0} {1} on {2}", git_path, git_create_tag_arguments, repo_path);
                 had_to_create_tags = true;
-                run_external_application("cmd", "/c " + git_path + " " + git_create_tag_arguments, repo_directory, true);
+                run_external_application(git_path, git_create_tag_arguments, repo_directory, true);
             }
 
             if (had_to_create_tags)
             {
-                infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_version_arguments, repo_path);
-                version_output = run_external_application("cmd", "/c " + git_path + " " + git_version_arguments, repo_directory, true);
+                infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Running {0} {1} on {2}", git_path, git_version_arguments, repo_path);
+                version_output = run_external_application(git_path, git_version_arguments, repo_directory, true);
                 git_describe_output = version_output.ReadToEnd();
             }
 
@@ -121,8 +121,8 @@ namespace uppercut.tasks
 
             infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing(Project.BaseDirectory);
             //run_external_application("cmd", git_path + " " + git_version_arguments + " > " + output_file, repo_directory, true);
-            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Running cmd /c {0} {1} on {2}", git_path, git_sha1_hash_arguments, repo_path);
-            hash_output = run_external_application("cmd", "/c " + git_path + " " + git_sha1_hash_arguments, repo_directory, true);
+            infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Running {0} {1} on {2}", git_path, git_sha1_hash_arguments, repo_path);
+            hash_output = run_external_application(git_path, git_sha1_hash_arguments, repo_directory, true);
             git_sha1_hash_output = hash_output.ReadToEnd();
 
             try
