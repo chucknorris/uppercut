@@ -51,7 +51,7 @@
                 ruby = Project.Properties["app.ruby"];
                 if (ruby != @"C:\Ruby\bin\ruby.exe")
                 {
-                    infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Setting app.ruby to '{0}'", ruby);
+                    infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Setting app.ruby to '{0}'", ruby);
                 }
             }
             ruby = expand_environment_variables(ruby);
@@ -61,7 +61,7 @@
                 powershell = Project.Properties["app.powershell"];
                 if (powershell != @"%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe")
                 {
-                    infrastructure.logging.Log.bound_to(this).log_a_warning_event_containing("Setting app.powershell to '{0}'", powershell);
+                    infrastructure.logging.Log.bound_to(this).log_an_info_event_containing("Setting app.powershell to '{0}'", powershell);
                 }
             }
             powershell = expand_environment_variables(powershell);
