@@ -165,9 +165,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LastGenOutput>LOCAL.Designer.cs</LastGenOutput>
     </Content>
-    <Content Include="settings\UppercuT.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="build\analyzers\gallio.test.step">
@@ -256,10 +253,10 @@
     <Content Include="build\obfuscate.step">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="build\analyzers\storevil.test.step">
+    <Content Include="build.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="build.sh">
+    <Content Include=".uppercut">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="build\csharp.functions">
@@ -305,6 +302,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="build\analyzers\fxcop.step">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="build\default.build.settings">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

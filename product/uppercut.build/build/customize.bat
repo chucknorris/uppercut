@@ -17,7 +17,7 @@ SET step.type=%2
 
 SET DIR=%~d0%~p0%
 SET NANT="%DIR%..\lib\Nant\nant.exe"
-SET build.config.settings="%DIR%..\settings\UppercuT.config"
+SET build.config.settings="%DIR%..\.uppercut"
 
 %NANT% /f:.\customize.build -D:build.config.settings=%build.config.settings% -D:customize.step.name=%step.name% -D:customize.step.type=%step.type%
 

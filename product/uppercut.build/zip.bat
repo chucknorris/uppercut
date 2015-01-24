@@ -6,14 +6,10 @@
 SET DIR=%cd%
 SET BUILD_DIR=%~d0%~p0%
 
-::This is gone once teamcity can call multiple files
-call "%BUILD_DIR%build.bat" %*
-if %ERRORLEVEL% NEQ 0 goto errors
-
 SET NANT="%BUILD_DIR%lib\Nant\nant.exe"
-SET build.config.settings="%DIR%\settings\UppercuT.config"
+SET build.config.settings="%DIR%\.uppercut"
 
-%NANT% /logger:"NAnt.Core.DefaultLogger" /quiet /nologo /f:"%BUILD_DIR%build\zip.build" /D:build.config.settings=%build.config.settings% %*
+%NANT% /logger:"NAnt.Core.DefaultLogger" /quiet /nologo /f:"%BUILD_DIR%build\zip.build" -D:build.config.settings=%build.config.settings% %*
 
 if %ERRORLEVEL% NEQ 0 goto errors
 
