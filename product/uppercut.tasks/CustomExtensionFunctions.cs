@@ -29,6 +29,12 @@ namespace uppercut.tasks
         public static bool IsOperatingSystem64Bit()
         {
             return IntPtr.Size == 8 || (IntPtr.Size == 4 && Is32BitProcessOn64BitProcessor());
+        }        
+        
+        [Function("is-process64bit")]
+        public static bool IsProcess64Bit()
+        {
+            return IntPtr.Size == 8;
         }
 
         [DllImport("kernel32", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
