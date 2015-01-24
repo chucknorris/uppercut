@@ -17,10 +17,11 @@
   <target name="go" depends="include_default_excluded_files, move_output_files, deployment_scripts, copy_notices" description="Packaging" />
 
   <target name="include_default_excluded_files">
-    <echo message="Packaging test.bat items to ${dirs.drop}\${folder.app.drop}."/>
+    <echo message="Packaging items that would have been skipped to ${dirs.drop}\${folder.app.drop}."/>
     <copy todir="${dirs.drop}\${folder.app.drop}">
       <fileset basedir="${dirs.build}\${folder.app.drop}">
         <include name="**/Test.bat" />
+        <include name="**/.uppercut" />
       </fileset>
     </copy>
     <copy todir="${dirs.drop}\${folder.app.drop}\build\customizers">
