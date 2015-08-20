@@ -41,6 +41,7 @@
     <property name="nuget.version" value="${nuget.version + '-' + version.nuget.prerelease}" if="${version.nuget.prerelease != ''}" />
     <property name="nuget.version" value="${nuget.version + '.' + pkg.build.date}" if="${version.use.build_date and version.use_semanticversioning and version.nuget.prerelease == ''}" />
     <property name="nuget.version" value="${nuget.version + '-' + pkg.build.date}" if="${version.use.build_date and version.nuget.prerelease != ''}" />
+    <property name="nuget.version" value="${nuget.version + '.' + version.fix}" if="${version.fix != '0'}" />
     <!-- version.use.build_date -->
     <echo level="Warning" message="Using ${nuget.version} as the version for the nuget package(s)." />
   </target>
@@ -58,14 +59,20 @@
         <exec
           program="cmd"
           workingdir="${directory::get-parent-directory(spec.file)}"
-          failonerror="false"
+          failonerror="${fail.build.on.error}"
           if="${platform::is-windows()}">
             <arg value='/c ${app.nuget} pack "${spec.file}" -Version ${nuget.version}' />
         </exec>
-        <exec program="mono"
+        <exec
+          program="mono"
           workingdir="${directory::get-parent-directory(spec.file)}"
-          commandline='"${app.nuget}" pack "${spec.file}" -Version ${nuget.version}'
-          if="${platform::is-unix()}" />
+          failonerror="${fail.build.on.error}"
+          if="${platform::is-unix()}"
+          >
+          <arg value='"${app.nuget}"' />
+          <arg value='pack "${spec.file}"' />
+          <arg value='-Version "${nuget.version}"' />
+        </exec>
       </do>
     </foreach>
   </target>

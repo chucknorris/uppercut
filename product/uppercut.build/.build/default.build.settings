@@ -26,7 +26,7 @@
   <property name="folder.code_build" value="build_output" overwrite="false" />
   <property name="dirs.code_build" value="${dirs.current}${path.separator}${folder.code_build}" overwrite="false" />
   <property name="dirs.build" value="${dirs.current}${path.separator}${folder.code_build}" overwrite="false" />
-  <property name="dirs.build.code" value="${dirs.build}${path.separator}${folder.app.drop}" overwrite="false" />
+  <property name="dirs.build.code" value="${path::get-full-path(dirs.build)}${path.separator}${folder.app.drop}" overwrite="false" />
 
   <property name="folder.code_drop" value="code_drop" overwrite="false" />
   <property name="dirs.code_drop" value="${dirs.current}${path.separator}${folder.code_drop}" overwrite="false" />
@@ -60,9 +60,11 @@
 
   <property name="folder.settings" value="settings" overwrite="false" />
   <property name="dirs.settings" value="${dirs.current}${path.separator}${folder.settings}" overwrite="false" />
+  <property name="dirs.environments.settings" value="${dirs.settings}" overwrite="false" />
 
   <property name="folder.environment_files" value="environment.files" overwrite="false" />
   <property name="dirs.environment_files" value="${dirs.current}${path.separator}${folder.environment_files}" overwrite="false" />
+  <property name="dirs.build.environmentfiles" value="${dirs.build}${path.separator}${folder.environment_files}" overwrite="false" />
 
   <property name="folder.file_server" value="file.server" overwrite="false" />
   <property name="dirs.file_server" value="${dirs.current}${path.separator}${folder.file_server}" overwrite="false" />
@@ -92,7 +94,7 @@
   <property name="fail.build.on.error" value="true" />
 
   <!-- FRAMEWORKS -->
-  <!-- microsoft.framework: vb6, net-1.0, net-1.1, net-2.0, net-3.5, net-4.0, netcf-1.0, netcf-2.0, silverlight-2.0, mono-1.0, mono-2.0, mono-3.5, mono-4.0, moonlight-2.0 (Enter multiple ones with a "," to take advantage of multitargeting) -->
+  <!-- microsoft.framework: vb6, net-1.0, net-1.1, net-2.0, net-3.5, net-4.0, net-4.5, netcf-1.0, netcf-2.0, silverlight-2.0, mono-1.0, mono-2.0, mono-3.5, mono-4.0, moonlight-2.0 (Enter multiple ones with a "," to take advantage of multitargeting) -->
   <property name="microsoft.framework" value="net-4.0" overwrite="false" />
   <!-- language.short: vb,cs -->
   <property name="language.short" value="cs" overwrite="false" />
@@ -155,6 +157,7 @@
 
   <!-- EXTERNAL TOOLS -->
   <property name="app.test.console" value="${dirs.tools}${path.separator}NUnit${path.separator}nunit-console.exe" overwrite="false" if="${test.framework == 'nunit'}" />
+  <property name="app.test.console.x86" value="${dirs.tools}${path.separator}NUnit${path.separator}nunit-console-x86.exe" overwrite="false" if="${test.framework == 'nunit'}" />
   <property name="app.test.console" value="${dirs.tools}${path.separator}xUnit${path.separator}xunit.console.clr4.exe" overwrite="false" if="${test.framework == 'xunit'}" />
   <property name="app.test.console" value="${dirs.tools}${path.separator}MbUnit2${path.separator}MbUnit.Cons.exe" overwrite="false" if="${test.framework == 'mbunit2'}" />
   <property name="app.test.console" value="${dirs.program_files}${path.separator}Gallio${path.separator}bin${path.separator}Gallio.Host.exe" overwrite="false" if="${test.framework == 'gallio'}" />
@@ -185,12 +188,19 @@
 
   <property name="app.metrics" value="${dirs.program_files}${path.separator}Microsoft Visual Studio 10.0${path.separator}Team Tools${path.separator}Static Analysis Tools${path.separator}FxCop${path.separator}Metrics.exe" overwrite="false" />
   <property name="app.metrics" value="${dirs.program_files_x86}${path.separator}Microsoft Visual Studio 10.0${path.separator}Team Tools${path.separator}Static Analysis Tools${path.separator}FxCop${path.separator}Metrics.exe" if="${not file::exists(app.metrics)}" />
+  <property name="app.metrics" value="${dirs.program_files}${path.separator}Microsoft Visual Studio 10.0${path.separator}Team Tools${path.separator}Static Analysis Tools${path.separator}FxCop${path.separator}Metrics.exe" overwrite="false" />
+  <property name="app.metrics" value="${dirs.program_files_x86}${path.separator}Microsoft Visual Studio 11.0${path.separator}Team Tools${path.separator}Static Analysis Tools${path.separator}FxCop${path.separator}Metrics.exe" if="${not file::exists(app.metrics)}" />
+  <property name="app.metrics" value="${dirs.program_files_x86}${path.separator}Microsoft Visual Studio 11.0${path.separator}Team Tools${path.separator}Static Analysis Tools${path.separator}FxCop${path.separator}Metrics.exe" if="${not file::exists(app.metrics)}" />
   <property name="run.metrics" value="${file::exists(app.metrics)}" overwrite="false" />
 
   <property name="app.fxcop" value="${path::get-full-path(dirs.program_files)}${path.separator}Microsoft Visual Studio 10.0${path.separator}Team Tools${path.separator}Static Analysis Tools${path.separator}FxCop${path.separator}FxCopCmd.exe" overwrite="false" />
   <property name="app.fxcop" value="${path::get-full-path(dirs.program_files_x86)}${path.separator}Microsoft Visual Studio 10.0${path.separator}Team Tools${path.separator}Static Analysis Tools${path.separator}FxCop${path.separator}FxCopCmd.exe" if="${not file::exists(app.fxcop)}" />
   <property name="app.fxcop" value="${path::get-full-path(dirs.program_files)}${path.separator}Microsoft Fxcop 10.0${path.separator}FxCopCmd.exe" if="${not file::exists(app.fxcop)}" />
   <property name="app.fxcop" value="${path::get-full-path(dirs.program_files_x86)}${path.separator}Microsoft Fxcop 10.0${path.separator}FxCopCmd.exe" if="${not file::exists(app.fxcop)}" />
+  <property name="app.fxcop" value="${path::get-full-path(dirs.program_files)}${path.separator}Microsoft Visual Studio 11.0${path.separator}Team Tools${path.separator}Static Analysis Tools${path.separator}FxCop${path.separator}FxCopCmd.exe" overwrite="false" />
+  <property name="app.fxcop" value="${path::get-full-path(dirs.program_files_x86)}${path.separator}Microsoft Visual Studio 11.0${path.separator}Team Tools${path.separator}Static Analysis Tools${path.separator}FxCop${path.separator}FxCopCmd.exe" if="${not file::exists(app.fxcop)}" />
+  <property name="app.fxcop" value="${path::get-full-path(dirs.program_files)}${path.separator}Microsoft Fxcop 11.0${path.separator}FxCopCmd.exe" if="${not file::exists(app.fxcop)}" />
+  <property name="app.fxcop" value="${path::get-full-path(dirs.program_files_x86)}${path.separator}Microsoft Fxcop 11.0${path.separator}FxCopCmd.exe" if="${not file::exists(app.fxcop)}" />
   <property name="app.fxcop_project" value="${project.name}.fxcop" overwrite="false" />
   <!--<property name="file.fxcop_project" value="${path::combine(dirs.solution, app.fxcop_project)}" overwrite="false" /-->
   <property name="file.fxcop_project" value="${dirs.current}${path.separator}${path_to_solution}${path.separator}${app.fxcop_project}" overwrite="false" />

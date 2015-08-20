@@ -24,16 +24,16 @@
         <include name="**/.uppercut" />
       </fileset>
     </copy>
-    <copy todir="${dirs.drop}\${folder.app.drop}\build\customizers">
-      <fileset basedir="${dirs.build}\${folder.app.drop}\build\customizers">
+    <copy todir="${dirs.drop}\${folder.app.drop}\.build\customizers">
+      <fileset basedir="${dirs.build}\${folder.app.drop}\.build\customizers">
         <include name="item.template" />
       </fileset>
     </copy>
   </target>
   
   <target name="move_output_files">
-    <echo message="Moving output dlls to ${dirs.drop}\${folder.app.drop}\build."/>
-    <copy todir="${dirs.drop}\${folder.app.drop}\build">
+    <echo message="Moving output dlls to ${dirs.drop}\${folder.app.drop}\.build."/>
+    <copy todir="${dirs.drop}\${folder.app.drop}\.build">
       <fileset basedir="${dirs.build}\${folder.app.drop}">
         <exclude name="uppercut*test*.dll" />
         <exclude name="uppercut.build.dll" />
