@@ -3,10 +3,8 @@
 build_output
 code_drop
 packages
-bin
+[Bb]in
 obj
-_ReSharper*
-.DS_Store
 
 *.suo
 *.sln.docstates
@@ -15,6 +13,7 @@ _ReSharper*
 *.[rR]esharper.user
 *.DotSettings.user
 *.resharper
+_ReSharper*
 *.cache
 *~
 *.swp
@@ -23,8 +22,15 @@ _ReSharper*
 *.log
 *.pidb
 *userprefs
+*.nupkg
  
 TestResult.xml
 submit.xml
 SolutionVersion.cs
 SolutionVersion.vb
+
+.DS_Store
+*.db
+src/_dotCover*/
+src/_dotTrace*/
+src/*.sln.GhostDoc.xml
