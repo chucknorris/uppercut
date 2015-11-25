@@ -1,3 +1,6 @@
+using System.IO;
+using System.Xml;
+
 namespace uppercut.template.builder
 {
     using System.Collections.Generic;
@@ -10,13 +13,27 @@ namespace uppercut.template.builder
             IDictionary<string, string> token_replacement_dictionary = new Dictionary<string, string>();
             token_replacement_dictionary.Add("${quote}", "\"");
 
-            foreach (Match name_value_match in get_matches(settings_text))
+            using (var text = new StringReader(settings_text))
+            using (var reader = XmlReader.Create(text, new XmlReaderSettings { IgnoreWhitespace = true }))
             {
-                string pair_key_text = get_name_value(name_value_match.ToString());
-                string pair_value_text = get_pair_value(name_value_match.ToString(), token_replacement_dictionary);
-                pair_key_text = @"${" + pair_key_text + @"}";
-                if (!token_replacement_dictionary.ContainsKey(pair_key_text))
-                    token_replacement_dictionary.Add(pair_key_text, pair_value_text);
+                while (reader.Read())
+                {
+                    switch (reader.NodeType)
+                    {
+                        case XmlNodeType.Element:
+                            if (reader.Name == "property")
+                            {
+                                var name = reader["name"];
+                                var value = reader["value"] ?? reader.ReadInnerXml();
+                                if (!string.IsNullOrEmpty(value))
+                                {
+                                    var replaced = replace_tokens_with_other_dictionary_values(value, token_replacement_dictionary);
+                                    token_replacement_dictionary.Add("${" + name + "}", replaced);
+                                }
+                            }
+                            break;
+                    }
+                }
             }
 
             return token_replacement_dictionary;
@@ -35,26 +52,6 @@ namespace uppercut.template.builder
             }
 
             return matches;
-        }
-
-        public static string get_name_value(string input)
-        {
-            if (string.IsNullOrEmpty(input)) return string.Empty;
-
-            const string token_key_start = "name=\"";
-            const string token_key_end = "\"";
-
-            return get_token_value(input, token_key_start, token_key_end);
-        }
-
-        public static string get_pair_value(string input, IDictionary<string, string> tokens)
-        {
-            if (string.IsNullOrEmpty(input)) return string.Empty;
-
-            const string token_value_start = "value=\"";
-            const string token_value_end = "\"";
-
-            return replace_tokens_with_other_dictionary_values(get_token_value(input, token_value_start, token_value_end), tokens);
         }
 
         public static IList<Match> get_value_token_matches(string value_text)

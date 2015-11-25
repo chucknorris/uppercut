@@ -12,6 +12,13 @@
     <property name=""settings.no.separation"" value=""${server.files}${environment}"" />
     <property name=""settings.with.nonexisting"" value=""${server.files}\${nonexistant.setting}"" />
     <property name=""settings.with.quote"" value=""${quote}somevalue${quote}"" />
+
+    <property name=""settings.with.xml"">
+        <xmlParent>
+            <child num=""1"" />
+            <child num=""2"" />
+        </xmlParent>
+    </property>
     
 </project>";
     }
