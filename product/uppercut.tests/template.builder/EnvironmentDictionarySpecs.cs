@@ -376,6 +376,12 @@ namespace uppercut.tests.template.builder
             {
                 Assert.AreEqual(@"""somevalue""", result["${settings.with.quote}"]);
             }
+            
+            [Observation]
+            public void should_read_property_xml()
+            {
+                Assert.AreEqual(@"<xmlParent><child num=""1"" /><child num=""2"" /></xmlParent>", result[@"${settings.with.xml}"]);
+            }
     
         }
   
